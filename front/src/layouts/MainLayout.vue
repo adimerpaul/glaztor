@@ -76,6 +76,13 @@ const linksList = [
     icon: 'shopping_cart',
     link: '/pedidos'
   },
+  {
+    title: 'Clientes',
+    // caption: 'quasar.dev',
+    icon: 'person_add',
+    link: '/clientes'
+
+  },
 
 ]
 

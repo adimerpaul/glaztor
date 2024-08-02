@@ -111,7 +111,6 @@
                     <!-- <q-input dense v-model="preventa.tipo_construccion" outlined label="Tipo Construccion" /> -->
                         <q-select dense v-model="preventa.tipo_construccion" outlined label="Estado de la Obra"
                             :options="['Inicio Obra','Columnas', 'Muralla', 'Zapata', 'Sobrecimiento', 'Lossa', 'Paralizada', 'Concluida']" />
-
                 </div>
                 <div class="col-12">
                     <q-input dense v-model="preventa.volumen" outlined label="Volumen" type="number" />
