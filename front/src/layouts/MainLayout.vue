@@ -12,10 +12,14 @@
         />
 
         <q-toolbar-title>
-          Glazor
+          Glaztor
         </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-btn>
+          <span class="material-icons-outlined">
+          logout
+          </span>
+        </q-btn>
+      
       </q-toolbar>
     </q-header>
 
