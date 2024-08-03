@@ -97,11 +97,11 @@
                         dense
                         v-model="preventa.zona"
                         :options="[
-                            'Norte',
-                            'Sud',
-                            'Este',
-                            'Oeste',
-                            'Central',
+                            'NORTE',
+                            'ESTE',
+                            'SUD',
+                            'OESTE',
+                            'CENTRO',
                         ]"
                         outlined
                         :rules="[val => !!val || 'Este campo es requerido']"
@@ -110,7 +110,7 @@
                 <div class="col-12">
                     <!-- <q-input dense v-model="preventa.tipo_construccion" outlined label="Tipo Construccion" /> -->
                         <q-select dense v-model="preventa.tipo_construccion" outlined label="Estado de la Obra"
-                            :options="['Inicio Obra','Columnas', 'Muralla', 'Zapata', 'Sobrecimiento', 'Lossa', 'Paralizada', 'Concluida']" />
+                            :options="['Inicio Obra','Columnas', 'Muralla', 'Zapata', 'Sobrecimiento', 'Losa', 'Paralizada', 'Concluida']" />
                 </div>
                 <div class="col-12">
                     <q-input dense v-model="preventa.volumen" outlined label="Volumen" type="number" />
@@ -157,15 +157,15 @@
                 <div class="col-12">
                     <div style="height:250px; width:100%">
                     <l-map     ref="map"
-    v-model:zoom="zoom"
-    :use-global-leaflet="false"
-    :center="location"
-    :scrollWheelZoom="false"
-    :dragging="false"
-    :touchZoom="false"
-    :doubleClickZoom="false"
-    :boxZoom="false"
-    :keyboard="false">
+                            v-model:zoom="zoom"
+                            :use-global-leaflet="false"
+                            :center="location"
+                            :scrollWheelZoom="false"
+                            :dragging="false"
+                            :touchZoom="false"
+                            :doubleClickZoom="false"
+                            :boxZoom="false"
+                            :keyboard="false">
                             <l-tile-layer
                                 v-for="tileProvider in tileProviders"
                                 :key="tileProvider.name"
