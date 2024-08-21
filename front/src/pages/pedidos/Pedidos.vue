@@ -1,6 +1,6 @@
 <template>
     <q-page >
-        pedidos
+        <h1>pedidos</h1>
     </q-page>
 </template>
 
