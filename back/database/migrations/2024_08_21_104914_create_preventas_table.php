@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pedidos', function (Blueprint $table) {
+        Schema::create('preventas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_encargado')->nullable();
-            $table->integer('telefono')->nullable();
+            $table->date('fecha');
+            $table->string('propietario')->nullable();
             $table->string('contratista')->nullable();
+            $table->integer('telefono_propietario')->nullable();
             $table->integer('telefono_contratista')->nullable();
             $table->string('ubicacion')->nullable();
+            $table->string('zona')->nullable();
+            $table->string('observacion')->nullable();
             $table->string('tipo_construccion')->nullable();
             $table->string('volumen')->nullable();
-            $table->string('observaciones')->nullable();
+            $table->string('marca')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->softDeletes();
@@ -33,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pedidos');
+        Schema::dropIfExists('preventas');
     }
 };
