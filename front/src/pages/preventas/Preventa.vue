@@ -1,6 +1,7 @@
 <template>
     <q-page >
         preventas
+        ejecutivos
     </q-page>
 </template>
 
