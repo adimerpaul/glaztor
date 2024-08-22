@@ -3,7 +3,8 @@
         <q-card>
             <q-card-section class="q-pa-xs">
                 <q-list dense separator>
-                    <q-item v-for="preventa in preventas" :key="preventa.id">
+                    <q-item v-for="preventa in preventas" :key="preventa.id"
+                    @click="showPreventa(preventa)" clickable>
                         <q-item-section>
                             <q-item-label>
                                 <div class="text-h6">{{ preventa.direccion }}</div>
@@ -14,7 +15,7 @@
                 </q-list>
             </q-card-section>
         </q-card>
-        <pre> {{preventas}} </pre>
+        <!-- <pre> {{preventas}} </pre> -->
     </q-page>
     <q-page-sticky position="bottom-right" class="text-bold" :offset="[18, 18]">
         <q-btn fab icon="add" color="primary" @click="dialogClick" />
@@ -32,7 +33,7 @@
           <div class="text-h6">{{ preventa.id ? 'Editar' : 'Nueva' }} preventa</div>
         </q-card-section>
         <q-card-section>
-            <q-form @submit="submit">
+            <q-form @submit="submit" v-if="!preventa.id">
                 <div class="row">
                 <div class="col-12">
                     <q-input dense v-model="preventa.fecha" outlined label="Fecha" type="date" :disable="true" />
@@ -129,6 +130,84 @@
                 </q-card-actions>
                 </div>
             </q-form>
+            <div class="row" v-else>
+                <div class="col-12">
+                    <label class="text-grey text-caption">Fecha:</label>
+                    <div class="text-bold">{{ preventa.fecha }}</div>
+                </div>
+                <div class="col-6">
+                    <label class="text-grey text-caption">Propietario:</label>
+                    <div class="text-bold">{{ preventa.propietario }}</div>
+                </div>
+                <div class="col-6">
+                    <label class="text-grey text-caption">Contratista:</label>
+                    <div class="text-bold">{{ preventa.contratista }}</div>
+                </div>
+                <div class="col-6">
+                    <label class="text-grey text-caption">Teléfono Propietario:</label>
+                    <div class="text-bold">{{ preventa.telefono_propietario }}</div>
+                </div>
+                <div class="col-6">
+                    <label class="text-grey text-caption">Teléfono Contratista:</label>
+                    <div class="text-bold">{{ preventa.telefono_contratista }}</div>
+                </div>
+                <div class="col-12">
+                    <label class="text-grey text-caption">Ubicación:</label>
+                    <div class="text-bold">{{ preventa.ubicacion }}</div>
+                </div>
+                <div class="col-12">
+                    <div style="height:250px; width:100%">
+                    <l-map     ref="map"
+    v-model:zoom="zoom"
+    :use-global-leaflet="false"
+    :center="location"
+    :scrollWheelZoom="false"
+    :dragging="false"
+    :touchZoom="false"
+    :doubleClickZoom="false"
+    :boxZoom="false"
+    :keyboard="false">
+                            <l-tile-layer
+                                v-for="tileProvider in tileProviders"
+                                :key="tileProvider.name"
+                                :name="tileProvider.name"
+                                :visible="tileProvider.visible"
+                                :url="tileProvider.url"
+                                :attribution="tileProvider.attribution"
+                                layer-type="base"
+                            />
+                        <l-marker
+                            :lat-lng="location"
+                            ref="marker"
+                        />
+                    </l-map>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label class="text-grey text-caption">Dirección:</label>
+                    <div class="text-bold">{{ preventa.direccion }}</div>
+                </div>
+                <div class="col-6">
+                    <label class="text-grey text-caption">Zona:</label>
+                    <div class="text-bold">{{ preventa.zona }}</div>
+                </div>
+                <div class="col-6">
+                    <label class="text-grey text-caption">Observación:</label>
+                    <div class="text-bold">{{ preventa.observacion }}</div>
+                </div>
+                <div class="col-6">
+                    <label class="text-grey text-caption">Tipo Construcción:</label>
+                    <div class="text-bold">{{ preventa.tipo_construccion }}</div>
+                </div>
+                <div class="col-6">
+                    <label class="text-grey text-caption">Volumen:</label>
+                    <div class="text-bold">{{ preventa.volumen }}</div>
+                </div>
+                <div class="col-6">
+                    <label class="text-grey text-caption">Marca:</label>
+                    <div class="text-bold">{{ preventa.marca }}</div>
+                </div>
+            </div>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -178,6 +257,13 @@ export default {
         this.getPreventas()
     },
     methods: {
+        showPreventa (preventa) {
+            this.preventa = preventa
+            this.dialog = true
+            const lngLat = preventa.ubicacion.split(',').map(Number)
+            console.log(lngLat)
+            this.location = lngLat
+        },
         onMarkerMoveEnd (event) {
             const marker = event.target;
             const newLatLng = marker.getLatLng();
