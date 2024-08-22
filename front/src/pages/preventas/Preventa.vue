@@ -1,6 +1,20 @@
 <template>
-    <q-page >
-        {{preventas}}
+    <q-page class="bg-grey-3 q-pa-xs">
+        <q-card>
+            <q-card-section class="q-pa-xs">
+                <q-list dense separator>
+                    <q-item v-for="preventa in preventas" :key="preventa.id">
+                        <q-item-section>
+                            <q-item-label>
+                                <div class="text-h6">{{ preventa.direccion }}</div>
+                                <div class="text-subtitle1">{{ preventa.zona }}</div>
+                            </q-item-label>
+                        </q-item-section>
+                    </q-item>
+                </q-list>
+            </q-card-section>
+        </q-card>
+        <pre> {{preventas}} </pre>
     </q-page>
     <q-page-sticky position="bottom-right" class="text-bold" :offset="[18, 18]">
         <q-btn fab icon="add" color="primary" @click="dialogClick" />
@@ -74,6 +88,9 @@
                     </div>
                 </div>
                 <div class="col-12">
+                    <q-input dense v-model="preventa.direccion" outlined label="Direccion" :rules="[val => !!val || 'Este campo es requerido']" />
+                </div>
+                <div class="col-12">
                     <!-- <q-input dense v-model="preventa.zona" outlined label="Zona" /> -->
                     <q-select
                         dense
@@ -86,6 +103,7 @@
                             'Central',
                         ]"
                         outlined
+                        :rules="[val => !!val || 'Este campo es requerido']"
                         label="Zona"/>
                 </div>
                 <div class="col-12">
@@ -201,6 +219,7 @@ export default {
                 tipo_construccion: '',
                 volumen: '',
                 marca: '',
+                direccion: ''
             }
         },
         getPreventas () {

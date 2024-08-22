@@ -21,7 +21,8 @@ class Preventa extends Model
         'tipo_construccion',
         'volumen',
         'marca',
-        'user_id'
+        'user_id',
+        'direccion'
     ];
     protected $hidden = ['created_at','updated_at','deleted_at'];
 }

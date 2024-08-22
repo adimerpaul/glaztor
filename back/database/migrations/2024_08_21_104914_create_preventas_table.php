@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('tipo_construccion')->nullable();
             $table->string('volumen')->nullable();
             $table->string('marca')->nullable();
+            $table->string('direccion')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->softDeletes();
