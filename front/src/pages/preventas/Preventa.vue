@@ -54,12 +54,16 @@
                 </div>
                 <div class="col-12">
                     <div style="height:250px; width:100%">
-                        <l-map ref="map" v-model:zoom="zoom" :center="location">
-                        <l-tile-layer
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            layer-type="base"
-                            name="OpenStreetMap"
-                        ></l-tile-layer>
+                        <l-map ref="map" v-model:zoom="zoom" :use-global-leaflet="false" :center="location">
+                            <l-tile-layer
+                                v-for="tileProvider in tileProviders"
+                                :key="tileProvider.name"
+                                :name="tileProvider.name"
+                                :visible="tileProvider.visible"
+                                :url="tileProvider.url"
+                                :attribution="tileProvider.attribution"
+                                layer-type="base"
+                            />
                         <l-marker
                             :lat-lng="location"
                             @moveend="onMarkerMoveEnd"
@@ -70,19 +74,36 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <q-input dense v-model="preventa.zona" outlined label="Zona" />
+                    <!-- <q-input dense v-model="preventa.zona" outlined label="Zona" /> -->
+                    <q-select
+                        dense
+                        v-model="preventa.zona"
+                        :options="[
+                            'Norte',
+                            'Sud',
+                            'Este',
+                            'Oeste',
+                            'Central',
+                        ]"
+                        outlined
+                        label="Zona"/>
                 </div>
                 <div class="col-12">
                     <q-input dense v-model="preventa.observacion" outlined label="Observacion" />
                 </div>
                 <div class="col-12">
-                    <q-input dense v-model="preventa.tipo_construccion" outlined label="Tipo Construccion" />
+                    <!-- <q-input dense v-model="preventa.tipo_construccion" outlined label="Tipo Construccion" /> -->
+                        <q-select dense v-model="preventa.tipo_construccion" outlined label="Tipo Construccion"
+                            :options="['Columnas', 'Muralla', 'Zapata', 'Sobrecimiento', 'Lossa', 'Paralizada', 'Concluida']" />
+
                 </div>
                 <div class="col-12">
-                    <q-input dense v-model="preventa.volumen" outlined label="Volumen" />
+                    <q-input dense v-model="preventa.volumen" outlined label="Volumen" type="number" />
                 </div>
                 <div class="col-12">
-                    <q-input dense v-model="preventa.marca" outlined label="Marca" />
+                    <!-- <q-input dense v-model="preventa.marca" outlined label="Marca" /> -->
+                    <q-select dense v-model="preventa.marca" outlined label="Marca"
+                        :options="['Ecebol', 'Coboce', 'Emisa IP-30', 'Emisa IP-40', 'Viacha IP40', 'Ninguna']" />
                 </div>
                 <q-card-actions align="right">
                     <q-btn label="Cancelar" color="negative" @click="dialog = false" :loading="loading" />
@@ -111,6 +132,20 @@ export default {
     },
     data () {
         return {
+            tileProviders: [
+            {
+                name: 'Mapa',
+                visible: true,
+                url: 'https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}',
+                attribution: '&copy; Google Maps'
+            },
+            {
+                name: 'Satelite',
+                visible: false,
+                url: 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
+                attribution: '&copy; Google Maps'
+            }
+            ],
             location: [-17.969753, -67.114749],
             zoom: 15,
             propietarioBtnBool: true,
@@ -125,16 +160,10 @@ export default {
         this.getPreventas()
     },
     methods: {
-    //     const onMarkerMoveEnd = (event) => {
-    //   const marker = event.target;
-    //   const newLatLng = marker.getLatLng();
-    //   location.value = [newLatLng.lat, newLatLng.lng];
-    // };
         onMarkerMoveEnd (event) {
             const marker = event.target;
             const newLatLng = marker.getLatLng();
             this.location = [newLatLng.lat, newLatLng.lng];
-            //lat uy lng maximo 7 decimales
             this.preventa.ubicacion = `${newLatLng.lat.toFixed(7)}, ${newLatLng.lng.toFixed(7)}`
         },
         myLocation () {
