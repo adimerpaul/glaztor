@@ -46,7 +46,28 @@
                 </div>
                 </template>
                 <div class="col-12">
-                    <q-input dense v-model="preventa.ubicacion" outlined label="Ubicacion" />
+                    <q-input dense v-model="preventa.ubicacion" outlined label="Ubicacion" >
+                        <template v-slot:append>
+                            <q-btn flat icon="fa-solid fa-map-marker-alt" @click="myLocation" />
+                        </template>
+                    </q-input>
+                </div>
+                <div class="col-12">
+                    <div style="height:250px; width:100%">
+                        <l-map ref="map" v-model:zoom="zoom" :center="location">
+                        <l-tile-layer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            layer-type="base"
+                            name="OpenStreetMap"
+                        ></l-tile-layer>
+                        <l-marker
+                            :lat-lng="location"
+                            @moveend="onMarkerMoveEnd"
+                            ref="marker"
+                            :draggable="true"
+                        />
+                        </l-map>
+                    </div>
                 </div>
                 <div class="col-12">
                     <q-input dense v-model="preventa.zona" outlined label="Zona" />
@@ -78,11 +99,20 @@
 <script>
 import moment from 'moment'
 import { Loading } from 'quasar';
-
+import { Icon } from 'leaflet';
+import "leaflet/dist/leaflet.css";
+import { LMap, LTileLayer, LMarker } from "@vue-leaflet/vue-leaflet";
 export default {
     name: 'Preventa',
+    components: {
+        LMap,
+        LTileLayer,
+        LMarker
+    },
     data () {
         return {
+            location: [-17.969753, -67.114749],
+            zoom: 15,
             propietarioBtnBool: true,
             encargadoBtnBool: true,
             preventas: [],
@@ -95,6 +125,26 @@ export default {
         this.getPreventas()
     },
     methods: {
+    //     const onMarkerMoveEnd = (event) => {
+    //   const marker = event.target;
+    //   const newLatLng = marker.getLatLng();
+    //   location.value = [newLatLng.lat, newLatLng.lng];
+    // };
+        onMarkerMoveEnd (event) {
+            const marker = event.target;
+            const newLatLng = marker.getLatLng();
+            this.location = [newLatLng.lat, newLatLng.lng];
+            //lat uy lng maximo 7 decimales
+            this.preventa.ubicacion = `${newLatLng.lat.toFixed(7)}, ${newLatLng.lng.toFixed(7)}`
+        },
+        myLocation () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    this.location = [position.coords.latitude, position.coords.longitude]
+                    this.preventa.ubicacion = `${position.coords.latitude}, ${position.coords.longitude}`
+                })
+            }
+        },
         submit () {
             this.loading = true
             this.$axios.post('preventas', this.preventa)
@@ -116,7 +166,7 @@ export default {
                 contratista: '',
                 telefono_propietario: '',
                 telefono_contratista: '',
-                ubicacion: '',
+                ubicacion: '-17.969753, -67.114749',
                 zona: '',
                 observacion: '',
                 tipo_construccion: '',
