@@ -7,8 +7,8 @@
                     @click="showPreventa(preventa)" clickable>
                         <q-item-section>
                             <q-item-label>
-                                <div class="text-h6">{{ preventa.direccion }}</div>
-                                <div class="text-subtitle1">{{ preventa.zona }}</div>
+                                <div class="text-h6">{{ preventa.propietario }}</div>
+                                <div class="text-subtitle1">{{ preventa.direccion }}</div>
                             </q-item-label>
                         </q-item-section>
                     </q-item>
@@ -46,7 +46,7 @@
                 </div>
                 <template v-if="!propietarioBtnBool">
                 <div class="col-12">
-                    <q-input dense v-model="preventa.propietario" outlined label="Propietario" />
+                    <q-input dense v-model="preventa.propietario" outlined label="Propietario" :rules="[val => !!val || 'Este campo es requerido']" />
                 </div>
                 <div class="col-12">
                     <q-input dense v-model="preventa.telefono_propietario" outlined label="Telefono Propietario" type="number" />
@@ -54,10 +54,10 @@
                 </template>
                 <template v-if="!encargadoBtnBool">
                 <div class="col-12">
-                    <q-input dense v-model="preventa.contratista" outlined label="Contratista" />
+                    <q-input dense v-model="preventa.contratista" outlined label="Encargado" />
                 </div>
                 <div class="col-12">
-                    <q-input dense v-model="preventa.telefono_contratista" outlined label="Telefono Contratista" type="number" />
+                    <q-input dense v-model="preventa.telefono_contratista" outlined label="Telefono Encargado" type="number" />
                 </div>
                 </template>
                 <div class="col-12">
@@ -108,11 +108,8 @@
                         label="Zona"/>
                 </div>
                 <div class="col-12">
-                    <q-input dense v-model="preventa.observacion" outlined label="Observacion" />
-                </div>
-                <div class="col-12">
                     <!-- <q-input dense v-model="preventa.tipo_construccion" outlined label="Tipo Construccion" /> -->
-                        <q-select dense v-model="preventa.tipo_construccion" outlined label="Tipo Construccion"
+                        <q-select dense v-model="preventa.tipo_construccion" outlined label="Estado de la Obra"
                             :options="['Columnas', 'Muralla', 'Zapata', 'Sobrecimiento', 'Lossa', 'Paralizada', 'Concluida']" />
 
                 </div>
@@ -122,7 +119,10 @@
                 <div class="col-12">
                     <!-- <q-input dense v-model="preventa.marca" outlined label="Marca" /> -->
                     <q-select dense v-model="preventa.marca" outlined label="Marca"
-                        :options="['Ecebol', 'Coboce', 'Emisa IP-30', 'Emisa IP-40', 'Viacha IP40', 'Ninguna']" />
+                        :options="['Ecebol', 'Coboce','Camba', 'Emisa IP-30', 'Emisa IP-40','Viacha IP30', 'Viacha IP40','Viacha P30', 'Ninguna']" />
+                </div>
+                <div class="col-12">
+                    <q-input dense v-model="preventa.observacion" outlined label="Observacion" />
                 </div>
                 <q-card-actions align="right">
                     <q-btn label="Cancelar" color="negative" @click="dialog = false" :loading="loading" />
