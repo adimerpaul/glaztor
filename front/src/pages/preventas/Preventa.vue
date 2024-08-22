@@ -1,6 +1,19 @@
 <template>
     <q-page >
         {{preventas}}
+
+        <div style="height: 75vh; width: 50vw;">
+            <l-map
+            v-model="zoom"
+            v-model:zoom="zoom"
+            :center="[47.41322, -1.219482]"
+            @move="log('move')"
+            >
+            <l-tile-layer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            ></l-tile-layer>
+            </l-map>
+        </div>
     </q-page>
     <q-page-sticky position="bottom-right" class="text-bold" :offset="[18, 18]">
         <q-btn fab icon="add" color="primary" @click="dialogClick" />
@@ -19,21 +32,55 @@
         </q-card-section>
         <q-card-section>
             <q-form @submit="submit">
-                <q-input v-model="preventa.fecha" outlined label="Fecha" type="date" />
-                <q-input v-model="preventa.propietario" outlined label="Propietario" />
-                <q-input v-model="preventa.contratista" outlined label="Contratista" />
-                <q-input v-model="preventa.telefono_propietario" outlined label="Telefono Propietario" type="number" />
-                <q-input v-model="preventa.telefono_contratista" outlined label="Telefono Contratista" type="number" />
-                <q-input v-model="preventa.ubicacion" outlined label="Ubicacion" />
-                <q-input v-model="preventa.zona" outlined label="Zona" />
-                <q-input v-model="preventa.observacion" outlined label="Observacion" />
-                <q-input v-model="preventa.tipo_construccion" outlined label="Tipo Construccion" />
-                <q-input v-model="preventa.volumen" outlined label="Volumen" />
-                <q-input v-model="preventa.marca" outlined label="Marca" />
+                <div class="row">
+                <div class="col-12">
+                    <q-input dense v-model="preventa.fecha" outlined label="Fecha" type="date" :disable="true" />
+                </div>
+                <div class="col-6 q-pa-xs">
+                    <q-btn label="Propietario" :outline="propietarioBtnBool" class="full-width" no-caps color="primary" @click="propietarioBtnBool = !propietarioBtnBool" />
+                </div>
+                <div class="col-6 q-pa-xs">
+                    <q-btn label="Encargado" :outline="encargadoBtnBool" class="full-width" no-caps color="primary" @click="encargadoBtnBool = !encargadoBtnBool" />
+                </div>
+                <template v-if="!propietarioBtnBool">
+                <div class="col-12">
+                    <q-input dense v-model="preventa.propietario" outlined label="Propietario" />
+                </div>
+                <div class="col-12">
+                    <q-input dense v-model="preventa.telefono_propietario" outlined label="Telefono Propietario" type="number" />
+                </div>
+                </template>
+                <template v-if="!encargadoBtnBool">
+                <div class="col-12">
+                    <q-input dense v-model="preventa.contratista" outlined label="Contratista" />
+                </div>
+                <div class="col-12">
+                    <q-input dense v-model="preventa.telefono_contratista" outlined label="Telefono Contratista" type="number" />
+                </div>
+                </template>
+                <div class="col-12">
+                    <q-input dense v-model="preventa.ubicacion" outlined label="Ubicacion" />
+                </div>
+                <div class="col-12">
+                    <q-input dense v-model="preventa.zona" outlined label="Zona" />
+                </div>
+                <div class="col-12">
+                    <q-input dense v-model="preventa.observacion" outlined label="Observacion" />
+                </div>
+                <div class="col-12">
+                    <q-input dense v-model="preventa.tipo_construccion" outlined label="Tipo Construccion" />
+                </div>
+                <div class="col-12">
+                    <q-input dense v-model="preventa.volumen" outlined label="Volumen" />
+                </div>
+                <div class="col-12">
+                    <q-input dense v-model="preventa.marca" outlined label="Marca" />
+                </div>
                 <q-card-actions align="right">
                     <q-btn label="Cancelar" color="negative" @click="dialog = false" :loading="loading" />
                     <q-btn label="Guardar" color="primary" type="submit" :loading="loading" />
                 </q-card-actions>
+                </div>
             </q-form>
         </q-card-section>
       </q-card>
@@ -44,11 +91,20 @@
 <script>
 import moment from 'moment'
 import { Loading } from 'quasar';
+import "leaflet/dist/leaflet.css";
+import { LMap, LTileLayer } from "@vue-leaflet/vue-leaflet";
 
 export default {
     name: 'Preventa',
+    components: {
+        LMap,
+        LTileLayer,
+    },
     data () {
         return {
+            zoom: 2,
+            propietarioBtnBool: true,
+            encargadoBtnBool: true,
             preventas: [],
             preventa: {},
             dialog: false,
