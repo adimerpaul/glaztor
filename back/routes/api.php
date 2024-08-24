@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\PreventaController;
+use App\Http\Controllers\ClienteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,12 @@ Route::post('pedidos', [PedidoController::class, 'store']);
 Route::get('pedidos/{id}', [PedidoController::class, 'show']);
 Route::put('pedidos/{id}', [PedidoController::class, 'update']);
 Route::delete('pedidos/{id}', [PedidoController::class, 'destroy']);
+
+Route::get('clientes', [ClienteController::class, 'index']);
+Route::post('clientes', [ClienteController::class, 'store']);
+Route::get('clientes/{id}', [ClienteController::class, 'show']);
+Route::put('clientes/{id}', [ClienteController::class, 'update']);
+Route::delete('clientes/{id}', [ClienteController::class, 'destroy']);
 
 Route::get('preventas', [PreventaController::class, 'index']);
 Route::post('preventas', [PreventaController::class, 'store']);

@@ -4,7 +4,7 @@
             <q-card-section class="q-pa-xs">
                 <q-list dense separator>
                     <q-item v-for="cliente in clientes" :key="cliente.id"
-                    @click="showPreventa(cliente)" clickable>
+                    @click="showCliente(cliente)" clickable>
                         <q-item-section>
                             <q-item-label>
                                 <div class="text-h6">{{ cliente.nombre_cliente }}</div>
@@ -15,7 +15,6 @@
                 </q-list>
             </q-card-section>
         </q-card>
-        <!-- <pre> {{clientes}} </pre> -->
     </q-page>
             <q-page-sticky position="bottom-right" class="text-bold" :offset="[18, 18]">
             <q-btn fab icon="add" color="primary" @click="dialogClick" />
