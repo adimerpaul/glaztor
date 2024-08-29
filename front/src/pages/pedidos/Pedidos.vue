@@ -1,53 +1,52 @@
 <template>
-<!--    <q-page class="bg-grey-3 q-pa-xs">-->
-<!--      <q-card>-->
-<!--        <q-card-section class="q-pa-xs">-->
-<!--          <div class="row">-->
-<!--            <div class="col-12 col-md-3">-->
-<!--              <q-input-->
-<!--                  outlined-->
-<!--                  v-model="fechaInicio"-->
-<!--                  label="Fecha Inicio"-->
-<!--                  type="date"-->
-<!--                  color="white"-->
-<!--                  dense-->
-<!--              />-->
-<!--            </div>-->
-<!--            <div class="col-12 col-md-3">-->
-<!--              <q-input-->
-<!--                  outlined-->
-<!--                  v-model="fechaFin"-->
-<!--                  label="Fecha Fin"-->
-<!--                  type="date"-->
-<!--                  color="white"-->
-<!--                  dense-->
-<!--              />-->
-<!--            </div>-->
-<!--            <div class="col-12 col-md-6 text-right">-->
-<!--              <q-btn-->
-<!--                  icon="search"-->
-<!--                  color="primary"-->
-<!--                  label="Buscar"-->
-<!--                  @click="getPedidos"-->
-<!--                  :loading="loading"-->
-<!--                  no-caps-->
-<!--              />-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </q-card-section>-->
-<!--      </q-card>-->
-<!--        <pre>{{pedidos}}</pre>-->
-<!--      <pre>{{clientes}}</pre>-->
-<!--      <q-page-sticky position="bottom-right" :offset="[18, 18]">-->
-<!--        <q-btn-->
-<!--            fab-->
-<!--            color="primary"-->
-<!--            icon="add"-->
-<!--            @click="addPedido"-->
-<!--        />-->
-<!--      </q-page-sticky>-->
-<!--    </q-page>-->
-  <q-dialog v-model="dialog"
+<q-page class="bg-grey-3 q-pa-xs">
+      <q-card>
+        <q-card-section class="q-pa-xs">
+          <div class="row">
+            <div class="col-12 col-md-3">
+              <q-input
+                  outlined
+                  v-model="fechaInicio"
+                  label="Fecha Inicio"
+                  type="date"
+                  color="white"
+                  dense></q-input>
+            </div>
+            <div class="col-12 col-md-3">
+              <q-input
+                  outlined
+                  v-model="fechaFin"
+                  label="Fecha Fin"
+                  type="date"
+                  color="white"
+                  dense
+            ></q-input>
+            </div>
+            <div class="col-12 col-md-6 text-right">
+              <q-btn
+                  icon="search"
+                  color="primary"
+                  label="Buscar"
+                  @click="getPedidos"
+                  :loading="loading"
+                  no-caps
+              ></q-btn>
+            </div>
+          </div>
+        </q-card-section>
+ </q-card>
+   <pre>{{pedidos}}</pre>
+ <pre>{{clientes}}</pre>
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+       <q-btn
+            fab
+           color="primary"
+            icon="add"
+      @click="addPedido"
+        ></q-btn>
+      </q-page-sticky> 
+ </q-page>
+ <q-dialog v-model="dialog"
             :position="esMovil ? undefined : 'right'"
             :maximized="true"
             transition-show="slide-left"
@@ -70,6 +69,17 @@
       </q-card-section>
     </q-card>
   </q-dialog>
+
+
+
+
+
+
+
+
+
+
+
 </template>
 
 <script>
