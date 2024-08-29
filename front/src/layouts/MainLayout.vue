@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header>
       <q-toolbar>
         <q-btn
           flat
@@ -14,11 +14,7 @@
         <q-toolbar-title>
           Glaztor
         </q-toolbar-title>
-        <q-btn>
-          <span class="material-icons-outlined">
-          logout
-          </span>
-        </q-btn>
+        <q-btn color="red" dense label="Salir" no-caps size="10px" icon="logout" aria-label="Logout" @click="logout" />
       
       </q-toolbar>
     </q-header>
@@ -26,6 +22,8 @@
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
+      :width="200"
+      :breakpoint="500"
       bordered
     >
       <q-list>
@@ -90,5 +88,9 @@ const leftDrawerOpen = ref(false)
 
 function toggleLeftDrawer () {
   leftDrawerOpen.value = !leftDrawerOpen.value
+}
+function logout() {
+  localStorage.removeItem('token')
+  router.push('/login')
 }
 </script>

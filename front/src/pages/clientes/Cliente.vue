@@ -16,7 +16,7 @@
             </q-card-section>
         </q-card>
     </q-page>
-            <q-page-sticky position="bottom-right" class="text-bold" :offset="[18, 18]">
+      <q-page-sticky position="bottom-right" class="text-bold" :offset="[18, 18]">
             <q-btn fab icon="add" color="primary" @click="dialogClick" />
         </q-page-sticky>
         <q-dialog v-model="dialog"

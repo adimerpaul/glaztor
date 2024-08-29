@@ -9,16 +9,31 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Pedido extends Model
 {
     use HasFactory,SoftDeletes;
-    // $table->string('nombre_encargado')->nullable();
-    //         $table->integer('telefono')->nullable();
-    //         $table->string('contratista')->nullable();
-    //         $table->integer('telefono_contratista')->nullable();
-    //         $table->string('ubicacion')->nullable();
-    //         $table->string('tipo_construccion')->nullable();
-    //         $table->string('volumen')->nullable();
-    //         $table->string('observaciones')->nullable();
-    //         $table->unsignedBigInteger('user_id')->nullable();
-    //         $table->foreign('user_id')->references('id')->on('users');
-    //         $table->softDeletes();
-    protected $fillable = ['nombre_encargado','telefono','contratista','telefono_contratista','ubicacion','tipo_construccion','volumen','observaciones','user_id'];
+    protected $fillable = [
+        'fecha_hora',
+        'tipo',
+        'cliente',
+        'producto',
+        'cantidad',
+        'precio',
+        'factura',
+        'nombre_factura',
+        'nit_factura',
+        'direccion',
+        'contacto',
+        'telefono',
+        'observacion',
+        'chofer',
+        'fecha_pago',
+        'user_id'
+    ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
 }

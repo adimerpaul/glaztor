@@ -13,16 +13,22 @@ return new class extends Migration
     {
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_encargado')->nullable();
-            $table->integer('telefono')->nullable();
-            $table->string('contratista')->nullable();
-            $table->integer('telefono_contratista')->nullable();
-            $table->string('ubicacion')->nullable();
-            $table->string('tipo_construccion')->nullable();
-            $table->string('volumen')->nullable();
-            $table->string('observaciones')->nullable();
+            $table->dateTime('fecha_hora')->nullable();
+            $table->string('tipo')->nullable();
+            $table->string('cliente')->nullable();
+            $table->string('producto')->nullable();
+            $table->integer('cantidad')->nullable();
+            $table->decimal('precio', 8, 2)->nullable();
+            $table->string('factura')->nullable();
+            $table->string('nombre_factura')->nullable();
+            $table->string('nit_factura')->nullable();
+            $table->string('direccion')->nullable();
+            $table->string('contacto')->nullable();
+            $table->string('telefono')->nullable();
+            $table->string('observacion')->nullable();
+            $table->string('chofer')->nullable();
+            $table->date('fecha_pago')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
             $table->softDeletes();
             $table->timestamps();
         });
