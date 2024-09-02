@@ -44,7 +44,7 @@
     <q-page-container>
       <router-view />
     </q-page-container>
-  </q-layout>
+  </q-layout>http://localhost:9000/productos
 </template>
 
 <script setup>
@@ -58,31 +58,38 @@ defineOptions({
 const linksList = [
 {
     title: 'Principal',
-    // caption: 'github.com/quasarframework',
     icon: 'home',
     link: '/'
   },
   {
-    title: 'Preventas',
-    // caption: 'github.com/quasarframework',
+    title: 'prospeccion',
     icon: 'local_mall',
     link: '/preventas'
   },
   {
     title: 'Pedidos',
-    // caption: 'quasar.dev',
     icon: 'shopping_cart',
     link: '/pedidos'
   },
   {
     title: 'Clientes',
-    // caption: 'quasar.dev',
     icon: 'person_add',
     link: '/clientes'
 
   },
+ 
+  {
+    title: 'Productos',
+    icon: 'inventory_2',
+    link: '/productos'
+
+  },
 
 ]
+
+
+
+
 
 const leftDrawerOpen = ref(false)
 
