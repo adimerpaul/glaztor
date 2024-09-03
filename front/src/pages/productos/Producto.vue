@@ -2,8 +2,7 @@
     <q-page class="bg-grey-3 q-pa-xs">
         <q-card>
             <q-card-section class="q-pa-xs">
-                
-           <table border="1" style="width:100%">
+            <table border="1" style="width:100%">
             <thead>
               <tr>
                 <th>id</th>
@@ -198,15 +197,6 @@ export default {
             this.producto()
             })
             },
-        modificar(producto){
-            this.$axios.put('productoS/'+producto.id, this.producto ).then(res=>{
-            this.producto()
-            })
-         },
-
-
-
-
         dialogClick () {
             this.dialog = true
             this.producto = {

@@ -2,17 +2,71 @@
     <q-page class="bg-grey-3 q-pa-xs">
         <q-card>
             <q-card-section class="q-pa-xs">
-                <q-list dense separator>
-                    <q-item v-for="cliente in clientes" :key="cliente.id"
-                    @click="showCliente(cliente)" clickable>
-                        <q-item-section>
-                            <q-item-label>
-                                <div class="text-h6">{{ cliente.nombre_cliente }}</div>
-                                <div class="text-subtitle1">{{ cliente.direccion }}</div>
-                            </q-item-label>
-                        </q-item-section>
-                    </q-item>
-                </q-list>
+                    <table border="1" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>Tipo cliente</th>
+                        <th>Nombre</th>
+                        <th>Telefono</th>
+                        <th>Telefono 2</th>
+                        <th>Direccion</th>
+                        <th>Complemento</th>
+                        <th>Ubicacion</th>
+                        <th>Zona</th>
+                        <th>Region</th>
+                        <th>Cumpleaños</th>
+                        <th>Estado</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(cliente,index) in clientes" :key=index>
+                        <td>{{cliente.tipo_cliente}}</td>
+                        <td>{{cliente.nombre_cliente}}</td>
+                        <td>{{cliente.telefono_1}}</td>
+                        <td>{{cliente.telefono_2}}</td>
+                        <td>{{cliente.direccion}}</td>
+                        <td>{{cliente.complemento}}</td>
+                        <td>{{cliente.ubicacion}}</td>
+                        <td>
+                            <div class="col-12">
+                            <div style="height:250px; width:100%">
+                            <l-map ref="map"
+                                                v-model:zoom="zoom"
+                                                :use-global-leaflet="false"
+                                                :center="location"
+                                                :scrollWheelZoom="false"
+                                                :dragging="false"
+                                                :touchZoom="false"
+                                                :doubleClickZoom="false"
+                                                :boxZoom="false"
+                                                :keyboard="false">
+                                    <l-tile-layer
+                                        v-for="tileProvider in tileProviders"
+                                        :key="tileProvider.name"
+                                        :name="tileProvider.name"
+                                        :visible="tileProvider.visible"
+                                        :url="tileProvider.url"
+                                        :attribution="tileProvider.attribution"
+                                        layer-type="base"
+                                    />
+                                <l-marker
+                                    :lat-lng="location"
+                                    ref="marker"
+                                />
+                            </l-map>
+                            </div>
+                        </div>
+                    </td>
+
+                        <td>{{cliente.zona}}</td>
+                        <td>{{cliente.region}}</td>
+                        <td>{{cliente.cumple}}</td>
+                        <td>{{cliente.estado}}</td>
+                        <td>
+                    </td>
+                    </tr>
+                    </tbody>
+                    </table>                           
             </q-card-section>
         </q-card>
     </q-page>
@@ -170,81 +224,6 @@
                     </q-card-actions>
                 </div>
             </q-form>
-            <div class="row" v-else>
-                <div class="col-6">
-                    <label class="text-grey text-caption">Tipo Cliente:</label>
-                    <div class="text-bold">{{ cliente.tipo_cliente }}</div>
-                </div>
-                <div class="col-6">
-                    <label class="text-grey text-caption">Cliente:</label>
-                    <div class="text-bold">{{ cliente.nombre_cliente }}</div>
-                </div>
-                <div class="col-6">
-                    <label class="text-grey text-caption">Teléfono Cliente:</label>
-                    <div class="text-bold">{{ cliente.telefono_1 }}</div>
-                </div>
-                <div class="col-6">
-                    <label class="text-grey text-caption">Teléfono 2:</label>
-                    <div class="text-bold">{{ cliente.telefono_2 }}</div>
-                </div>
-                <div class="col-12">
-                    <label class="text-grey text-caption">Dirección:</label>
-                    <div class="text-bold">{{ cliente.direccion }}</div>
-                </div>
-                <div class="col-12">
-                    <label class="text-grey text-caption">Complemento:</label>
-                    <div class="text-bold">{{ cliente.complemento }}</div>
-                </div>
-                <div class="col-12">
-                    <label class="text-grey text-caption">Ubicación:</label>
-                    <div class="text-bold">{{ cliente.ubicacion }}</div>
-                </div>
-                <div class="col-12">
-                    <div style="height:250px; width:100%">
-                    <l-map ref="map"
-                                        v-model:zoom="zoom"
-                                        :use-global-leaflet="false"
-                                        :center="location"
-                                        :scrollWheelZoom="false"
-                                        :dragging="false"
-                                        :touchZoom="false"
-                                        :doubleClickZoom="false"
-                                        :boxZoom="false"
-                                        :keyboard="false">
-                            <l-tile-layer
-                                v-for="tileProvider in tileProviders"
-                                :key="tileProvider.name"
-                                :name="tileProvider.name"
-                                :visible="tileProvider.visible"
-                                :url="tileProvider.url"
-                                :attribution="tileProvider.attribution"
-                                layer-type="base"
-                            />
-                        <l-marker
-                            :lat-lng="location"
-                            ref="marker"
-                        />
-                    </l-map>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <label class="text-grey text-caption">Zona:</label>
-                    <div class="text-bold">{{ cliente.zona }}</div>
-                </div>
-                <div class="col-6">
-                    <label class="text-grey text-caption">Region:</label>
-                    <div class="text-bold">{{ cliente.region }}</div>
-                </div>
-                  <div class="col-12">
-                    <label class="text-grey text-caption">Cumpleaños:</label>
-                    <div class="text-bold">{{ cliente.cumple }}</div>
-                </div>
-                <div class="col-6">
-                    <label class="text-grey text-caption">Estado:</label>
-                    <div class="text-bold">{{ cliente.estado }}</div>
-                </div>
-
-        </div>
     </q-card-section>
   </q-card>
 </q-dialog>
