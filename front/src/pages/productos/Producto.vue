@@ -3,7 +3,7 @@
         <q-card>
             <q-card-section class="q-pa-xs">
                 
-                <table border="1" style="width:100%">
+           <table border="1" style="width:100%">
             <thead>
               <tr>
                 <th>id</th>
@@ -105,12 +105,14 @@
                         <div class="col-12">
                         <q-input dense v-model="producto.precio_pro" outlined label="Precio Producto" type="number" />
                         </div>
+
                         <div class="d-grid col-6 mx-auto mb-3">
                         <img v-if="this.foto_pro" height="100" :src="this.foto_pro" id="fotoimg" class="img-thumbnail" alt="">
                         <img v-else  height="100"  src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-256.png" class="img-thumbnail" id="fotoimg" alt="">     
                         </div>
 
                         <div class="input-group mb-3">
+                            
                         <span class="input-gropup-text"><i class="fa-solid fa-gift"></i></span>
                         <input v-on:change="previsualizarFoto" type="file" accept="image/png, image/jpg, image/gif" class="form-control">
                         </div>
@@ -189,6 +191,22 @@ export default {
                 this.loading = false
             })
         },
+        eliminar(producto){
+            this.$axios.delete('productos/'+producto.id,this.producto)
+            .then(response=>{
+                
+            this.producto()
+            })
+            },
+        modificar(producto){
+            this.$axios.put('productoS/'+producto.id, this.producto ).then(res=>{
+            this.producto()
+            })
+         },
+
+
+
+
         dialogClick () {
             this.dialog = true
             this.producto = {
