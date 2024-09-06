@@ -23,7 +23,8 @@ return new class extends Migration
             $table->string('zona')->nullable();
             $table->string('region')->nullable();
             $table->date('cumple')->nullable();
-            $table->string('estado')->nullable();                 
+            $table->string('estado')->nullable();
+            $table->string('ejecutivo')->nullable();                   
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->softDeletes();

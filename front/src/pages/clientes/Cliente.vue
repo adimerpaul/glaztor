@@ -13,6 +13,7 @@
                                 <th style="padding: 5px;">Complemento</th>
                                 <th style="width:10%;padding: 5px;">Ubicacion</th>
                                 <th style="padding: 5px;">Zona</th>
+                                <th style="padding: 5px;">Ejecutivo</th>
                                 <th style="padding: 5px;">Region</th>
                                 <th style="padding: 5px;">Cumpleaños</th>
                                 <th style="padding: 5px;">Estado</th>
@@ -28,6 +29,7 @@
                                 <td style="padding: 5px; line-height: 1.2;">{{cliente.complemento}}</td>
                                 <td style="padding: 2px; line-height: 1.2;">{{cliente.ubicacion}} ver ubicacion </td>
                                 <td style="padding: 5px; line-height: 1.2;">{{cliente.zona}}</td>
+                                <td style="padding: 5px; line-height: 1.2;">{{cliente.ejecutivo}}</td>
                                 <td style="padding: 5px; line-height: 1.2;">{{cliente.region}}</td>
                                 <td style="padding: 5px; line-height: 1.2;">{{cliente.cumple}}</td>
                                 <td style="padding: 5px; line-height: 1.2;">{{cliente.estado}}</td>
@@ -136,19 +138,40 @@
                         </div>
                     </div>
                     <div class="col-12">
+                            <q-select
+                                dense
+                                v-model="cliente.zona"
+                                :options="[
+                                    'NORTE',
+                                    'SUD',
+                                    'ESTE',
+                                    'OESTE',
+                                    'CENTRO',
+                                    'SUDESTE',
+                                    'NORESTE',
+                                    'SUDOESTE',
+                                    'NOROESTE',
+                                ]"
+                                outlined
+                                :rules="[val => !!val || 'Este campo es requerido']"
+                                label="Zona"/>
+                    </div>
+                    <div class="col-12">
                         <q-select
                             dense
-                            v-model="cliente.zona"
+                            v-model="cliente.ejecutivo"
                             :options="[
-                                'NORTE',
-                                'ESTE',
-                                'SUD',
-                                'OESTE',
-                                'CENTRO',
+                                'ZTORREZ',
+                                'JLAREDO',
+                                'MMIRANDA',
+                                'ATERAN',
+                                'MLAREDO',
+                                'VTORREZ',
+                               
                             ]"
                             outlined
                             :rules="[val => !!val || 'Este campo es requerido']"
-                            label="Zona"/>
+                            label="Ejecutivo"/>
                     </div>
                     <div class="col-12">
                         <q-select

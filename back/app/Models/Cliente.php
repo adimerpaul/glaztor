@@ -21,6 +21,7 @@ class Cliente extends Model
         'region',
         'cumple',
         'estado',
+        'ejecutivo',
         'user_id'
     ];
     protected $hidden = ['created_at','updated_at','deleted_at'];

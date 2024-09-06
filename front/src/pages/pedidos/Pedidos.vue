@@ -67,6 +67,31 @@
           </div>
         </q-form>
       </q-card-section>
+      <q-card-section>
+            <q-form @submit="submit" v-if="!pedido.id">
+              <div class="row"> 
+                <div class="col-12">
+                    <q-input dense v-model="pedido.fecha" outlined label="Fecha" type="date"  />
+                </div>
+
+
+
+
+
+
+              </div>
+            </q-form>
+            
+        </q-card-section>
+
+
+
+
+
+
+
+
+
     </q-card>
   </q-dialog>
 
