@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('direccion')->nullable();
             $table->string('contacto')->nullable();
             $table->string('telefono')->nullable();
+            $table->string('telefono2')->nullable();
             $table->string('observacion')->nullable();
             $table->string('chofer')->nullable();
             $table->date('fecha_pago')->nullable();

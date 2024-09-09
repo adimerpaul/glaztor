@@ -22,6 +22,7 @@ class Pedido extends Model
         'direccion',
         'contacto',
         'telefono',
+        'telefono2',
         'observacion',
         'chofer',
         'fecha_pago',
