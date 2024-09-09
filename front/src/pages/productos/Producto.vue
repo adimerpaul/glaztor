@@ -2,39 +2,39 @@
     <q-page class="bg-grey-3 q-pa-xs">
         <q-card>
             <q-card-section class="q-pa-xs">
-            <table border="1" style="width:100%">
-            <thead>
-              <tr>
-                <th>id</th>
-                <th>categoria</th>
-                <th>marca</th>
-                <th>nombre</th>
-                <th>descripcion</th>
-                <th>precio</th>
-                <th>foto</th>
-                <th>estado</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(producto,index) in productos" :key=index>
-                <td>{{producto.id}}</td>
-                <td>{{producto.categoria_pro}}</td>
-                <td>{{producto.marca_pro}}</td>
-                <td>{{producto.nombre_pro}}</td>
-                <td>{{producto.descripcion_pro}}</td>
-                <td>{{producto.precio}}</td>
-                <td>{{producto.foto_pro}}</td>
-                <td>{{producto.estado_pro}}</td>
-                <td>
-                  <q-btn @click="eliminar(producto)" color="negative" size="xs" icon="delete"/>
-                  <q-btn @click="modificar(producto)" class="glossy" rounded color="deep-orange" label="modificar" />
-                </td>
-              </tr>
-            </tbody>
-            </table>
-
-
-                                               
+                <table border="1" style="width:100%">
+                    <thead>
+                        <tr>
+                        <th>id</th>
+                        <th>categoria</th>
+                        <th>marca</th>
+                        <th>nombre</th>
+                        <th>descripcion</th>
+                        <th>precio</th>
+                        <th>foto</th>
+                        <th>estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(producto, index) in productos" :key="index">
+                        <td>{{ producto.id }}</td>
+                        <td>{{ producto.categoria_pro }}</td>
+                        <td>{{ producto.marca_pro }}</td>
+                        <td>{{ producto.nombre_pro }}</td>
+                        <td>{{ producto.descripcion_pro }}</td>
+                        <td>{{ producto.precio_pro }}</td>
+                        <td>
+                            <a v-if="producto.foto_pro" :href="producto.foto_pro" target="_blank">Ver Foto</a>
+                        </td>
+                        <td>{{ producto.estado_pro }}</td>
+                        <td>
+                            <q-btn @click="eliminar(producto)" color="negative" size="xs" icon="delete"/>
+                            <q-btn @click="modificar(producto)" class="glossy" rounded color="deep-orange" label="modificar" />
+                        </td>
+                        </tr>
+                    </tbody>
+                    </table>
+                                             
             </q-card-section>
         </q-card>
     </q-page>
@@ -106,7 +106,7 @@
                         </div>
 
                         <div class="d-grid col-6 mx-auto mb-3">
-                        <img v-if="this.foto_pro" height="100" :src="this.foto_pro" id="fotoimg" class="img-thumbnail" alt="">
+                            <img v-if="producto.foto_pro" :src="producto.foto_pro" alt="Imagen del producto" class="img-thumbnail" height="100">
                         <img v-else  height="100"  src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-256.png" class="img-thumbnail" id="fotoimg" alt="">     
                         </div>
 
@@ -114,7 +114,8 @@
                             
                         <span class="input-gropup-text"><i class="fa-solid fa-gift"></i></span>
                         <input v-on:change="previsualizarFoto" type="file" accept="image/png, image/jpg, image/gif" class="form-control">
-                        </div>
+                        
+                    </div>
                                 
                     <div class="col-12">
                         <q-select
@@ -165,6 +166,7 @@ export default {
             producto: {},
             dialog: false,
             loading: false
+            
         }
     },
     mounted () {
@@ -177,18 +179,19 @@ export default {
             
         },
             
-        submit () {
-            this.loading = true
+        submit() {
+            this.loading = true;
+            
             this.$axios.post('productos', this.producto)
             .then(response => {
-                this.productos.push(response.data)
-                this.dialog = false
+                this.productos.push(response.data);
+                this.dialog = false;
             })
             .catch(error => {
-                console.log(error)
+                console.log(error);
             }).finally(() => {
-                this.loading = false
-            })
+                this.loading = false;
+            });
         },
         eliminar(producto){
             this.$axios.delete('productos/'+producto.id,this.producto)
@@ -219,15 +222,14 @@ export default {
             })
         },
 
-        previsualizarFoto(event){
+        previsualizarFoto(event) {
         var reader = new FileReader();
         reader.readAsDataURL(event.target.files[0]);
-        reader.onload = function(){
-          var miFoto = document.getElementById('fotoimg');
-          miFoto.src = reader.result;
-          this.foto = miFoto.src;
-        }
-      }
+        reader.onload = () => {
+            this.foto = reader.result;
+            this.producto.foto_pro = this.foto; // Guardar la cadena base64 en producto.foto_pro
+        };
+         }
 
 
     },
@@ -240,11 +242,5 @@ export default {
 
 }
 
-
-
-
-
-
-
 </script>
-  
+ 
