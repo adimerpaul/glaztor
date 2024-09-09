@@ -67,17 +67,94 @@
           </div>
         </q-form>
       </q-card-section>
-      <q-card-section>
+      <q-card-section >
             <q-form @submit="submit" v-if="!pedido.id">
               <div class="row"> 
                 <div class="col-12">
                     <q-input dense v-model="pedido.fecha" outlined label="Fecha" type="date"  />
                 </div>
+                <div class="col-12">
+                  <q-select
+                        dense
+                        v-model="pedido.tipo"
+                        :options="[
+                            'FERRETERIA',
+                            'OBRA',
+                            'EMPRESA CONSTRUCTORA',
+                            ]"
+                        outlined
+                        :rules="[val => !!val || 'Este campo es requerido']"
+                        label="Tipo"/>
+                </div>
+                <div>
+                     <q-select
+                          filled
+                          v-model="pedido.cliente"
+                          use-input
+                          input-debounce="0"
+                          label="Cliente"
+                          :options="options"
+                          @filter="filterFn"
+                          style="width: 250px"
+                          behavior="menu"
+                        ></q-select>
+                </div>
+                <div>
+                     <q-select
+                          filled
+                          v-model="pedido.producto"
+                          use-input
+                          input-debounce="0"
+                          label="Producto"
+                          :options="options"
+                          @filter="filterFn"
+                          style="width: 250px"
+                          behavior="menu"
+                        ></q-select>
+                </div>
+                <div class="col-12">
+                  <q-input dense v-model="pedido.cantidad" outlined label="Candidad" type="number" />
+                 </div>
+                <div class="col-12">
+                 <q-input dense v-model="pedido.precio" outlined label="Precio" type="number" />
+                </div>
 
+                <div class="col-6 q-pa-xs">
+                    <q-btn label="CON FACTURA" :outline="facturaBtnBool" class="full-width" no-caps color="primary" @click="facturaBtnBool = !facturaBtnBool" />
+                </div>
+                <div class="col-6 q-pa-xs">
+                    <q-btn label="SIN FACTURA" :outline="sinfacturaBtnBool" class="full-width" no-caps color="primary" @click="sinfacturaBtnBool = !sinfacturaBtnBool" />
+                </div>
 
+                <template v-if="!facturaBtnBool">
+                <div class="col-12">
+                    <q-input dense v-model="pedido.nombre_factura" outlined label="Nombre Factura" />
+                </div>
+                <div class="col-12">
+                    <q-input dense v-model="pedido.nit_factura" outlined label="Nit Factura" type="number" />
+                </div>
+                </template>
+                <template v-if="!sinfacturaBtnBool">
+                
+                </template>
+                
 
-
-
+                <div class="col-12">
+                    <q-input dense v-model="pedido.direccion" outlined label="Direccion" :rules="[val => !!val || 'Este campo es requerido']" />
+                </div>
+                <div class="col-12">
+                    <q-input dense v-model="pedido.contacto" outlined label="Contacto" :rules="[val => !!val || 'Este campo es requerido']" />
+                </div>
+                <div class="col-12">
+                    <q-input dense v-model="pedido.telefono" outlined label="Telefono 1" type="number" />
+                </div>
+                <div class="col-12">
+                    <q-input dense v-model="pedido.observacion" outlined label="Observacion"  />
+                </div>
+                <q-card-actions align="right">
+                    <q-btn label="Cancelar" color="negative" @click="dialog = false" :loading="loading" />
+                    <q-btn label="Guardar" color="primary" type="submit" :loading="loading" />
+                </q-card-actions>
 
               </div>
             </q-form>
@@ -120,6 +197,8 @@ export default {
       pedido: {},
       loading: false,
       dialog: false,
+      facturaBtnBool: true,
+      sinfacturaBtnBool: true,
       clientes: [],
     }
   },
