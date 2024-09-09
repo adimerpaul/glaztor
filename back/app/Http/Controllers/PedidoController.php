@@ -21,6 +21,8 @@ class PedidoController extends Controller{
         return $pedido;
     }
     function destroy($id){
-        return Pedido::destroy($id);
+        $pedido = pedido::findOrFail($id);
+        $pedido->delete();
+        return $pedido;
     }
 }

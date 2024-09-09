@@ -189,6 +189,7 @@
 
 <script>
 import moment from "moment";
+import { Loading } from 'quasar';
 
 export default {
   name: 'Pedidos',
@@ -210,13 +211,19 @@ export default {
     this.getClientes()
   },
   methods: {
-    submit() {
-      if (this.pedido.id) {
-        this.updatePedido()
-      } else {
-        this.savePedido()
-      }
-    },
+    submit () {
+            this.loading = true
+            this.$axios.post('pedidos', this.pedido)
+            .then(response => {
+                this.pedidos.push(response.data)
+                this.dialog = false
+            })
+            .catch(error => {
+                console.log(error)
+            }).finally(() => {
+                this.loading = false
+            })
+        },
     getClientes() {
       this.$axios.get('clientes')
         .then(response => {
