@@ -149,6 +149,9 @@
                     <q-input dense v-model="pedido.telefono" outlined label="Telefono 1" type="number" />
                 </div>
                 <div class="col-12">
+                    <q-input dense v-model="pedido.telefono2" outlined label="Telefono 2" type="number" />
+                </div>
+                <div class="col-12">
                     <q-input dense v-model="pedido.observacion" outlined label="Observacion"  />
                 </div>
                 <q-card-actions align="right">
@@ -238,6 +241,7 @@ export default {
         direccion: '',
         contacto: '',
         telefono: '',
+        telefono2:'',
         observacion: '',
         chofer: '',
         fecha_pago: moment().format('YYYY-MM-DD'),
