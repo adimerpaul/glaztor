@@ -126,14 +126,14 @@
                     <q-btn label="SIN FACTURA" :outline="sinfacturaBtnBool" class="full-width" no-caps color="primary" @click="sinfacturaBtnBool = !sinfacturaBtnBool" />
                 </div>
 
-                <template v-if="!facturaBtnBool">
-                <div class="col-12">
-                    <q-input dense v-model="pedido.nombre_factura" outlined label="Nombre Factura" />
-                </div>
-                <div class="col-12">
-                    <q-input dense v-model="pedido.nit_factura" outlined label="Nit Factura" type="number" />
-                </div>
-                </template>
+                              <template v-if="!facturaBtnBool">
+                              <div class="col-12">
+                                  <q-input dense v-model="pedido.nombre_factura" outlined label="Nombre Factura" />
+                              </div>
+                              <div class="col-12">
+                                  <q-input dense v-model="pedido.nit_factura" outlined label="Nit Factura" type="number" />
+                              </div>
+                              </template>
                 <template v-if="!sinfacturaBtnBool">
                 
                 </template>
@@ -163,14 +163,6 @@
             </q-form>
             
         </q-card-section>
-
-
-
-
-
-
-
-
 
     </q-card>
   </q-dialog>

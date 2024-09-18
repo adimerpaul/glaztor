@@ -72,9 +72,9 @@ const linksList = [
     link: '/pedidos'
   },
   {
-    title: 'Pedidostrailer',
+    title: 'Pedidotrailers',
     icon: 'shopping_cart',
-    link: '/pedidostrailer'
+    link: '/pedidotrailers'
   },
   {
     title: 'Clientes',

@@ -1,21 +1,22 @@
 <template>
-  <div class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
+  <div class="fullscreen bg-whit text-white text-center q-pa-md flex flex-center">
     <div>
       <div style="font-size: 30vh">
-        404
+        <img height="300"  src="\public\logo.png" class="img-thumbnail" id="fotoimg" alt="">
+        
       </div>
 
-      <div class="text-h2" style="opacity:.4">
-        Oops. Nothing here...
+      <div class="text-h2 text-blue" style="opacity:.9">
+        Pagina no encontrada
       </div>
 
       <q-btn
         class="q-mt-xl"
-        color="white"
+        color="black"
         text-color="blue"
         unelevated
         to="/"
-        label="Go Home"
+        label="Ir a Inicio"
         no-caps
       />
     </div>

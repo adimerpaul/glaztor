@@ -1,3 +1,0 @@
-<template>
-    asdasd
-</template>

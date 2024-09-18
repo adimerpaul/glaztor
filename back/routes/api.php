@@ -17,11 +17,11 @@ Route::get('pedidos/{id}', [PedidoController::class, 'show']);
 Route::put('pedidos/{id}', [PedidoController::class, 'update']);
 Route::delete('pedidos/{id}', [PedidoController::class, 'destroy']);
 
-Route::get('pedidostrailer', [PedidoController::class, 'index']);
-Route::post('pedidostrailer', [PedidoController::class, 'store']);
-Route::get('pedidostrailer/{id}', [PedidoController::class, 'show']);
-Route::put('pedidostrailer/{id}', [PedidoController::class, 'update']);
-Route::delete('pedidostrailer/{id}', [PedidoController::class, 'destroy']);
+Route::get('pedidotrailers', [PedidoController::class, 'index']);
+Route::post('pedidotrailers', [PedidoController::class, 'store']);
+Route::get('pedidotrailers/{id}', [PedidoController::class, 'show']);
+Route::put('pedidotrailers/{id}', [PedidoController::class, 'update']);
+Route::delete('pedidotrailers/{id}', [PedidoController::class, 'destroy']);
 
 Route::get('clientes', [ClienteController::class, 'index']);
 Route::post('clientes', [ClienteController::class, 'store']);
