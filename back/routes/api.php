@@ -3,7 +3,10 @@
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\PreventaController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\EjecutivoController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\CargoController;
+use App\Http\Controllers\ZonaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +32,12 @@ Route::get('clientes/{id}', [ClienteController::class, 'show']);
 Route::put('clientes/{id}', [ClienteController::class, 'update']);
 Route::delete('clientes/{id}', [ClienteController::class, 'destroy']);
 
+Route::get('ejecutivos', [EjecutivoController::class, 'index']);
+Route::post('ejecutivos', [EjecutivoController::class, 'store']);
+Route::get('ejecutivos/{id}', [EjecutivoController::class, 'show']);
+Route::put('ejecutivos/{id}', [EjecutivoController::class, 'update']);
+Route::delete('ejecutivos/{id}', [EjecutivoController::class, 'destroy']);
+
 Route::get('preventas', [PreventaController::class, 'index']);
 Route::post('preventas', [PreventaController::class, 'store']);
 Route::get('preventas/{id}', [PreventaController::class, 'show']);
@@ -40,3 +49,16 @@ Route::post('productos', [ProductoController::class, 'store']);
 Route::get('productos/{id}', [ProductoController::class, 'show']);
 Route::put('productos/{id}', [ProductoController::class, 'update']);
 Route::delete('productos/{id}', [ProductoController::class, 'destroy']);
+
+Route::get('cargos', [CargoController::class, 'index']);
+Route::post('cargos', [CargoController::class, 'store']);
+Route::get('cargos/{id}', [CargoController::class, 'show']);
+Route::put('cargos/{id}', [CargoController::class, 'update']);
+Route::delete('cargos/{id}', [CargoController::class, 'destroy']);
+
+
+Route::get('zonas', [ZonaController::class, 'index']);
+Route::post('zonas', [ZonaController::class, 'store']);
+Route::get('zonas/{id}', [ZonaController::class, 'show']);
+Route::put('zonas/{id}', [ZonaController::class, 'update']);
+Route::delete('zonas/{id}', [ZonaController::class, 'destroy']);

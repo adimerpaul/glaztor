@@ -82,11 +82,30 @@ const linksList = [
     link: '/clientes'
 
   },
+
+  {
+    title: 'ejecutivos',
+    icon: 'person_add',
+    link: '/ejecutivos'
+
+  },
  
   {
     title: 'Productos',
     icon: 'inventory_2',
     link: '/productos'
+
+  },
+  {
+    title: 'Cargos',
+    icon: 'inventory_2',
+    link: '/cargos'
+
+  },
+  {
+    title: 'Zonas',
+    icon: 'inventory_2',
+    link: '/zonas'
 
   },
 

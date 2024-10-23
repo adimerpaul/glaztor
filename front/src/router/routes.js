@@ -8,7 +8,10 @@ const routes = [
       { path: 'pedidotrailers', component: () => import('src/pages/pedidotrailers/Pedidotrailer.vue') },
       { path: 'preventas', component: () => import('pages/preventas/Preventa.vue') },
       { path: 'clientes', component: () => import('pages/clientes/Cliente.vue') },
+      { path: 'ejecutivos', component: () => import('pages/ejecutivos/Ejecutivo.vue') },
       { path: 'productos', component: () => import('pages/productos/Producto.vue') },
+      { path: 'cargos', component: () => import('pages/cargos/cargo.vue') },
+      { path: 'zonas', component: () => import('pages/zonas/zona.vue') },
     ]
   },
   {
