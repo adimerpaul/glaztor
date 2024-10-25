@@ -2,7 +2,7 @@
     <q-page class="bg-grey-3 q-pa-xs">
         <q-card>
             <q-card-section class="q-pa-xs">
-                <table border="1" style="width:100%; border-collapse:collapse;">
+                <table border="1" style="width:100%; border-collapse:collapse;" class="styled-table">
                         <thead>
                             <tr>
                                 <th style="padding: 5px;">Tipo cliente</th>
@@ -345,7 +345,7 @@ export default {
                 zona: '',
                 region: '',
                 cumple: moment().format('YYYY-MM-DD'),
-                estado: ''
+                estado: 'ACTIVO',
             }
         },
         getClientes () {
@@ -367,4 +367,24 @@ export default {
 
 }
 </script>
-  
+<style scoped>
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px;
+  text-align: left;
+}
+
+.styled-table thead {
+  background-color: #4c9baf;
+  color: white;
+}
+
+.styled-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+</style>
