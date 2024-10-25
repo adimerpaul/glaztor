@@ -222,6 +222,9 @@ export default {
 .styled-table {
   width: 100%;
   border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .styled-table th,
@@ -235,7 +238,15 @@ export default {
   color: white;
 }
 
+.styled-table tbody tr {
+  transition: background-color 0.3s;
+}
+
+.styled-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
 .styled-table tbody tr:hover {
-  background-color: #f1f1f1;
+  background-color: #e3e3e3;
 }
 </style>

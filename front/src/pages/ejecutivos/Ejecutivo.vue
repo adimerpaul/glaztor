@@ -86,15 +86,16 @@
                         <q-input dense v-model="ejecutivo.telefono_2" outlined label="Telefono ejecutivo 2" type="number" />
                         </div>
                         <div class="col-12">
-                        <q-input
-                            dense
-                            v-model="ejecutivo.cargo"
-                            outlined
-                            label="Cargo"
-                            :rules="[val => !!val || 'Este campo es requerido']"
-                            @input="ejecutivo.cargo = ejecutivo.cargo.toUpperCase()"
-                            style="text-transform: uppercase;"
-                        />
+                            <q-select
+                                dense
+                                v-model="ejecutivo.cargo_id"
+                                :options="cargos"
+                                outlined
+                                :rules="[val => !!val || 'Este campo es requerido']"
+                                label="Cargo"
+                                option-label="nombre_cargo" 
+                                option-value="id" 
+                            />
                          </div>
                          <div class="col-12">
                         <q-input
@@ -158,19 +159,16 @@
                         </div>
                     </div>
                     <div class="col-12">
-                            <q-select
-                                dense
-                                v-model="ejecutivo.zona"
-                                :options="[
-                                    'NORTE',
-                                    'SUD',
-                                    'ESTE',
-                                    'OESTE',
-                                    'CENTRO',
-                                ]"
-                                outlined
-                                :rules="[val => !!val || 'Este campo es requerido']"
-                                label="Zona"/>
+                        <q-select
+                            dense
+                            v-model="nuevoEjecutivo.zona_id"
+                            :options="zonas"
+                            option-label="nombre_zona"  
+                            option-value="id"          
+                            outlined
+                            :rules="[val => !!val || 'Este campo es requerido']"
+                            label="Seleccionar Zona"
+                        />
                     </div>
                     
                     
@@ -274,35 +272,83 @@ export default {
             encargadoBtnBool: true,
             ejecutivos: [],
             zonas: [],
+            zona: {},
+            cargos: [], // Para almacenar los cargos
             ejecutivo: {},
             dialog: false,
-            loading: false
+            loading: false,
+            nuevoEjecutivo: {
+
+        zona_id: null, // ID de la zona seleccionada
+      },
+
         }
     },
     mounted () {
-        this.getEjecutivo()
+        this.getEjecutivo();
+        this.getZonas();
+        this.getCargos(); // Llamar al método para obtener los cargos
     },
     methods: {
         getZonas() {
-        this.$axios.get('zonas') // Asegúrate de que esta URL sea correcta
-            .then(response => {
-                this.zonas = response.data; // Asumiendo que la respuesta es un array de zonas
-            })
-            .catch(error => {
-                console.log(error);
-            });
+      this.loading = true;
+      this.$axios.get('zonas')
+        .then(response => {
+          this.zonas = response.data.map(zona => ({
+            id: zona.id,               // Asegúrate de que estos nombres son correctos
+            nombre_zona: zona.nombre_zona,
+          }));
+        })
+        .catch(error => {
+          console.error("Error al obtener las zonas:", error);
+          this.$q.notify({
+            color: 'negative',
+            message: 'Error al obtener las zonas. Intenta nuevamente.',
+            icon: 'report_problem',
+          });
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
-    // ...
+    getCargos() {
+            this.$axios.get('cargos')
+                .then(response => {
+                    this.cargos = response.data; // Asignar los cargos a la variable
+                })
+                .catch(error => {
+                    console.error("Error al obtener los cargos:", error);
+                });
+        },
+        modificar(ejecutivo) {
+            this.ejecutivo = { ...ejecutivo }; // Clonamos el objeto ejecutivo
+            this.dialog = true; // Abrimos el diálogo
+        },
+        confirmarGuardar() {
+            // Aquí va la lógica de confirmación y guardado...
+        },
+        eliminar(id) {
+            // Aquí va la lógica de eliminación...
+        },
+        dialogClick() {
+            this.dialog = true;
+            this.ejecutivo = { // Inicializar un nuevo ejecutivo
+                nombre: '',
+                cargo_id: null, // Inicializa el ID del cargo
+            };
+        },
     getEjecutivo() {
         this.$axios.get('ejecutivos')
             .then(response => {
                 this.ejecutivos = response.data;
-                this.getZonas(); // Llama a getZonas después de obtener los ejecutivos
+                this.getZonas();
+                this.getCargos(); // Llamada para obtener cargos
             })
             .catch(error => {
                 console.log(error);
             });
     },
+    
         showEjecutivo(ejecutivo) {
             this.ejecutivo = ejecutivo
             this.dialog = true
@@ -354,15 +400,7 @@ export default {
                 estado: 'ACTIVO',
             }
         },
-        getEjecutivo () {
-            this.$axios.get('ejecutivos')
-            .then(response => {
-                this.ejecutivos = response.data
-            })
-            .catch(error => {
-                console.log(error)
-            })
-        }
+        
     },
     computed: {
         esMovil() {
