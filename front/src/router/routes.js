@@ -10,8 +10,8 @@ const routes = [
       { path: 'clientes', component: () => import('pages/clientes/Cliente.vue') },
       { path: 'ejecutivos', component: () => import('pages/ejecutivos/Ejecutivo.vue') },
       { path: 'productos', component: () => import('pages/productos/Producto.vue') },
-      { path: 'cargos', component: () => import('pages/cargos/cargo.vue') },
-      { path: 'zonas', component: () => import('pages/zonas/zona.vue') },
+      { path: 'cargos', component: () => import('pages/cargos/Cargo.vue') },
+      { path: 'zonas', component: () => import('pages/zonas/Zona.vue') },
     ]
   },
   {

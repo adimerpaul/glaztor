@@ -15,7 +15,6 @@
           Glaztor
         </q-toolbar-title>
         <q-btn color="red" dense label="Salir" no-caps size="10px" icon="logout" aria-label="Logout" @click="logout" />
-      
       </q-toolbar>
     </q-header>
 
@@ -27,9 +26,7 @@
       bordered
     >
       <q-list>
-        <q-item-label
-          header
-        >
+        <q-item-label header>
           Essential Links
         </q-item-label>
 
@@ -44,7 +41,7 @@
     <q-page-container>
       <router-view />
     </q-page-container>
-  </q-layout>http://localhost:9000/productos
+  </q-layout>
 </template>
 
 <script setup>
@@ -56,70 +53,59 @@ defineOptions({
 })
 
 const linksList = [
-{
+  {
     title: 'Principal',
-    icon: 'home',
+    icon: 'home', // Ícono adecuado para página principal
     link: '/'
   },
   {
-    title: 'prospeccion',
-    icon: 'local_mall',
+    title: 'Prospección',
+    icon: 'local_offer', // Cambié a 'local_offer' para representar ventas/prospección
     link: '/preventas'
   },
   {
     title: 'Pedidos',
-    icon: 'shopping_cart',
+    icon: 'shopping_cart', // Mantengo el ícono para pedidos
     link: '/pedidos'
   },
   {
-    title: 'Pedidotrailers',
-    icon: 'shopping_cart',
+    title: 'Pedidos de Trailers',
+    icon: 'local_shipping', // Ícono más adecuado para trailers
     link: '/pedidotrailers'
   },
   {
     title: 'Clientes',
-    icon: 'person_add',
+    icon: 'groups', // Mejor para representar clientes
     link: '/clientes'
-
   },
-
   {
-    title: 'ejecutivos',
-    icon: 'person_add',
+    title: 'Personal',
+    icon: 'supervisor_account', // Representa ejecutivos o personal
     link: '/ejecutivos'
-
   },
- 
   {
     title: 'Productos',
-    icon: 'inventory_2',
+    icon: 'inventory', // Ícono adecuado para inventario/productos
     link: '/productos'
-
   },
   {
     title: 'Cargos',
-    icon: 'inventory_2',
+    icon: 'work', // Ícono relacionado con roles o cargos
     link: '/cargos'
-
   },
   {
     title: 'Zonas',
-    icon: 'inventory_2',
+    icon: 'place', // Ícono que simboliza áreas o zonas
     link: '/zonas'
-
   },
-
 ]
-
-
-
-
 
 const leftDrawerOpen = ref(false)
 
 function toggleLeftDrawer () {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
+
 function logout() {
   localStorage.removeItem('token')
   router.push('/login')

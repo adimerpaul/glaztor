@@ -17,13 +17,13 @@ class CargoController extends Controller
         return Cargo::find($id);
     }
     function update(Request $request, $id){
-        $cargc = Cargo::find($id);
-        $cargc->update($request->all());
-        return $cargc;
+        $cargo = Cargo::find($id);
+        $cargo->update($request->all());
+        return $cargo;
     }
     function destroy($id){
-        $cargc = Cargo::findOrFail($id);
-        $cargc->delete();
-        return $cargc;
+        $cargo = Cargo::findOrFail($id);
+        $cargo->delete();
+        return $cargo;
     }
 }
