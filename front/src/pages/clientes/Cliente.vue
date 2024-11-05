@@ -138,41 +138,29 @@
                         </div>
                     </div>
                     <div class="col-12">
-                            <q-select
-                                dense
-                                v-model="cliente.zona"
-                                :options="[
-                                    'NORTE',
-                                    'SUD',
-                                    'ESTE',
-                                    'OESTE',
-                                    'CENTRO',
-                                    'SUDESTE',
-                                    'NORESTE',
-                                    'SUDOESTE',
-                                    'NOROESTE',
-                                ]"
-                                outlined
-                                :rules="[val => !!val || 'Este campo es requerido']"
-                                label="Zona"/>
-                    </div>
-                    <div class="col-12">
                         <q-select
                             dense
-                            v-model="cliente.ejecutivo"
-                            :options="[
-                                'ZTORREZ',
-                                'JLAREDO',
-                                'MMIRANDA',
-                                'ATERAN',
-                                'MLAREDO',
-                                'VTORREZ',
-                               
-                            ]"
+                            v-model="zonass.zona_id"
+                            :options="zonas"
+                            option-label="nombre_zona"  
+                            option-value="id"          
                             outlined
                             :rules="[val => !!val || 'Este campo es requerido']"
-                            label="Ejecutivo"/>
+                            label="Seleccionar Zona"
+                        />
                     </div>
+
+                    <q-select
+                        dense
+                        v-model="ejecutivoss.ejecutivo_id"
+                        :options="ejecutivos"
+                        option-label="apodo"  
+                        option-value="id"          
+                        outlined
+                        :rules="[val => !!val || 'Este campo es requerido']"
+                        label="Seleccionar Ejecutivo"
+                    />
+
                     <div class="col-12">
                         <q-select
                             dense
@@ -290,14 +278,62 @@ export default {
             encargadoBtnBool: true,
             clientes: [],
             cliente: {},
+            zonass: {zona_id: null,},
+            ejecutivoss: {ejecutivo_id: null,},
             dialog: false,
             loading: false
+
         }
     },
     mounted () {
-        this.getClientes()
+        this.getClientes();
+        this.getZonas();
+        this.getEjecutivos();
     },
     methods: {
+        getZonas() {
+      this.loading = true;
+      this.$axios.get('zonas')
+        .then(response => {
+          this.zonas = response.data.map(zona => ({
+            id: zona.id,               // Asegúrate de que estos nombres son correctos
+            nombre_zona: zona.nombre_zona,
+          }));
+        })
+        .catch(error => {
+          console.error("Error al obtener las zonas:", error);
+          this.$q.notify({
+            color: 'negative',
+            message: 'Error al obtener las zonas. Intenta nuevamente.',
+            icon: 'report_problem',
+          });
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    getEjecutivos() {
+        this.loading = true;
+        this.$axios.get('ejecutivos')
+            .then(response => {
+                this.ejecutivos = response.data.map(ejecutivo => ({
+                    id: ejecutivo.id,               // Verifica que estos nombres coinciden con los datos de la API
+                    apodo: ejecutivo.apodo
+                }));
+            })
+            .catch(error => {
+                console.error("Error al obtener los ejecutivos:", error);
+                this.$q.notify({
+                    color: 'negative',
+                    message: 'Error al obtener los ejecutivos. Intenta nuevamente.',
+                    icon: 'report_problem'
+                });
+            })
+            .finally(() => {
+                this.loading = false;
+            });
+    },
+
         showCliente(cliente) {
             this.cliente = cliente
             this.dialog = true

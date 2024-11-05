@@ -7,6 +7,7 @@ use App\Http\Controllers\EjecutivoController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CargoController;
 use App\Http\Controllers\ZonaController;
+use App\Http\Controllers\RegionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -62,3 +63,9 @@ Route::post('zonas', [ZonaController::class, 'store']);
 Route::get('zonas/{id}', [ZonaController::class, 'show']);
 Route::put('zonas/{id}', [ZonaController::class, 'update']);
 Route::delete('zonas/{id}', [ZonaController::class, 'destroy']);
+
+Route::get('regions', [RegionController::class, 'index']);
+Route::post('regions', [RegionController::class, 'store']);
+Route::get('regions/{id}', [RegionController::class, 'show']);
+Route::put('regions/{id}', [RegionController::class, 'update']);
+Route::delete('regions/{id}', [RegionController::class, 'destroy']);
