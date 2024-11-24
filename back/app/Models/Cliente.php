@@ -17,7 +17,7 @@ class Cliente extends Model
         'telefono_2',
         'direccion',
         'complemento',
-        'ubicacion',
+//        'ubicacion',
         'zona',
         'region',
         'cumple',

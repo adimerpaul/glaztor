@@ -5,8 +5,7 @@
         <q-table :rows="clientes" :columns="columns" dense wrap-cells flat bordered :rows-per-page-options="[0]"
                  title="Clientes" :filter="filter">
           <template v-slot:top-right>
-<!--            <q-btn color="primary" label="Nuevo" @click="userNew" outline no-caps icon="add_circle_outline"-->
-<!--                   :loading="loading"/>-->
+            <q-btn color="primary" label="Mapa" @click="showGlobal" outline no-caps icon="public" :loading="loading"/>
             <q-input v-model="filter" label="Buscar" dense outlined>
               <template v-slot:append>
                 <q-icon name="search"/>
@@ -290,6 +289,38 @@
       </q-card-section>
     </q-card>
   </q-dialog>
+  <q-dialog v-model="dialogGlobal">
+    <q-card style="width: 650px; max-width: 650px;">
+      <q-card-section class="q-pa-md row items-center">
+        <div class="text-subtitle2">
+          Vista de clientes
+        </div>
+        <q-space/>
+        <q-btn flat round dense icon="close" v-close-popup/>
+      </q-card-section>
+      <q-card-section>
+        <div style="height: 500px; width: 100%;">
+          <l-map ref="map" v-model:zoom="zoom" :use-global-leaflet="false" :center="location">
+            <l-tile-layer
+              v-for="tileProvider in tileProviders"
+              :key="tileProvider.name"
+              :name="tileProvider.name"
+              :visible="tileProvider.visible"
+              :url="tileProvider.url"
+              :attribution="tileProvider.attribution"
+              layer-type="base"
+            />
+            <l-marker
+              v-for="cliente in clientes"
+              :key="cliente.id"
+              :lat-lng="[parseFloat(cliente.lat), parseFloat(cliente.lng)]"
+              @click="showCliente(cliente)"
+            />
+          </l-map>
+        </div>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>
@@ -308,6 +339,7 @@ export default {
   },
   data() {
     return {
+      dialogGlobal: false,
       filter: '',
       columns: [
         {name: 'actions', label: 'Acciones', align: 'center'},
@@ -357,6 +389,9 @@ export default {
     this.getEjecutivos();
   },
   methods: {
+    showGlobal() {
+      this.dialogGlobal = true
+    },
     getZonas() {
       this.loading = true;
       this.$axios.get('zonas')
