@@ -2,8 +2,8 @@
   <div class="fullscreen bg-whit text-white text-center q-pa-md flex flex-center">
     <div>
       <div style="font-size: 30vh">
-        <img height="300"  src="\public\logo.png" class="img-thumbnail" id="fotoimg" alt="">
-        
+        <img height="300"  src="logo.png" class="img-thumbnail" id="fotoimg" alt="">
+
       </div>
 
       <div class="text-h2 text-blue" style="opacity:.9">

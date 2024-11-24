@@ -27,6 +27,9 @@ class Preventa extends Model
     ];
 
     protected $hidden = ['created_at','updated_at','deleted_at'];
+    function user(){
+        return $this->belongsTo(User::class);
+    }
 
     // Mutadores para convertir campos a mayúsculas
     public function setPropietarioAttribute($value)
