@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('descripcion_pro')->nullable();
             $table->integer('precio_pro')->nullable();
             $table->text('foto_pro')->nullable();
-            $table->string('estado_pro')->nullable();
+            $table->string('estado_pro')->nullable()->default('ACTIVO');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->softDeletes();

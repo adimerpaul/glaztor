@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Cargo;
 use App\Models\Ejecutivo;
+use App\Models\Producto;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Zona;
@@ -40,37 +41,6 @@ class DatabaseSeeder extends Seeder
         Cargo::create(['nombre_cargo' => 'Ejecutivo de Ventas','descripcion_cargo' => 'Ejecutivo de Ventas','estado' => 'ACTIVO']);
         Cargo::create(['nombre_cargo' => 'Ejecutivo de Obra','descripcion_cargo' => 'Ejecutivo de Obra','estado' => 'ACTIVO']);
 
-
-//        APODO	NOMBRE	APELLIDO	CARGO
-//JOQUENDO	Jose	Oquendo	Administrativo
-//MMIRANDA	Maria	Miranda	Ejecutivo de venta
-//ATERAN	Adriana	Teran	Ejecutivo de venta
-//VRAMIREZ	Victor	Ramirez	Administrativo
-//SCONDORI	Susana	Condori	Administrativo
-//MBALCAZAR	Marcela	Balcazar	Administrativo
-//MLAREDO	Maria	Laredo	Encargado Norte
-//VLOPEZ	Valeria	Lopez	Encargado Este
-//ZTORREZ	Zenaida	Torrez	Gerente Comercial
-//JLAREDO	Gerardo	LAredo	Gerente Adminstrativo
-//        Schema::create('ejecutivos', function (Blueprint $table) {
-//            $table->id();
-//            $table->string('nombre_eje')->nullable();
-//            $table->string('apellido_eje')->nullable();
-//            $table->integer('telefono_1')->nullable();
-//            $table->integer('telefono_2')->nullable();
-//            $table->string('cargo')->nullable();
-//            $table->string('apodo')->nullable();
-//            $table->string('correo')->nullable();
-//            $table->string('direccion')->nullable();
-//            $table->string('ubicacion')->nullable();
-//            $table->string('zona')->nullable();
-//            $table->date('cumple')->nullable();
-//            $table->string('estado')->nullable()->default('ACTIVO');
-//            $table->unsignedBigInteger('user_id')->nullable();
-//            $table->foreign('user_id')->references('id')->on('users');
-//            $table->softDeletes();
-//            $table->timestamps();
-//        });
         Ejecutivo::create(['nombre_eje' => 'Jose','apellido_eje' => 'Oquendo','cargo' => 'Administrativo','apodo' => 'JOQUENDO','estado' => 'ACTIVO']);
         Ejecutivo::create(['nombre_eje' => 'Maria','apellido_eje' => 'Miranda','cargo' => 'Ejecutivo de venta','apodo' => 'MMIRANDA','estado' => 'ACTIVO']);
         Ejecutivo::create(['nombre_eje' => 'Adriana','apellido_eje' => 'Teran','cargo' => 'Ejecutivo de venta','apodo' => 'ATERAN','estado' => 'ACTIVO']);
@@ -81,6 +51,29 @@ class DatabaseSeeder extends Seeder
         Ejecutivo::create(['nombre_eje' => 'Valeria','apellido_eje' => 'Lopez','cargo' => 'Encargado Este','apodo' => 'VLOPEZ','estado' => 'ACTIVO']);
         Ejecutivo::create(['nombre_eje' => 'Zenaida','apellido_eje' => 'Torrez','cargo' => 'Gerente Comercial','apodo' => 'ZTORREZ','estado' => 'ACTIVO']);
         Ejecutivo::create(['nombre_eje' => 'Gerardo','apellido_eje' => 'LAredo','cargo' => 'Gerente Adminstrativo','apodo' => 'JLAREDO','estado' => 'ACTIVO']);
+
+
+//        Schema::create('productos', function (Blueprint $table) {
+//            $table->id();
+//            $table->string('categoria_pro')->nullable();
+//            $table->string('marca_pro')->nullable();
+//            $table->string('nombre_pro')->nullable();
+//            $table->string('descripcion_pro')->nullable();
+//            $table->integer('precio_pro')->nullable();
+//            $table->text('foto_pro')->nullable();
+//            $table->string('estado_pro')->nullable();
+//            $table->unsignedBigInteger('user_id')->nullable();
+//            $table->foreign('user_id')->references('id')->on('users');
+//            $table->softDeletes();
+//            $table->timestamps();
+//        });
+
+        // cemento soboce emisa-IP40 cemento soboce 44
+        Producto::create(['categoria_pro' => 'Cemento','marca_pro' => 'Soboce','nombre_pro' => 'EMISA-IP40','descripcion_pro' => 'Cemento soboce emisa-IP40','precio_pro' => 44]);
+        Producto::create(['categoria_pro' => 'Cemento','marca_pro' => 'Soboce','nombre_pro' => 'VIACHA-IP40','descripcion_pro' => 'Cemento soboce viacha-IP40','precio_pro' => 44]);
+
+        Producto::create(['categoria_pro' => 'Cemento','marca_pro' => 'Soboce','nombre_pro' => 'EMISA-IP30','descripcion_pro' => 'Cemento soboce emisa-IP30','precio_pro' => 42]);
+        Producto::create(['categoria_pro' => 'Cemento','marca_pro' => 'Soboce','nombre_pro' => 'VIACHA-IP30','descripcion_pro' => 'Cemento soboce viacha-IP30','precio_pro' => 42]);
 
 
     }
