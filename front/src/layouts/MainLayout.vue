@@ -1,6 +1,9 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header>
+  <q-layout view="hHh Lpr lFf">
+    <q-header
+      class="bg-white text-primary"
+      bordered
+    >
       <q-toolbar>
         <q-btn
           flat
@@ -12,9 +15,43 @@
         />
 
         <q-toolbar-title>
-          Glaztor
+<!--          <q-btn no-caps flat dense round icon="o_search" />-->
+          <!--          {{ rutaActual }}-->
         </q-toolbar-title>
-        <q-btn color="red" dense label="Salir" no-caps size="10px" icon="logout" aria-label="Logout" @click="logout" />
+        <div>
+          <!--          Quasar v{{ $q.version }}-->
+          <q-btn-group flat>
+            <q-btn no-caps icon="o_notifications" />
+            <q-btn no-caps icon="o_account_circle" >
+              <q-menu>
+                <q-list>
+                  <q-item clickable>
+                    <q-item-section avatar>
+                      <q-icon name="account_circle" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>
+                        {{ $store.user.name }}
+                      </q-item-label>
+                      <q-item-label caption>
+                        {{ $store.user.role }}
+                      </q-item-label>
+                    </q-item-section>
+                  </q-item>
+                  <q-separator />
+                  <q-item clickable @click="logout" v-close-popup>
+                    <q-item-section avatar>
+                      <q-icon name="exit_to_app" />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Salir</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+          </q-btn-group>
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -23,22 +60,68 @@
       show-if-above
       :width="200"
       :breakpoint="500"
-      bordered
+      class="bg-primary text-white"
     >
       <q-list>
-        <q-item-label header>
-          Essential Links
+        <q-item>
+          <q-item-section avatar>
+            <q-icon name="account_circle" />
+          </q-item-section>
+          <q-item-section>
+            <!--            <pre>-->
+            <!--              {{ $store.user}}-->
+            <!--            </pre>-->
+            <q-item-label >
+              {{ $store.user.name }}
+              <!--              <q-chip color="white" text-color="primary" dense>-->
+              <span class="text-bold">
+                {{ $store.user.role }}
+              </span>
+              <!--              </q-chip>-->
+            </q-item-label>
+            <!--            <q-item-label class="text-grey">-->
+            <!--              <q-chip color="white" text-color="primary" dense>-->
+            <!--                {{ $store.user.role }}-->
+            <!--              </q-chip>-->
+            <!--            </q-item-label>-->
+          </q-item-section>
+        </q-item>
+        <q-separator  class="bg-white" inset />
+        <q-item-label header class="text-white">
+          Opciones
         </q-item-label>
 
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.title"
-          v-bind="link"
-        />
+        <!--        <EssentialLink-->
+        <!--          v-for="link in linksList"-->
+        <!--          :key="link.title"-->
+        <!--          v-bind="link"-->
+        <!--        />-->
+        <q-item v-for="link in linksList" :key="link.title" clickable :to="link.link" exact
+                class="text-grey"
+                active-class="menu"
+        >
+          <q-item-section avatar>
+            <q-icon :name="$route.path === link.link ? 'o_' + link.icon : link.icon"
+                    :class="$route.path === link.link ? 'text-white' : ''"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label :class="$route.path === link.link ? 'text-white text-bold' : ''">
+              {{ link.title }}
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable class="text-red" @click="logout">
+          <q-item-section avatar>
+            <q-icon name="exit_to_app" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Salir</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
-    <q-page-container>
+    <q-page-container class="bg-grey-3">
       <router-view />
     </q-page-container>
   </q-layout>
@@ -116,3 +199,11 @@ function logout() {
   router.push('/login')
 }
 </script>
+<style>
+.menu{
+  background-color: #1976D2;
+  border-radius: 10px;
+  margin: 5px;
+  padding: 5px
+}
+</style>
