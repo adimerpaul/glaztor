@@ -7,10 +7,13 @@ use Illuminate\Http\Request;
 
 class PreventaController extends Controller{
     function index(){
-        return Preventa::all();
+        return Preventa::with('user')->orderBy('id', 'desc')->get();
     }
     function store(Request $request){
-        return Preventa::create($request->all());
+        $user = $request->user();
+        $request->merge(['user_id' => $user->id]);
+        $preventa= Preventa::create($request->all());
+        return Preventa::with('user')->findOrFail($preventa->id);
     }
     function show($id){
         return Preventa::findOrFail($id);
@@ -18,7 +21,7 @@ class PreventaController extends Controller{
     function update(Request $request, $id){
         $preventa = Preventa::findOrFail($id);
         $preventa->update($request->all());
-        return $preventa;
+        return Preventa::with('user')->findOrFail($id);
     }
     function destroy($id){
         $preventa = Preventa::findOrFail($id);
