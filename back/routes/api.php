@@ -8,6 +8,8 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CargoController;
 use App\Http\Controllers\ZonaController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\ServicioController;
+use App\Http\Controllers\CajaChicaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -69,3 +71,15 @@ Route::post('regions', [RegionController::class, 'store']);
 Route::get('regions/{id}', [RegionController::class, 'show']);
 Route::put('regions/{id}', [RegionController::class, 'update']);
 Route::delete('regions/{id}', [RegionController::class, 'destroy']);
+
+Route::get('servicios', [ServicioController::class, 'index']);
+Route::post('servicios', [ServicioController::class, 'store']);
+Route::get('servicios/{id}', [ServicioController::class, 'show']);
+Route::put('servicios/{id}', [ServicioController::class, 'update']);
+Route::delete('servicios/{id}', [ServicioController::class, 'destroy']);
+
+Route::get('cajachica', [CajaChicaController::class, 'index']);
+Route::post('cajachica', [CajaChicaController::class, 'store']);
+Route::get('cajachica/{id}', [CajaChicaController::class, 'show']);
+Route::put('cajachica/{id}', [CajaChicaController::class, 'update']);
+Route::delete('cajachica/{id}', [CajaChicaController::class, 'destroy']);

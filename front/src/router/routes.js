@@ -13,6 +13,7 @@ const routes = [
       { path: 'cargos', component: () => import('pages/cargos/Cargo.vue') },
       { path: 'zonas', component: () => import('pages/zonas/Zona.vue') },
       { path: 'regions', component: () => import('pages/regions/Region.vue') },
+      { path: 'servicios', component: () => import('pages/administrativos/Servicio.vue') },
     ]
   },
   {

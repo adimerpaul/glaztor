@@ -103,6 +103,11 @@ const linksList = [
     icon: 'place', // Ícono que simboliza áreas o zonas
     link: '/regions'
   },
+  {
+    title: 'Servicios',
+    icon: 'place', // Ícono que simboliza áreas o zonas
+    link: '/servicios'
+  },
 ]
 
 const leftDrawerOpen = ref(false)
