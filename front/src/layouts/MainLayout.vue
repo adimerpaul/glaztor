@@ -127,76 +127,115 @@
   </q-layout>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+<script>
+// import { ref } from 'vue'
+// import EssentialLink from 'components/EssentialLink.vue'
+//
+// defineOptions({
+//   name: 'MainLayout'
+// })
+//
+// const linksList = [
+//   {
+//     title: 'Principal',
+//     icon: 'home', // Ícono adecuado para página principal
+//     link: '/'
+//   },
+//   {
+//     title: 'Prospección',
+//     icon: 'local_offer', // Cambié a 'local_offer' para representar ventas/prospección
+//     link: '/preventas'
+//   },
+//   {
+//     title: 'Pedidos',
+//     icon: 'shopping_cart', // Mantengo el ícono para pedidos
+//     link: '/pedidos'
+//   },
+//   {
+//     title: 'Pedidos de Trailers',
+//     icon: 'local_shipping', // Ícono más adecuado para trailers
+//     link: '/pedidotrailers'
+//   },
+//   {
+//     title: 'Clientes',
+//     icon: 'groups', // Mejor para representar clientes
+//     link: '/clientes'
+//   },
+//   {
+//     title: 'Personal',
+//     icon: 'supervisor_account', // Representa ejecutivos o personal
+//     link: '/ejecutivos'
+//   },
+//   {
+//     title: 'Productos',
+//     icon: 'inventory', // Ícono adecuado para inventario/productos
+//     link: '/productos'
+//   },
+//   {
+//     title: 'Cargos',
+//     icon: 'work', // Ícono relacionado con roles o cargos
+//     link: '/cargos'
+//   },
+//   {
+//     title: 'Zonas',
+//     icon: 'place', // Ícono que simboliza áreas o zonas
+//     link: '/zonas'
+//   },
+//   {
+//     title: 'Regions',
+//     icon: 'place', // Ícono que simboliza áreas o zonas
+//     link: '/regions'
+//   },
+// ]
 
-defineOptions({
-  name: 'MainLayout'
-})
-
-const linksList = [
-  {
-    title: 'Principal',
-    icon: 'home', // Ícono adecuado para página principal
-    link: '/'
+// const leftDrawerOpen = ref(false)
+//
+// function toggleLeftDrawer () {
+//   leftDrawerOpen.value = !leftDrawerOpen.value
+// }
+//
+// function logout() {
+//   this.$alert.dialog('¿Desea salir del sistema?')
+//     .onOk(() => {
+//       this.$store.isLogged = false
+//       this.$store.user = {}
+//       localStorage.removeItem('tokenGlaztor')
+//       this.$router.push('/login')
+//     })
+// }
+export default {
+  name: 'MainLayout',
+  data () {
+    return {
+      leftDrawerOpen: false,
+      linksList: [
+        {title: 'Principal', icon: 'home', link: '/'},
+        {title: 'Usuarios', icon: 'people', link: '/usuarios'},
+        {title: 'Gestion', icon: 'settings', link: '/gestion'},
+        {title: 'Almacen', icon: 'store', link: '/almacen'},
+        {title: 'Poa', icon: 'assignment', link: '/poa'}
+      ]
+    }
   },
-  {
-    title: 'Prospección',
-    icon: 'local_offer', // Cambié a 'local_offer' para representar ventas/prospección
-    link: '/preventas'
+  methods: {
+    logout () {
+      this.$alert.dialog('¿Desea salir del sistema?')
+        .onOk(() => {
+          this.$store.isLogged = false
+          this.$store.user = {}
+          localStorage.removeItem('tokenEducation')
+          this.$router.push('/login')
+        })
+    },
+    toggleLeftDrawer () {
+      this.leftDrawerOpen = !this.leftDrawerOpen
+    }
   },
-  {
-    title: 'Pedidos',
-    icon: 'shopping_cart', // Mantengo el ícono para pedidos
-    link: '/pedidos'
-  },
-  {
-    title: 'Pedidos de Trailers',
-    icon: 'local_shipping', // Ícono más adecuado para trailers
-    link: '/pedidotrailers'
-  },
-  {
-    title: 'Clientes',
-    icon: 'groups', // Mejor para representar clientes
-    link: '/clientes'
-  },
-  {
-    title: 'Personal',
-    icon: 'supervisor_account', // Representa ejecutivos o personal
-    link: '/ejecutivos'
-  },
-  {
-    title: 'Productos',
-    icon: 'inventory', // Ícono adecuado para inventario/productos
-    link: '/productos'
-  },
-  {
-    title: 'Cargos',
-    icon: 'work', // Ícono relacionado con roles o cargos
-    link: '/cargos'
-  },
-  {
-    title: 'Zonas',
-    icon: 'place', // Ícono que simboliza áreas o zonas
-    link: '/zonas'
-  },
-  {
-    title: 'Regions',
-    icon: 'place', // Ícono que simboliza áreas o zonas
-    link: '/regions'
-  },
-]
-
-const leftDrawerOpen = ref(false)
-
-function toggleLeftDrawer () {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
-
-function logout() {
-  localStorage.removeItem('token')
-  router.push('/login')
+  computed: {
+    rutaActual () {
+      return this.$route.path
+    }
+  }
 }
 </script>
 <style>
