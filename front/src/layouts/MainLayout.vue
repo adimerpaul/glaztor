@@ -210,10 +210,15 @@ export default {
       leftDrawerOpen: false,
       linksList: [
         {title: 'Principal', icon: 'home', link: '/'},
-        {title: 'Usuarios', icon: 'people', link: '/usuarios'},
-        {title: 'Gestion', icon: 'settings', link: '/gestion'},
-        {title: 'Almacen', icon: 'store', link: '/almacen'},
-        {title: 'Poa', icon: 'assignment', link: '/poa'}
+        {title: 'Prospección', icon: 'local_offer', link: '/preventas'},
+        {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidos'},
+        {title: 'Pedidos de Trailers', icon: 'local_shipping', link: '/pedidotrailers'},
+        {title: 'Clientes', icon: 'groups', link: '/clientes'},
+        {title: 'Personal', icon: 'supervisor_account', link: '/ejecutivos'},
+        {title: 'Productos', icon: 'inventory', link: '/productos'},
+        {title: 'Cargos', icon: 'work', link: '/cargos'},
+        {title: 'Zonas', icon: 'place', link: '/zonas'},
+        {title: 'Regions', icon: 'place', link: '/regions'}
       ]
     }
   },
