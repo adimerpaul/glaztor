@@ -13,6 +13,7 @@ const routes = [
       { path: 'cargos', component: () => import('pages/cargos/Cargo.vue'), meta: { requiresAuth: true } },
       { path: 'zonas', component: () => import('pages/zonas/Zona.vue'), meta: { requiresAuth: true } },
       { path: 'regions', component: () => import('pages/regions/Region.vue'), meta: { requiresAuth: true } },
+      { path: 'users', component: () => import('pages/usuarios/Usuarios.vue'), meta: { requiresAuth: true } },
     ]
   },
   {

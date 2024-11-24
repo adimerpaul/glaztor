@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('username')->unique();
             $table->string('role')->default('Area');
+//          administrador  gerente encargados de venta
             $table->string('cargo')->nullable()->default('Empleado');
             $table->string('email')->nullable();
             $table->timestamp('email_verified_at')->nullable();
