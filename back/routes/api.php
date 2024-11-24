@@ -8,6 +8,8 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CargoController;
 use App\Http\Controllers\ZonaController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\ServicioController;
+use App\Http\Controllers\CajaChicaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +21,13 @@ Route::post('/login', [App\Http\Controllers\UserController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [App\Http\Controllers\UserController::class, 'logout']);
     Route::get('/me', [App\Http\Controllers\UserController::class, 'me']);
+
+    Route::get('users', [App\Http\Controllers\UserController::class, 'index']);
+    Route::post('users', [App\Http\Controllers\UserController::class, 'store']);
+    Route::get('users/{id}', [App\Http\Controllers\UserController::class, 'show']);
+    Route::put('users/{id}', [App\Http\Controllers\UserController::class, 'update']);
+    Route::delete('users/{id}', [App\Http\Controllers\UserController::class, 'destroy']);
+    Route::put('/updatePassword/{user}', [App\Http\Controllers\UserController::class, 'updatePassword']);
 
     Route::get('pedidos', [PedidoController::class, 'index']);
     Route::post('pedidos', [PedidoController::class, 'store']);
@@ -69,6 +78,23 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('zonas/{id}', [ZonaController::class, 'update']);
     Route::delete('zonas/{id}', [ZonaController::class, 'destroy']);
 
+Route::get('regions', [RegionController::class, 'index']);
+Route::post('regions', [RegionController::class, 'store']);
+Route::get('regions/{id}', [RegionController::class, 'show']);
+Route::put('regions/{id}', [RegionController::class, 'update']);
+Route::delete('regions/{id}', [RegionController::class, 'destroy']);
+
+Route::get('servicios', [ServicioController::class, 'index']);
+Route::post('servicios', [ServicioController::class, 'store']);
+Route::get('servicios/{id}', [ServicioController::class, 'show']);
+Route::put('servicios/{id}', [ServicioController::class, 'update']);
+Route::delete('servicios/{id}', [ServicioController::class, 'destroy']);
+
+Route::get('cajachica', [CajaChicaController::class, 'index']);
+Route::post('cajachica', [CajaChicaController::class, 'store']);
+Route::get('cajachica/{id}', [CajaChicaController::class, 'show']);
+Route::put('cajachica/{id}', [CajaChicaController::class, 'update']);
+Route::delete('cajachica/{id}', [CajaChicaController::class, 'destroy']);
     Route::get('regions', [RegionController::class, 'index']);
     Route::post('regions', [RegionController::class, 'store']);
     Route::get('regions/{id}', [RegionController::class, 'show']);

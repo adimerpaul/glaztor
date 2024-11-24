@@ -218,7 +218,8 @@ export default {
         {title: 'Productos', icon: 'inventory', link: '/productos'},
         {title: 'Cargos', icon: 'work', link: '/cargos'},
         {title: 'Zonas', icon: 'place', link: '/zonas'},
-        {title: 'Regions', icon: 'place', link: '/regions'}
+        {title: 'Regions', icon: 'place', link: '/regions'},
+        {title: 'Usuarios', icon: 'people', link: '/users'},
       ]
     }
   },

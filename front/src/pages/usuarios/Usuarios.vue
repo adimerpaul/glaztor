@@ -45,7 +45,7 @@
       <template v-slot:body-cell-role="props">
         <q-td :props="props">
           <q-chip :label="props.row.role"
-                  :color="props.row.role === 'Jefatura' ? 'primary' : 'positive'"
+                  :color="props.row.role === 'Administrador' ? 'primary' : props.row.role === 'Gerente' ? 'info' : 'positive'"
                   text-color="white" dense  size="14px"/>
         </q-td>
       </template>
@@ -64,9 +64,9 @@
             <q-input v-model="user.name" label="Nombre" dense outlined :rules="[val => !!val || 'Campo requerido']" />
             <q-input v-model="user.username" label="Usuario" dense outlined :rules="[val => !!val || 'Campo requerido']" />
             <q-input v-model="user.email" label="Email" dense outlined hint="" />
-            <q-input v-model="user.password" label="Contraseña" dense outlined :rules="[val => !!val || 'Campo requerido']" v-if="!user.id" />
-            <q-select v-model="user.role" label="Rol" dense outlined :options="['Area', 'Jefatura']" :rules="[val => !!val || 'Campo requerido']" />
-            <q-select v-model="user.area_id" label="Area" dense outlined :options="areas" :rules="[val => !!val || 'Campo requerido']" emit-value map-options :option-label="area => area.nombre" :option-value="area => area.id" />
+            <q-input v-model="user.password" label="Contraseña" type="password" dense outlined :rules="[val => !!val || 'Campo requerido']" v-if="!user.id" />
+            <q-select v-model="user.role" label="Rol" dense outlined :options="roles" :rules="[val => !!val || 'Campo requerido']" />
+<!--            <q-select v-model="user.area_id" label="Area" dense outlined :options="areas" :rules="[val => !!val || 'Campo requerido']" emit-value map-options :option-label="area => area.nombre" :option-value="area => area.id" />-->
             <div class="text-right" >
               <q-btn color="negative" label="Cancelar" @click="userDialog = false" no-caps :loading="loading" />
               <q-btn color="primary" label="Guardar" type="submit" no-caps :loading="loading" class="q-ml-sm" />
@@ -96,15 +96,13 @@ export default {
         { name: 'username', label: 'Usuario', align: 'left', field: 'username' },
         { name: 'role', label: 'Rol', align: 'left', field: 'role' },
         { name: 'email', label: 'Email', align: 'left', field: 'email' },
-        { name: 'area', label: 'Area', align: 'left', field: row => row.area?.nombre },
+        // { name: 'area', label: 'Area', align: 'left', field: row => row.area?.nombre },
       ],
       roles: ['Administrador', 'Gerente', 'Ventas'],
-      areas: [],
     }
   },
   mounted() {
     this.usersGet()
-    this.areasGet()
   },
   methods: {
     areasGet() {
@@ -125,7 +123,7 @@ export default {
         area_id: 1,
         username: '',
         cargo: '',
-        role: 'Area',
+        role: 'Ventas',
       }
       this.actionPeriodo = 'Nuevo'
       this.userDialog = true
