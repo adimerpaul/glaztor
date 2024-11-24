@@ -96,7 +96,7 @@
         <!--          :key="link.title"-->
         <!--          v-bind="link"-->
         <!--        />-->
-        <q-item v-for="link in linksList" :key="link.title" clickable :to="link.link" exact
+        <q-item v-for="link in filteredLinks" :key="link.title" clickable :to="link.link" exact
                 class="text-grey"
                 active-class="menu"
         >
@@ -126,100 +126,24 @@
     </q-page-container>
   </q-layout>
 </template>
-
 <script>
-// import { ref } from 'vue'
-// import EssentialLink from 'components/EssentialLink.vue'
-//
-// defineOptions({
-//   name: 'MainLayout'
-// })
-//
-// const linksList = [
-//   {
-//     title: 'Principal',
-//     icon: 'home', // Ícono adecuado para página principal
-//     link: '/'
-//   },
-//   {
-//     title: 'Prospección',
-//     icon: 'local_offer', // Cambié a 'local_offer' para representar ventas/prospección
-//     link: '/preventas'
-//   },
-//   {
-//     title: 'Pedidos',
-//     icon: 'shopping_cart', // Mantengo el ícono para pedidos
-//     link: '/pedidos'
-//   },
-//   {
-//     title: 'Pedidos de Trailers',
-//     icon: 'local_shipping', // Ícono más adecuado para trailers
-//     link: '/pedidotrailers'
-//   },
-//   {
-//     title: 'Clientes',
-//     icon: 'groups', // Mejor para representar clientes
-//     link: '/clientes'
-//   },
-//   {
-//     title: 'Personal',
-//     icon: 'supervisor_account', // Representa ejecutivos o personal
-//     link: '/ejecutivos'
-//   },
-//   {
-//     title: 'Productos',
-//     icon: 'inventory', // Ícono adecuado para inventario/productos
-//     link: '/productos'
-//   },
-//   {
-//     title: 'Cargos',
-//     icon: 'work', // Ícono relacionado con roles o cargos
-//     link: '/cargos'
-//   },
-//   {
-//     title: 'Zonas',
-//     icon: 'place', // Ícono que simboliza áreas o zonas
-//     link: '/zonas'
-//   },
-//   {
-//     title: 'Regions',
-//     icon: 'place', // Ícono que simboliza áreas o zonas
-//     link: '/regions'
-//   },
-// ]
-
-// const leftDrawerOpen = ref(false)
-//
-// function toggleLeftDrawer () {
-//   leftDrawerOpen.value = !leftDrawerOpen.value
-// }
-//
-// function logout() {
-//   this.$alert.dialog('¿Desea salir del sistema?')
-//     .onOk(() => {
-//       this.$store.isLogged = false
-//       this.$store.user = {}
-//       localStorage.removeItem('tokenGlaztor')
-//       this.$router.push('/login')
-//     })
-// }
 export default {
   name: 'MainLayout',
   data () {
     return {
       leftDrawerOpen: false,
       linksList: [
-        {title: 'Principal', icon: 'home', link: '/'},
-        {title: 'Prospección', icon: 'local_offer', link: '/preventas'},
-        {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidos'},
-        {title: 'Pedidos de Trailers', icon: 'local_shipping', link: '/pedidotrailers'},
-        {title: 'Clientes', icon: 'groups', link: '/clientes'},
-        {title: 'Personal', icon: 'supervisor_account', link: '/ejecutivos'},
-        {title: 'Productos', icon: 'inventory', link: '/productos'},
-        {title: 'Cargos', icon: 'work', link: '/cargos'},
-        {title: 'Zonas', icon: 'place', link: '/zonas'},
-        {title: 'Regions', icon: 'place', link: '/regions'},
-        {title: 'Usuarios', icon: 'people', link: '/users'},
+        {title: 'Principal', icon: 'home', link: '/', can: ['Administrador', 'Gerente', 'Ventas']},
+        {title: 'Prospección', icon: 'local_offer', link: '/preventas', can: ['Administrador', 'Gerente', 'Ventas']},
+        {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidos', can: ['Administrador', 'Gerente', 'Ventas']},
+        {title: 'Pedidos de Trailers', icon: 'local_shipping', link: '/pedidotrailers', can: ['Administrador', 'Gerente', 'Ventas']},
+        {title: 'Clientes', icon: 'groups', link: '/clientes', can: ['Administrador', 'Gerente', 'Ventas']},
+        {title: 'Personal', icon: 'supervisor_account', link: '/ejecutivos', can: ['Administrador', 'Gerente']},
+        {title: 'Productos', icon: 'inventory', link: '/productos', can: ['Administrador', 'Gerente']},
+        {title: 'Cargos', icon: 'work', link: '/cargos', can: ['Administrador', 'Gerente']},
+        {title: 'Zonas', icon: 'place', link: '/zonas', can: ['Administrador', 'Gerente']},
+        {title: 'Regions', icon: 'place', link: '/regions', can: ['Administrador', 'Gerente']},
+        {title: 'Usuarios', icon: 'people', link: '/users', can: ['Administrador']},
       ]
     }
   },
@@ -229,7 +153,7 @@ export default {
         .onOk(() => {
           this.$store.isLogged = false
           this.$store.user = {}
-          localStorage.removeItem('tokenEducation')
+          localStorage.removeItem('tokenGlaztor')
           this.$router.push('/login')
         })
     },
@@ -240,7 +164,15 @@ export default {
   computed: {
     rutaActual () {
       return this.$route.path
-    }
+    },
+    filteredLinks() {
+      console.log(this.$store.user);
+      const userRole = this.$store.user?.role; // Obtén el rol del usuario
+      if (!userRole) {
+        return []; // Si no hay rol, devuelve una lista vacía
+      }
+      return this.linksList.filter(link => link.can.includes(userRole));
+    },
   }
 }
 </script>
