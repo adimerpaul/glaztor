@@ -15,16 +15,18 @@ return new class extends Migration
             $table->id();
             $table->string('tipo_cliente')->nullable();
             $table->string('nombre_cliente')->nullable();
-            $table->integer('telefono_1')->nullable();
-            $table->integer('telefono_2')->nullable();
+            $table->string('telefono_1')->nullable();
+            $table->string('telefono_2')->nullable();
             $table->string('direccion')->nullable();
             $table->string('complemento')->nullable();
-            $table->string('ubicacion')->nullable();
+            $table->string('lat')->nullable();
+            $table->string('lng')->nullable();
             $table->string('zona')->nullable();
             $table->string('region')->nullable();
             $table->date('cumple')->nullable();
-            $table->string('estado')->nullable();
-            $table->string('ejecutivo')->nullable();                   
+            $table->string('estado')->nullable()->default('Activo');
+            $table->string('ejecutivo')->nullable();
+            $table->string('sap')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->softDeletes();
@@ -32,7 +34,7 @@ return new class extends Migration
         });
     }
 
-    
+
 
     /**
      * Reverse the migrations.
