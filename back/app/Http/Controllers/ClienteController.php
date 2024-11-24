@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class ClienteController extends Controller
 {
     function index(){
-        return Cliente::all();
+        return Cliente::orderBy('id', 'desc')->get();
     }
     function store(Request $request){
         return Cliente::create($request->all());

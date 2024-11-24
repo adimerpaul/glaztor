@@ -29,13 +29,17 @@
                                 <td style="padding: 5px; line-height: 1.2;">{{ejecutivo.apodo}}</td>
                                 <td style="padding: 5px; line-height: 1.2;">{{ejecutivo.correo}}</td>
                                 <td style="padding: 5px; line-height: 1.2;">{{ejecutivo.direccion}}</td>
-                                <td style="padding: 2px; line-height: 1.2;">{{ejecutivo.ubicacion}} ver ubicacion </td>
+                                <td style="padding: 2px; line-height: 1.2;">
+<!--                                  {{ejecutivo.ubicacion}} ver ubicacion-->
+<!--                                  lat y lng-->
+                                    <q-btn color="red" flat dense style="height: 0" @click="showLocation(ejecutivo)" icon="fa-solid fa-map-marker-alt" />
+                                </td>
                                 <td style="padding: 5px; line-height: 1.2;">{{ejecutivo.zona}}</td>
                                 <td style="padding: 5px; line-height: 1.2;">{{ejecutivo.cumple}}</td>
                                 <td style="padding: 5px; line-height: 1.2;">{{ejecutivo.estado}}</td>
                             </tr>
                         </tbody>
-                    </table>              
+                    </table>
             </q-card-section>
         </q-card>
     </q-page>
@@ -93,8 +97,8 @@
                                 outlined
                                 :rules="[val => !!val || 'Este campo es requerido']"
                                 label="Cargo"
-                                option-label="nombre_cargo" 
-                                option-value="id" 
+                                option-label="nombre_cargo"
+                                option-value="id"
                             />
                          </div>
                          <div class="col-12">
@@ -163,15 +167,15 @@
                             dense
                             v-model="nuevoEjecutivo.zona_id"
                             :options="zonas"
-                            option-label="nombre_zona"  
-                            option-value="id"          
+                            option-label="nombre_zona"
+                            option-value="id"
                             outlined
                             :rules="[val => !!val || 'Este campo es requerido']"
                             label="Seleccionar Zona"
                         />
                     </div>
-                    
-                    
+
+
                     <div class="col-12">
                         <q-input dense v-model="ejecutivo.cumple" outlined label="Cumpleaños" type="date" />
                     </div>
@@ -290,6 +294,14 @@ export default {
         this.getCargos(); // Llamar al método para obtener los cargos
     },
     methods: {
+      showLocation(ejecutivo) {
+        // console.log(ejecutivo);
+        const lat = ejecutivo.ubicacion.split(',')[0];
+        const lng = ejecutivo.ubicacion.split(',')[1];
+        const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+        window.open(url, '_blank');
+
+      },
         getZonas() {
       this.loading = true;
       this.$axios.get('zonas')
@@ -348,7 +360,7 @@ export default {
                 console.log(error);
             });
     },
-    
+
         showEjecutivo(ejecutivo) {
             this.ejecutivo = ejecutivo
             this.dialog = true
@@ -400,7 +412,7 @@ export default {
                 estado: 'ACTIVO',
             }
         },
-        
+
     },
     computed: {
         esMovil() {
@@ -411,7 +423,7 @@ export default {
 
 }
 </script>
-  
+
 <style scoped>
 .styled-table {
   width: 100%;
