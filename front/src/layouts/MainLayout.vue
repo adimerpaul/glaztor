@@ -166,7 +166,7 @@ export default {
       return this.$route.path
     },
     filteredLinks() {
-      console.log(this.$store.user);
+      // console.log(this.$store.user);
       const userRole = this.$store.user?.role; // Obtén el rol del usuario
       if (!userRole) {
         return []; // Si no hay rol, devuelve una lista vacía

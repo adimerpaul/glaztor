@@ -175,7 +175,7 @@
         </q-card-section>
         <q-card-section >
               <q-form @submit="submit" v-if="!pedido.id">
-                <div class="row"> 
+                <div class="row">
                   <div class="col-12">
                       <q-input dense v-model="pedido.fecha" outlined label="Fecha" type="date"  />
                   </div>
@@ -205,14 +205,14 @@
                   <div class="col-12">
                    <q-input dense v-model="pedido.precio" outlined label="Precio" type="number" />
                   </div>
-  
+
                   <div class="col-6 q-pa-xs">
                       <q-btn label="CON FACTURA" :outline="facturaBtnBool" class="full-width" no-caps color="primary" @click="facturaBtnBool = !facturaBtnBool" />
                   </div>
                   <div class="col-6 q-pa-xs">
                       <q-btn label="SIN FACTURA" :outline="sinfacturaBtnBool" class="full-width" no-caps color="primary" @click="sinfacturaBtnBool = !sinfacturaBtnBool" />
                   </div>
-  
+
                                 <template v-if="!facturaBtnBool">
                                 <div class="col-12">
                                     <q-input dense v-model="pedido.nombre_factura" outlined label="Nombre Factura" />
@@ -222,10 +222,10 @@
                                 </div>
                                 </template>
                   <template v-if="!sinfacturaBtnBool">
-                  
+
                   </template>
-                  
-  
+
+
                   <div class="col-12">
                       <q-input dense v-model="pedido.direccion" outlined label="Direccion" :rules="[val => !!val || 'Este campo es requerido']" />
                   </div>
@@ -245,63 +245,37 @@
                       <q-btn label="Cancelar" color="negative" @click="dialog = false" :loading="loading" />
                       <q-btn label="Guardar" color="primary" type="submit" :loading="loading" />
                   </q-card-actions>
-  
+
                 </div>
               </q-form>
-              
+
           </q-card-section>
-  
+
       </q-card>
     </q-dialog>
-  
+
   </template>
-  
+
   <script>
   import moment from "moment";
   import { Loading } from 'quasar';
-  
+
   export default {
     name: 'Pedidos',
-    data () {
+    data() {
       return {
+        loading: false,
+        dialog: false,
+        clientes: [],
         fechaInicio: moment().startOf('month').format('YYYY-MM-DD'),
         fechaFin: moment().endOf('month').format('YYYY-MM-DD'),
         pedidos: [],
-        pedido: {},
+        // pedido: {},
         productos: [],
         pedido: {
-            producto_id: null,  
+          producto_id: null,
         },
-    getClientes() {
-      this.$axios.get('clientes')
-        .then(response => {
-          this.clientes = response.data
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
-    addPedido() {
-      this.$router.push({ name: 'pedidosPage' })
-      // this.dialog = true
-      // this.pedido = {
-      //   fecha_hora: moment().format('YYYY-MM-DD HH:mm:ss'),
-      //   cliente: '',
-      //   tipo: '',
-      //   producto: '',
-      //   cantidad: 0,
-      //   precio: 0,
-      //   factura: '',
-      //   nombre_factura: '',
-      //   nit_factura: '',
-      //   direccion: '',
-      //   contacto: '',
-      //   telefono: '',
-      //   telefono2:'',
-      //   observacion: '',
-      //   chofer: '',
-      //   fecha_pago: moment().format('YYYY-MM-DD'),
-      // }
+      }
     },
     mounted() {
       this.getPedidos()
@@ -309,40 +283,40 @@
       this.getProductos();
     },
     methods: {
-      submit () {
-            this.loading = true;
-            console.log(this.pedido);
-            this.$axios.post('pedidos', this.pedido)
-              .then(response => {
-                  this.pedidos.push(response.data);
-                  this.dialog = false;
-                  this.$q.notify({
-                      color: 'positive',
-                      message: 'Pedido guardado correctamente',
-                      icon: 'check_circle'
-                  });
-              })
-              .catch(error => {
-                  console.log(error);
-                  this.$q.notify({
-                      color: 'negative',
-                      message: 'Error al guardar el pedido',
-                      icon: 'error'
-                  });
-              })
-              .finally(() => {
-                  this.loading = false;
-              });
-          },
-          getProductos() {
-                    this.$axios.get('productos')
-                        .then(response => {
-                            this.productos = response.data;
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        });
-                },
+      submit() {
+        this.loading = true;
+        console.log(this.pedido);
+        this.$axios.post('pedidos', this.pedido)
+          .then(response => {
+            this.pedidos.push(response.data);
+            this.dialog = false;
+            this.$q.notify({
+              color: 'positive',
+              message: 'Pedido guardado correctamente',
+              icon: 'check_circle'
+            });
+          })
+          .catch(error => {
+            console.log(error);
+            this.$q.notify({
+              color: 'negative',
+              message: 'Error al guardar el pedido',
+              icon: 'error'
+            });
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      },
+      getProductos() {
+        this.$axios.get('productos')
+          .then(response => {
+            this.productos = response.data;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
 
       getClientes() {
         this.$axios.get('clientes')
@@ -354,25 +328,26 @@
           })
       },
       addPedido() {
-        this.dialog = true
-        this.pedido = {
-          fecha_hora: moment().format('YYYY-MM-DD HH:mm:ss'),
-          cliente: '',
-          tipo: '',
-          producto: '',
-          cantidad: 0,
-          precio: 0,
-          factura: '',
-          nombre_factura: '',
-          nit_factura: '',
-          direccion: '',
-          contacto: '',
-          telefono: '',
-          telefono2:'',
-          observacion: '',
-          chofer: '',
-          fecha_pago: moment().format('YYYY-MM-DD'),
-        }
+        this.$router.push({ name: 'pedidosPage' })
+        // this.dialog = true
+        // this.pedido = {
+        //   fecha_hora: moment().format('YYYY-MM-DD HH:mm:ss'),
+        //   cliente: '',
+        //   tipo: '',
+        //   producto: '',
+        //   cantidad: 0,
+        //   precio: 0,
+        //   factura: '',
+        //   nombre_factura: '',
+        //   nit_factura: '',
+        //   direccion: '',
+        //   contacto: '',
+        //   telefono: '',
+        //   telefono2: '',
+        //   observacion: '',
+        //   chofer: '',
+        //   fecha_pago: moment().format('YYYY-MM-DD'),
+        // }
       },
       getPedidos() {
         this.loading = true
@@ -393,5 +368,4 @@
       }
     }
   }
-}
 </script>

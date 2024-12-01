@@ -25,7 +25,9 @@
                             <td>{{ producto.descripcion_pro }}</td>
                             <td>{{ producto.precio_pro }}</td>
                             <td>
-                                <a v-if="producto.foto_pro" :href="producto.foto_pro" target="_blank">Ver Foto</a>
+                              <a v-if="producto.foto_pro" :href="$url+'..'+producto.foto_pro" target="_blank">
+                                <q-img :src="$url+'..'+producto.foto_pro" alt="Imagen del producto" class="img-thumbnail" height="100"/>
+                              </a>
                             </td>
                             <td>{{ producto.estado_pro }}</td>
                             <td>
@@ -38,7 +40,7 @@
             </q-card-section>
         </q-card>
     </q-page>
-    
+
     <q-page-sticky position="bottom-right" class="text-bold" :offset="[18, 18]">
         <q-btn fab icon="add" color="primary" @click="dialogClick" />
     </q-page-sticky>
@@ -101,7 +103,7 @@
 
                         <div class="d-grid col-6 mx-auto mb-3">
                             <img v-if="producto.foto_pro" :src="producto.foto_pro" alt="Imagen del producto" class="img-thumbnail" height="100">
-                            <img v-else height="100" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-256.png" class="img-thumbnail" id="fotoimg" alt="">     
+                            <img v-else height="100" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-256.png" class="img-thumbnail" id="fotoimg" alt="">
                         </div>
 
                         <div class="input-group mb-3">
@@ -133,7 +135,7 @@
 <script>
 export default {
     name: 'productos',
-    
+
     data () {
         return {
             productos: [],
@@ -150,10 +152,10 @@ export default {
             this.producto = producto;
             this.dialog = true;
         },
-        
+
         submit() {
             this.loading = true;
-            
+
             this.$axios.post('productos', this.producto)
                 .then(response => {
                     this.productos.push(response.data);
@@ -165,7 +167,7 @@ export default {
                     this.loading = false;
                 });
         },
-        
+
         eliminar(producto) {
             // Confirmar eliminación
             this.$q.dialog({
@@ -184,7 +186,7 @@ export default {
                     });
             });
         },
-        
+
         dialogClick() {
             this.dialog = true;
             this.producto = {
@@ -197,7 +199,7 @@ export default {
                 estado_pro:'ACTIVO',
             };
         },
-        
+
         getProductos() {
             this.$axios.get('productos')
                 .then(response => {
@@ -207,7 +209,7 @@ export default {
                     console.log(error);
                 });
         },
-        
+
         previsualizarFoto(event) {
             var reader = new FileReader();
             reader.readAsDataURL(event.target.files[0]);
