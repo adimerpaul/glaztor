@@ -129,7 +129,11 @@
               <q-select
                 v-model="pedido.cliente_id"
                 @filter="filterClientes"
+                @update:modelValue="changeDirecionTelefono"
+                :rules="[val => !!val || 'Seleccione un cliente']"
                 filled
+                emit-value
+                map-options
                 standout
                 use-input
                 label="Cliente"
@@ -139,37 +143,69 @@
                 dense
                 clearable
               />
-<!--              <pre>{{clientes}}</pre>-->
+<!--              <pre>{{pedido}}</pre>-->
             </div>
             <div class="col-12 col-md-6">
+              <q-input
+                v-model="pedido.direccion"
+                filled
+                standout
+                label="Dirección"
+                dense
+                hint=""
+              />
+            </div>
+            <div class="col-12 col-md-3">
+              <q-input
+                v-model="pedido.telefono"
+                filled
+                standout
+                label="Teléfono"
+                dense
+                hint=""
+              />
+            </div>
+            <div class="col-12 col-md-3">
+              <q-input
+                v-model="pedido.telefono2"
+                filled
+                standout
+                label="Teléfono 2"
+                dense
+                hint=""
+              />
+            </div>
+            <div class="col-12 col-md-3">
               <q-input
                 v-model="pedido.fecha_hora"
                 filled
                 standout
-                label="Fecha y hora"
-                type="datetime-local"
+                label="Fecha Pedido"
+                type="date"
                 dense
               />
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-3">
               <q-input
                 v-model="pedido.nombre_factura"
                 filled
                 standout
                 label="Nombre factura"
                 dense
+                hint=""
               />
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
               <q-input
                 v-model="pedido.nit_factura"
                 filled
                 standout
                 label="NIT factura"
                 dense
+                hint=""
               />
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
               <q-input
                 v-model="pedido.fecha_pago"
                 filled
@@ -179,7 +215,7 @@
                 dense
               />
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
               <q-select
                 v-model="pedido.zona_id"
                 filled
@@ -188,9 +224,32 @@
                 :options="zonas"
                 option-value="nombre_zona"
                 option-label="nombre_zona"
+                emit-value
+                map-options
+                :rules="[val => !!val || 'Seleccione una zona']"
                 dense
               />
 <!--              <pre>{{zonas}}</pre>-->
+            </div>
+            <div class="col-12">
+              <q-input
+                v-model="pedido.contacto"
+                filled
+                standout
+                label="Contacto"
+                dense
+                hint=""
+              />
+            </div>
+            <div class="col-12">
+              <q-input
+                v-model="pedido.observacion"
+                filled
+                standout
+                label="Observación"
+                dense
+                hint=""
+              />
             </div>
           </div>
           <q-markup-table dense flat bordered wrap-cells>
@@ -220,11 +279,13 @@
             </tfoot>
           </q-markup-table>
           <q-btn
+            :loading="loading"
             no-caps
             class="full-width"
             icon="save"
             color="positive"
             label="Guardar pedido"
+            type="submit"
           />
         </q-form>
       </q-card-section>
@@ -239,6 +300,7 @@ export default {
   name: 'Pedidos',
   data() {
     return {
+      loading: false,
       filter: '',
       clientes: [],
       clientesAll: [],
@@ -248,7 +310,6 @@ export default {
       sales: [],
       pedido:{},
       dialogPedido: false,
-
     }
   },
   mounted() {
@@ -277,7 +338,23 @@ export default {
       })
     },
     submit() {
-      console.log('submit')
+      this.loading = true
+      this.$axios.post('pedidos', {
+        ...this.pedido,
+        detalles: this.sales.map(sale => ({
+          id: sale.producto.id,
+          cantidadVenta: sale.cantidadVenta,
+          precioVenta: sale.precioVenta
+        }))
+      }).then(response => {
+        this.$alert.success('Pedido guardado')
+        this.dialogPedido = false
+        this.sales = []
+      }).catch(error => {
+        console.log(error)
+      }).finally(() => {
+        this.loading = false
+      })
     },
     dialogPedidoClick() {
       if (this.sales.length === 0) {
@@ -287,11 +364,24 @@ export default {
 
       this.dialogPedido = true
       this.pedido = {
-        'fecha_hora': moment().format('YYYY-MM-DD HH:mm:ss'),
-        'nombre_factura': '',
-        'nit_factura': '',
-        'fecha_pago': moment().format('YYYY-MM-DD'),
+        fecha_hora: moment().format('YYYY-MM-DD'),
+        nombre_factura: '',
+        nit_factura: '',
+        contacto: '',
+        direccion: '',
+        telefono: '',
+        telefono2: '',
+        fecha_pago: moment().format('YYYY-MM-DD'),
+        observacion: '',
       }
+    },
+    changeDirecionTelefono() {
+      const cliente = this.clientes.find(cliente => cliente.id === this.pedido.cliente_id)
+      // console.log(cliente)
+      this.pedido.direccion = cliente.direccion
+      this.pedido.telefono = cliente.telefono_1
+      this.pedido.telefono2 = cliente.telefono_2
+      this.pedido.contacto = cliente.nombre_cliente
     },
     agregarProducto(producto) {
       // verificar si existe en el carrito y aiumentar cantidadventas
