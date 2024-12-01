@@ -37,6 +37,9 @@ class Pedido extends Model
         'updated_at',
         'deleted_at'
     ];
+    function detalles(){
+        return $this->hasMany(Detalle::class);
+    }
 
     public function user()
     {
