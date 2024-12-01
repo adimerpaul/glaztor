@@ -9,7 +9,15 @@ use Illuminate\Support\Facades\Storage;
 class ProductoController extends Controller
 {
     function index(){
-        return Producto::all();
+        $productos= Producto::all();
+        $productos->map(function ($producto) {
+            // Verificar si la imagen no existe o es null
+            if ($producto->foto_pro === null) {
+                $producto->foto_pro = '/storage/fotos/default.png';
+            }
+            return $producto;
+        });
+        return $productos;
     }
     public function store(Request $request)
             {

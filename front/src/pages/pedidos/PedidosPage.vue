@@ -4,19 +4,40 @@
       <div class="col-12 col-md-8 q-pa-xs">
         <q-card flat bordered>
           <q-card-section class="q-pa-xs">
-            <q-markup-table dense flat bordered wrap-cells>
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Categoria</th>
-                  <th>Marca</th>
-                  <th>Nombre</th>
-                  <th>Descripcion</th>
-                  <th>Precio</th>
-                  <th>Estado</th>
-                </tr>
-              </thead>
-            </q-markup-table>
+            <div class="row">
+              <div class="col-12 col-md-3" v-for="producto in productos" :key="producto.id">
+                <q-card flat bordered class="q-ma-xs">
+                  <q-card-section class="q-pa-none">
+                    <q-img
+                      :src="$url+'..'+producto.foto_pro"
+                      :alt="producto.nombre_pro"
+                      class="full-width"
+                    >
+                      <div class="absolute-bottom text-subtitle2 text-center" style="padding: 0;">
+                        {{producto.nombre_pro}}
+                        <br>
+                        {{producto.precio_pro}} Bs.
+                      </div>
+                    </q-img>
+<!--                    <q-card-section>-->
+<!--                      <q-item>-->
+<!--                        <q-item-section>-->
+<!--                          <q-item-label>{{producto.nombre_pro}}</q-item-label>-->
+<!--                          <q-item-label>{{producto.precio_pro}}</q-item-label>-->
+<!--                        </q-item-section>-->
+<!--                        <q-item-section side>-->
+<!--                          <q-btn-->
+<!--                            color="primary"-->
+<!--                            icon="add"-->
+<!--                            @click="agregarProducto(producto)"-->
+<!--                          />-->
+<!--                        </q-item-section>-->
+<!--                      </q-item>-->
+<!--                    </q-card-section>-->
+                  </q-card-section>
+                </q-card>
+              </div>
+            </div>
             <pre>{{productos}}</pre>
 <!--            {-->
 <!--            "id": 1,-->
