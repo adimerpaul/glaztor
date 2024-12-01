@@ -27,7 +27,8 @@ class Pedido extends Model
         'observacion',
         'chofer',
         'fecha_pago',
-        'user_id'
+        'user_id',
+        'cliente_id',
     ];
 
     protected $hidden = [

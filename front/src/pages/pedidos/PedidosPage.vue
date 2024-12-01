@@ -34,37 +34,11 @@
                         {{ producto.precio_pro }} Bs.
                       </div>
                     </q-img>
-                    <!--                    <q-card-section>-->
-                    <!--                      <q-item>-->
-                    <!--                        <q-item-section>-->
-                    <!--                          <q-item-label>{{producto.nombre_pro}}</q-item-label>-->
-                    <!--                          <q-item-label>{{producto.precio_pro}}</q-item-label>-->
-                    <!--                        </q-item-section>-->
-                    <!--                        <q-item-section side>-->
-                    <!--                          <q-btn-->
-                    <!--                            color="primary"-->
-                    <!--                            icon="add"-->
-                    <!--                            @click="agregarProducto(producto)"-->
-                    <!--                          />-->
-                    <!--                        </q-item-section>-->
-                    <!--                      </q-item>-->
-                    <!--                    </q-card-section>-->
                   </q-card-section>
                 </q-card>
               </div>
             </div>
-            <pre>{{ productos }}</pre>
-            <!--            {-->
-            <!--            "id": 1,-->
-            <!--            "categoria_pro": "CEMENTO",-->
-            <!--            "marca_pro": "SOBOCE",-->
-            <!--            "nombre_pro": "EMISA-IP40",-->
-            <!--            "descripcion_pro": "CEMENTO SOBOCE EMISA-IP40",-->
-            <!--            "precio_pro": 44,-->
-            <!--            "foto_pro": null,-->
-            <!--            "estado_pro": "ACTIVO",-->
-            <!--            "user_id": null-->
-            <!--            },-->
+<!--            <pre>{{ productos }}</pre>-->
           </q-card-section>
         </q-card>
       </div>
@@ -125,7 +99,7 @@
                     icon="save"
                     color="positive"
                     label="Realizar pedido"
-                    @click="console.log(sales)"
+                    @click="dialogPedidoClick"
                   />
                 </td>
               </tr>
@@ -139,8 +113,89 @@
       </div>
     </div>
   </q-page>
+  <q-dialog v-model="dialogPedido" >
+    <q-card style="width: 450px; max-width: 90vw;">
+      <q-card-section>
+        <div class="row items-center">
+          <div class="text-h6">Realizar pedido</div>
+          <q-space />
+          <q-btn flat round dense icon="close" v-close-popup />
+        </div>
+      </q-card-section>
+      <q-card-section>
+        <q-form @submit="submit">
+          <q-input
+            v-model="pedido.fecha_ped"
+            filled
+            standout
+            label="Fecha"
+            type="date"
+            dense
+            clearable
+          />
+          <q-select
+            v-model="pedido.cliente"
+            filled
+            standout
+            label="Cliente"
+            :options="clientes"
+            option-value="id"
+            option-label="nombre_cli"
+            dense
+            clearable
+          />
+          <q-select
+            v-model="pedido.zona"
+            filled
+            standout
+            label="Zona"
+            :options="zonas"
+            option-value="id"
+            option-label="nombre_zon"
+            dense
+            clearable
+          />
+          <q-markup-table dense flat bordered wrap-cells>
+            <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Precio</th>
+              <th>Subtotal</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="sale in sales" :key="sale.producto.id">
+              <td>{{ sale.producto.nombre_pro }}</td>
+              <td>{{ sale.cantidadVenta }}</td>
+              <td>{{ sale.precioVenta }}</td>
+              <td>{{ (sale.cantidadVenta * sale.precioVenta).toFixed(2) }}</td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+              <td colspan="3" class="text-right">Total</td>
+              <td class="text-bold">
+                {{ (sales.reduce((acc, sale) => acc + sale.cantidadVenta * sale.precioVenta, 0)).toFixed(2) }}
+              </td>
+            </tr>
+            </tfoot>
+          </q-markup-table>
+          <q-btn
+            no-caps
+            class="full-width"
+            icon="save"
+            color="positive"
+            label="Guardar pedido"
+          />
+        </q-form>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 <script>
+
+import moment from "moment";
 
 export default {
   name: 'Pedidos',
@@ -152,6 +207,9 @@ export default {
       productosAll: [],
       zonas: [],
       sales: [],
+      pedido:{},
+      dialogPedido: false,
+
     }
   },
   mounted() {
@@ -159,6 +217,27 @@ export default {
     this.getProductos()
   },
   methods: {
+    dialogPedidoClick() {
+      this.dialogPedido = true
+      this.pedido = {
+        'fecha_hora': moment().format('YYYY-MM-DD HH:mm:ss'),
+        'tipo': 'Pedido',
+        // 'producto',
+        // 'cantidad',
+        // 'precio',
+        // 'factura',
+        // 'nombre_factura',
+        // 'nit_factura',
+        // 'direccion',
+        // 'contacto',
+        // 'telefono',
+        // 'telefono2',
+        // 'observacion',
+        // 'chofer',
+        // 'fecha_pago',
+        // 'cliente_id'
+      }
+    },
     agregarProducto(producto) {
       // verificar si existe en el carrito y aiumentar cantidadventas
       const index = this.sales.findIndex(sale => sale.producto.id === producto.id)
