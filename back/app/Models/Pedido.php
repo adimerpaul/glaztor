@@ -29,6 +29,7 @@ class Pedido extends Model
         'fecha_pago',
         'user_id',
         'cliente_id',
+        'zona'
     ];
 
     protected $hidden = [

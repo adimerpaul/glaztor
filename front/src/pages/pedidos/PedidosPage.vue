@@ -114,47 +114,85 @@
     </div>
   </q-page>
   <q-dialog v-model="dialogPedido" >
-    <q-card style="width: 450px; max-width: 90vw;">
-      <q-card-section>
+    <q-card style="width: 650px; max-width: 90vw;">
+      <q-card-section class="bg-primary text-white q-pb-none">
         <div class="row items-center">
           <div class="text-h6">Realizar pedido</div>
           <q-space />
           <q-btn flat round dense icon="close" v-close-popup />
         </div>
       </q-card-section>
-      <q-card-section>
+      <q-card-section class="q-mt-none">
         <q-form @submit="submit">
-          <q-input
-            v-model="pedido.fecha_ped"
-            filled
-            standout
-            label="Fecha"
-            type="date"
-            dense
-            clearable
-          />
-          <q-select
-            v-model="pedido.cliente"
-            filled
-            standout
-            label="Cliente"
-            :options="clientes"
-            option-value="id"
-            option-label="nombre_cli"
-            dense
-            clearable
-          />
-          <q-select
-            v-model="pedido.zona"
-            filled
-            standout
-            label="Zona"
-            :options="zonas"
-            option-value="id"
-            option-label="nombre_zon"
-            dense
-            clearable
-          />
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <q-select
+                v-model="pedido.cliente_id"
+                @filter="filterClientes"
+                filled
+                standout
+                use-input
+                label="Cliente"
+                :options="clientes"
+                option-value="id"
+                option-label="nombre_cliente"
+                dense
+                clearable
+              />
+<!--              <pre>{{clientes}}</pre>-->
+            </div>
+            <div class="col-12 col-md-6">
+              <q-input
+                v-model="pedido.fecha_hora"
+                filled
+                standout
+                label="Fecha y hora"
+                type="datetime-local"
+                dense
+              />
+            </div>
+            <div class="col-12 col-md-6">
+              <q-input
+                v-model="pedido.nombre_factura"
+                filled
+                standout
+                label="Nombre factura"
+                dense
+              />
+            </div>
+            <div class="col-12 col-md-6">
+              <q-input
+                v-model="pedido.nit_factura"
+                filled
+                standout
+                label="NIT factura"
+                dense
+              />
+            </div>
+            <div class="col-12 col-md-6">
+              <q-input
+                v-model="pedido.fecha_pago"
+                filled
+                type="date"
+                standout
+                label="Fecha de pago"
+                dense
+              />
+            </div>
+            <div class="col-12 col-md-6">
+              <q-select
+                v-model="pedido.zona_id"
+                filled
+                standout
+                label="Zona"
+                :options="zonas"
+                option-value="nombre_zona"
+                option-label="nombre_zona"
+                dense
+              />
+<!--              <pre>{{zonas}}</pre>-->
+            </div>
+          </div>
           <q-markup-table dense flat bordered wrap-cells>
             <thead>
             <tr>
@@ -203,6 +241,7 @@ export default {
     return {
       filter: '',
       clientes: [],
+      clientesAll: [],
       productos: [],
       productosAll: [],
       zonas: [],
@@ -215,27 +254,43 @@ export default {
   mounted() {
     this.getClientes()
     this.getProductos()
+    this.getZonas()
   },
   methods: {
+    getZonas() {
+      this.$axios.get('zonas').then(response => {
+        this.zonas = response.data
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    filterClientes(val, update) {
+      if (val === '') {
+        update(() => {
+          this.clientes = this.clientesAll
+        })
+        return
+      }
+      const needle = val.toLowerCase()
+      update(() => {
+        this.clientes = this.clientesAll.filter(v => v.nombre_cliente.toLowerCase().indexOf(needle) > -1)
+      })
+    },
+    submit() {
+      console.log('submit')
+    },
     dialogPedidoClick() {
+      if (this.sales.length === 0) {
+        this.$alert.error('No hay productos en el carrito')
+        return false
+      }
+
       this.dialogPedido = true
       this.pedido = {
         'fecha_hora': moment().format('YYYY-MM-DD HH:mm:ss'),
-        'tipo': 'Pedido',
-        // 'producto',
-        // 'cantidad',
-        // 'precio',
-        // 'factura',
-        // 'nombre_factura',
-        // 'nit_factura',
-        // 'direccion',
-        // 'contacto',
-        // 'telefono',
-        // 'telefono2',
-        // 'observacion',
-        // 'chofer',
-        // 'fecha_pago',
-        // 'cliente_id'
+        'nombre_factura': '',
+        'nit_factura': '',
+        'fecha_pago': moment().format('YYYY-MM-DD'),
       }
     },
     agregarProducto(producto) {
@@ -267,6 +322,7 @@ export default {
     getClientes() {
       this.$axios.get('clientes').then(response => {
         this.clientes = response.data
+        this.clientesAll = response.data
       }).catch(error => {
         console.log(error)
       })

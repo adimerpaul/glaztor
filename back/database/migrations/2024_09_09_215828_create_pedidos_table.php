@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('telefono2')->nullable();
             $table->string('observacion')->nullable();
             $table->string('chofer')->nullable();
+            $table->string('zona')->nullable();
             $table->date('fecha_pago')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
