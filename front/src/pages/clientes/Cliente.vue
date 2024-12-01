@@ -52,40 +52,6 @@
             </q-td>
           </template>
         </q-table>
-        <!--                <table border="1" style="width:100%; border-collapse:collapse;" class="styled-table">-->
-        <!--                        <thead>-->
-        <!--                            <tr>-->
-        <!--                                <th style="padding: 5px;">Tipo cliente</th>-->
-        <!--                                <th style="padding: 5px;">Nombre</th>-->
-        <!--                                <th style="padding: 5px;">Telefono</th>-->
-        <!--                                <th style="padding: 5px;">Telefono 2</th>-->
-        <!--                                <th style="padding: 5px;">Direccion</th>-->
-        <!--                                <th style="padding: 5px;">Complemento</th>-->
-        <!--                                <th style="width:10%;padding: 5px;">Ubicacion</th>-->
-        <!--                                <th style="padding: 5px;">Zona</th>-->
-        <!--                                <th style="padding: 5px;">Ejecutivo</th>-->
-        <!--                                <th style="padding: 5px;">Region</th>-->
-        <!--                                <th style="padding: 5px;">Cumpleaños</th>-->
-        <!--                                <th style="padding: 5px;">Estado</th>-->
-        <!--                            </tr>-->
-        <!--                        </thead>-->
-        <!--                        <tbody>-->
-        <!--                            <tr v-for="(cliente,index) in clientes" :key="index">-->
-        <!--                                <td style="padding: 5px; line-height: 1.2;">{{cliente.tipo_cliente}}</td>-->
-        <!--                                <td style="padding: 5px; line-height: 1.2;">{{cliente.nombre_cliente}}</td>-->
-        <!--                                <td style="padding: 5px; line-height: 1.2;">{{cliente.telefono_1}}</td>-->
-        <!--                                <td style="padding: 5px; line-height: 1.2;">{{cliente.telefono_2}}</td>-->
-        <!--                                <td style="padding: 5px; line-height: 1.2;">{{cliente.direccion}}</td>-->
-        <!--                                <td style="padding: 5px; line-height: 1.2;">{{cliente.complemento}}</td>-->
-        <!--                                <td style="padding: 2px; line-height: 1.2;">{{cliente.ubicacion}} ver ubicacion </td>-->
-        <!--                                <td style="padding: 5px; line-height: 1.2;">{{cliente.zona}}</td>-->
-        <!--                                <td style="padding: 5px; line-height: 1.2;">{{cliente.ejecutivo}}</td>-->
-        <!--                                <td style="padding: 5px; line-height: 1.2;">{{cliente.region}}</td>-->
-        <!--                                <td style="padding: 5px; line-height: 1.2;">{{cliente.cumple}}</td>-->
-        <!--                                <td style="padding: 5px; line-height: 1.2;">{{cliente.estado}}</td>-->
-        <!--                            </tr>-->
-        <!--                        </tbody>-->
-        <!--                    </table>              -->
       </q-card-section>
     </q-card>
   </q-page>
@@ -200,7 +166,7 @@
                 label="Seleccionar Zona"
               />
             </div>
-
+            <div class="col-12">
             <q-select
               dense
               v-model="ejecutivoss.ejecutivo_id"
@@ -208,26 +174,23 @@
               option-label="apodo"
               option-value="id"
               outlined
-              :rules="[val => !!val || 'Este campo es requerido']"
               label="Seleccionar Ejecutivo"
+              :rules="[val => !!val || 'Este campo es requerido']"
+              
             />
+          </div>
 
             <div class="col-12">
               <q-select
                 dense
-                v-model="cliente.region"
-                :options="[
-                                'ORURO',
-                                'CHALLAPATA',
-                                'COLQUIRI',
-                                'POOPO',
-                                'HUARI',
-                                'SICA SICA',
-                                'EUCALIPTUS',
-                            ]"
+                v-model="cliente.region_id"
+                :options="regions"
+                option-value="id"
+                option-label="nombre_region"
                 outlined
-                :rules="[val => !!val || 'Este campo es requerido']"
-                label="Region"/>
+                label="Región"
+                :rules="[val => !!val || 'Seleccione una región']"
+              />
             </div>
             <div class="col-12">
               <q-input dense v-model="cliente.cumple" outlined label="Cumpleaños" type="date"/>
@@ -375,9 +338,10 @@ export default {
       propietarioBtnBool: true,
       encargadoBtnBool: true,
       clientes: [],
-      cliente: {},
+      cliente: {region_id: null,},
       zonass: {zona_id: null,},
       ejecutivoss: {ejecutivo_id: null,},
+      regions: [],
       dialog: false,
       loading: false
 
@@ -387,6 +351,8 @@ export default {
     this.getClientes();
     this.getZonas();
     this.getEjecutivos();
+    this.getRegions(); // Carga las regiones al montar el componente
+
   },
   methods: {
     showGlobal() {
@@ -411,6 +377,20 @@ export default {
         })
         .finally(() => {
           this.loading = false;
+        });
+    },
+    getRegions() {
+      this.$axios
+        .get("/regions") // Ajusta la URL del endpoint según tu API
+        .then((response) => {
+          this.regions = response.data;
+        })
+        .catch((error) => {
+          console.error("Error al cargar las regiones:", error);
+          this.$q.notify({
+            color: "negative",
+            message: "No se pudo cargar las regiones.",
+          });
         });
     },
     getEjecutivos() {

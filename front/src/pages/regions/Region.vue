@@ -68,7 +68,7 @@
                             <q-select
                                 dense
                                 v-model="region.estado"
-                                :options="['ACTIVO', 'INACTIVO']"
+                                :options="['Activo', 'Inactivo']"
                                 outlined
                                 :rules="[val => !!val || 'Este campo es requerido']"
                                 label="Estado" />
@@ -192,7 +192,7 @@ export default {
             this.region = { 
                 nombre_region: '',
                 descripcion_region: '',
-                estado: 'ACTIVO',
+                estado: 'Activo',
             };
         },
         getRegions() {

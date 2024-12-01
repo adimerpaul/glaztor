@@ -142,7 +142,7 @@ export default {
         {title: 'Productos', icon: 'inventory', link: '/productos', can: ['Administrador', 'Gerente']},
         {title: 'Cargos', icon: 'work', link: '/cargos', can: ['Administrador', 'Gerente']},
         {title: 'Zonas', icon: 'place', link: '/zonas', can: ['Administrador', 'Gerente']},
-        {title: 'Regions', icon: 'place', link: '/regions', can: ['Administrador', 'Gerente']},
+        {title: 'Region', icon: 'place', link: '/regions', can: ['Administrador', 'Gerente']},
         {title: 'Usuarios', icon: 'people', link: '/users', can: ['Administrador']},
       ]
     }
