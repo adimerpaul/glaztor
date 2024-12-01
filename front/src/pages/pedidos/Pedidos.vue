@@ -3,7 +3,7 @@
       <q-card>
         <q-card-section class="q-pa-xs">
           <div class="row">
-            <div class="col-12 col-md-3">
+            <div class="col-6 col-md-3">
               <q-input
                   outlined
                   v-model="fechaInicio"
@@ -12,7 +12,7 @@
                   color="white"
                   dense></q-input>
             </div>
-            <div class="col-12 col-md-3">
+            <div class="col-6 col-md-3">
               <q-input
                   outlined
                   v-model="fechaFin"
@@ -22,7 +22,7 @@
                   dense
             ></q-input>
             </div>
-            <div class="col-12 col-md-6 text-right">
+            <div class="col-6 col-md-3 text-left">
               <q-btn
                   icon="search"
                   color="primary"
@@ -30,6 +30,16 @@
                   @click="getPedidos"
                   :loading="loading"
                   no-caps
+              ></q-btn>
+            </div>
+            <div class="col-6 col-md-3 text-right">
+              <q-btn
+                icon="add_circle_outline"
+                color="green"
+                label="Nuevo Pedido"
+                @click="addPedido"
+                :loading="loading"
+                no-caps
               ></q-btn>
             </div>
           </div>
@@ -44,7 +54,7 @@
             icon="add"
       @click="addPedido"
         ></q-btn>
-      </q-page-sticky> 
+      </q-page-sticky>
  </q-page>
  <q-dialog v-model="dialog"
             :position="esMovil ? undefined : 'right'"
@@ -69,7 +79,7 @@
       </q-card-section>
       <q-card-section >
             <q-form @submit="submit" v-if="!pedido.id">
-              <div class="row"> 
+              <div class="row">
                 <div class="col-12">
                     <q-input dense v-model="pedido.fecha" outlined label="Fecha" type="date"  />
                 </div>
@@ -135,9 +145,9 @@
                               </div>
                               </template>
                 <template v-if="!sinfacturaBtnBool">
-                
+
                 </template>
-                
+
 
                 <div class="col-12">
                     <q-input dense v-model="pedido.direccion" outlined label="Direccion" :rules="[val => !!val || 'Este campo es requerido']" />
@@ -161,7 +171,7 @@
 
               </div>
             </q-form>
-            
+
         </q-card-section>
 
     </q-card>
@@ -226,25 +236,26 @@ export default {
         })
     },
     addPedido() {
-      this.dialog = true
-      this.pedido = {
-        fecha_hora: moment().format('YYYY-MM-DD HH:mm:ss'),
-        cliente: '',
-        tipo: '',
-        producto: '',
-        cantidad: 0,
-        precio: 0,
-        factura: '',
-        nombre_factura: '',
-        nit_factura: '',
-        direccion: '',
-        contacto: '',
-        telefono: '',
-        telefono2:'',
-        observacion: '',
-        chofer: '',
-        fecha_pago: moment().format('YYYY-MM-DD'),
-      }
+      this.$router.push({ name: 'pedidosPage' })
+      // this.dialog = true
+      // this.pedido = {
+      //   fecha_hora: moment().format('YYYY-MM-DD HH:mm:ss'),
+      //   cliente: '',
+      //   tipo: '',
+      //   producto: '',
+      //   cantidad: 0,
+      //   precio: 0,
+      //   factura: '',
+      //   nombre_factura: '',
+      //   nit_factura: '',
+      //   direccion: '',
+      //   contacto: '',
+      //   telefono: '',
+      //   telefono2:'',
+      //   observacion: '',
+      //   chofer: '',
+      //   fecha_pago: moment().format('YYYY-MM-DD'),
+      // }
     },
     getPedidos() {
       this.loading = true
@@ -266,4 +277,3 @@ export default {
   }
 }
 </script>
-  
