@@ -45,16 +45,45 @@
           </div>
         </q-card-section>
  </q-card>
-   <pre>{{pedidos}}</pre>
- <pre>{{clientes}}</pre>
-    <q-page-sticky position="bottom-right" :offset="[18, 18]">
-       <q-btn
-            fab
-           color="primary"
-            icon="add"
-      @click="addPedido"
-        ></q-btn>
-      </q-page-sticky>
+ <q-card-section class="q-pa-none">
+        <q-list dense class="rounded-borders">
+          <template v-if="pedidos.length === 0">
+            <q-item>
+              <q-item-section>
+                <q-item-label class="text-h6 text-grey">No hay pedidos</q-item-label>
+              </q-item-section>
+            </q-item>
+          </template>
+          <q-item
+            v-for="pedido in pedidos"
+            :key="pedido.id"
+            @click="showPreventa(pedido)"
+            clickable
+            class="q-my-sm bg-white hover-bg-light-blue"
+            style="border: 1px solid #e0e0e0; border-radius: 8px;"
+          >
+            <q-item-section avatar>
+              <q-icon name="home" color="grey" size="md"/>
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label class="text-h6">
+                {{ pedido.fecha_hora || 'Sin propietario' }}
+              </q-item-label>
+              <q-item-label class="text-subtitle1 text-grey">{{ pedido.direccion }}</q-item-label>
+              <q-item-label class="text-caption text-positive">
+                {{ pedido.cliente }} - {{ pedido.tipo_construccion }} - {{ pedido.user?.name }}
+                - {{ pedido.fecha }}
+              </q-item-label>
+            </q-item-section>
+
+            <q-item-section side>
+              <q-icon name="arrow_forward"/>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card-section>
+  
  </q-page>
  <q-dialog v-model="dialog"
             :position="esMovil ? undefined : 'right'"

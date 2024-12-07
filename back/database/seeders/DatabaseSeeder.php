@@ -8,6 +8,7 @@ use App\Models\Producto;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Zona;
+use App\Models\Region;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -30,6 +31,11 @@ class DatabaseSeeder extends Seeder
         Zona::create(['nombre_zona' => 'NORTE','descripcion_zona' => 'Zona Norte','estado' => 'ACTIVO']);
         Zona::create(['nombre_zona' => 'CENTRO','descripcion_zona' => 'Zona Centro','estado' => 'ACTIVO']);
 
+        Region::create(['nombre_region' => 'ORURO','descripcion_region' => 'Ciudad Oruro','estado' => 'ACTIVO']);
+        Region::create(['nombre_region' => 'CHALLAPATA','descripcion_region' => 'Provincia Huari ','estado' => 'ACTIVO']);
+        Region::create(['nombre_region' => 'COLQUIRI','descripcion_region' => 'al ir a la paz ','estado' => 'ACTIVO']);
+     
+  
         $sqlFIle = base_path('database/seeders/clientes_202411240814.sql');
         $sqlContent = file_get_contents($sqlFIle);
         DB::unprepared($sqlContent);

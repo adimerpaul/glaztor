@@ -16,7 +16,7 @@
             <q-td :props="props">
               <q-btn-dropdown label="Opciones" no-caps size="10px" dense color="primary">
                 <q-list>
-                  <q-item clickable @click="userEdit(props.row)" v-close-popup>
+                  <q-item clickable @click="modificar(props)" v-close-popup>
                     <q-item-section avatar>
                       <q-icon name="edit"/>
                     </q-item-section>
@@ -32,14 +32,7 @@
                       <q-item-label>Eliminar</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item clickable @click="userEditPassword(props.row)" v-close-popup>
-                    <q-item-section avatar>
-                      <q-icon name="edit"/>
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Cambiar contraseña</q-item-label>
-                    </q-item-section>
-                  </q-item>
+
                 </q-list>
               </q-btn-dropdown>
             </q-td>
@@ -338,7 +331,23 @@ export default {
       propietarioBtnBool: true,
       encargadoBtnBool: true,
       clientes: [],
-      cliente: {region_id: null,},
+      cliente: {
+      id: null,
+      tipo_cliente: '',
+      nombre_cliente: '',
+      telefono_1: '',
+      telefono_2: '',
+      direccion: '',
+      complemento: '',
+      ubicacion: '',
+      lat: null,
+      lng: null,
+      zona_id: null,
+      ejecutivo_id: null,
+      region_id: null,
+      cumple: '',
+      estado: ''
+    },
       zonass: {zona_id: null,},
       ejecutivoss: {ejecutivo_id: null,},
       regions: [],
@@ -355,6 +364,13 @@ export default {
 
   },
   methods: {
+
+    modificar(props) {
+    // Asignar los datos del cliente seleccionado al objeto cliente
+      this.cliente = { ...props.row }; // Copia los datos del cliente
+      this.dialog = true; // Abre el diálogo
+    },
+
     showGlobal() {
       this.dialogGlobal = true
     },
