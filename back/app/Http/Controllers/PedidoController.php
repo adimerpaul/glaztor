@@ -37,16 +37,20 @@ class PedidoController extends Controller{
         $pedido->cliente_id = $request->cliente_id;
         $pedido->zona = $request->zona;
         $pedido->save();
+        $tol = 0;
         foreach ($request->detalles as $detalle){
             $producto = Producto::find($detalle['id']);
-            $detalle = new Detalle();
-            $detalle['pedido_id'] = $pedido->id;
-            $detalle['user_id'] = $user->id;
-            $detalle['producto'] = $producto->nombre;
-            $detalle['cantidad'] = $detalle['cantidadVenta'];
-            $detalle['precio'] = $detalle['precioVenta'];
-            $detalle->save();
+            $detalleSave = new Detalle();
+            $detalleSave['pedido_id'] = $pedido->id;
+            $detalleSave['user_id'] = $user->id;
+            $detalleSave['producto'] = $producto->nombre;
+            $detalleSave['cantidad'] = $detalle['cantidadVenta'];
+            $detalleSave['precio'] = $detalle['precioVenta'];
+            $detalleSave->save();
+            $tol += $detalleSave['cantidad'] * $detalleSave['precio'];
         }
+        $pedido->total = $tol;
+        $pedido->save();
         return Pedido::with('detalles')->find($pedido->id);
     }
     function show($id){

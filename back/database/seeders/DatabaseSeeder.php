@@ -34,8 +34,8 @@ class DatabaseSeeder extends Seeder
         Region::create(['nombre_region' => 'ORURO','descripcion_region' => 'Ciudad Oruro','estado' => 'ACTIVO']);
         Region::create(['nombre_region' => 'CHALLAPATA','descripcion_region' => 'Provincia Huari ','estado' => 'ACTIVO']);
         Region::create(['nombre_region' => 'COLQUIRI','descripcion_region' => 'al ir a la paz ','estado' => 'ACTIVO']);
-     
-  
+
+
         $sqlFIle = base_path('database/seeders/clientes_202411240814.sql');
         $sqlContent = file_get_contents($sqlFIle);
         DB::unprepared($sqlContent);
@@ -75,12 +75,120 @@ class DatabaseSeeder extends Seeder
 //        });
 
         // cemento soboce emisa-IP40 cemento soboce 44
-        Producto::create(['categoria_pro' => 'Cemento','marca_pro' => 'Soboce','nombre_pro' => 'EMISA-IP40','descripcion_pro' => 'Cemento soboce emisa-IP40','precio_pro' => 44]);
-        Producto::create(['categoria_pro' => 'Cemento','marca_pro' => 'Soboce','nombre_pro' => 'VIACHA-IP40','descripcion_pro' => 'Cemento soboce viacha-IP40','precio_pro' => 44]);
+//        Producto::create(['categoria_pro' => 'Cemento','marca_pro' => 'Soboce','nombre_pro' => 'EMISA-IP40','descripcion_pro' => 'Cemento soboce emisa-IP40','precio_pro' => 44]);
+//        Producto::create(['categoria_pro' => 'Cemento','marca_pro' => 'Soboce','nombre_pro' => 'VIACHA-IP40','descripcion_pro' => 'Cemento soboce viacha-IP40','precio_pro' => 44]);
+//
+//        Producto::create(['categoria_pro' => 'Cemento','marca_pro' => 'Soboce','nombre_pro' => 'EMISA-IP30','descripcion_pro' => 'Cemento soboce emisa-IP30','precio_pro' => 42]);
+//        Producto::create(['categoria_pro' => 'Cemento','marca_pro' => 'Soboce','nombre_pro' => 'VIACHA-IP30','descripcion_pro' => 'Cemento soboce viacha-IP30','precio_pro' => 42]);
 
-        Producto::create(['categoria_pro' => 'Cemento','marca_pro' => 'Soboce','nombre_pro' => 'EMISA-IP30','descripcion_pro' => 'Cemento soboce emisa-IP30','precio_pro' => 42]);
-        Producto::create(['categoria_pro' => 'Cemento','marca_pro' => 'Soboce','nombre_pro' => 'VIACHA-IP30','descripcion_pro' => 'Cemento soboce viacha-IP30','precio_pro' => 42]);
+        $productos = [
+            [
+                'categoria_pro' => 'Tubos',
+                'marca_pro' => 'ACERBOL',
+                'nombre_pro' => 'Tubo 1/4"',
+                'descripcion_pro' => 'Tubo de medida 1/4" (6 mm)',
+                'precio_pro' => 400,
+            ],
+            [
+                'categoria_pro' => 'Tubos',
+                'marca_pro' => 'AREQUIPA',
+                'nombre_pro' => 'Tubo 1/4"',
+                'descripcion_pro' => 'Tubo de medida 1/4" (6 mm)',
+                'precio_pro' => 392,
+            ],
+            [
+                'categoria_pro' => 'Tubos',
+                'marca_pro' => 'AREQUIPA',
+                'nombre_pro' => 'Tubo 5/16"',
+                'descripcion_pro' => 'Tubo de medida 5/16" (8 mm)',
+                'precio_pro' => 220,
+            ],
+            [
+                'categoria_pro' => 'Tubos',
+                'marca_pro' => 'AREQUIPA',
+                'nombre_pro' => 'Tubo 3/8"',
+                'descripcion_pro' => 'Tubo de medida 3/8" (9.5 mm)',
+                'precio_pro' => 155,
+            ],
+            [
+                'categoria_pro' => 'Tubos',
+                'marca_pro' => 'AREQUIPA',
+                'nombre_pro' => 'Tubo 1/2"',
+                'descripcion_pro' => 'Tubo de medida 1/2" (12 mm)',
+                'precio_pro' => 98,
+            ],
+            [
+                'categoria_pro' => 'Tubos',
+                'marca_pro' => 'AREQUIPA',
+                'nombre_pro' => 'Tubo 5/8"',
+                'descripcion_pro' => 'Tubo de medida 5/8" (16 mm)',
+                'precio_pro' => 55,
+            ],
+            [
+                'categoria_pro' => 'Tubos',
+                'marca_pro' => 'AREQUIPA',
+                'nombre_pro' => 'Tubo 3/4"',
+                'descripcion_pro' => 'Tubo de medida 3/4" (20 mm)',
+                'precio_pro' => 35,
+            ],
+            [
+                'categoria_pro' => 'Tubos',
+                'marca_pro' => 'AREQUIPA',
+                'nombre_pro' => 'Tubo 1"',
+                'descripcion_pro' => 'Tubo de medida 1" (25 mm)',
+                'precio_pro' => 22,
+            ],
+            [
+                'categoria_pro' => 'Tubos',
+                'marca_pro' => 'LAS LOMAS',
+                'nombre_pro' => 'Tubo 1/4"',
+                'descripcion_pro' => 'Tubo de medida 1/4" (6 mm)',
+                'precio_pro' => 375,
+            ],
+            [
+                'categoria_pro' => 'Tubos',
+                'marca_pro' => 'LAS LOMAS',
+                'nombre_pro' => 'Tubo 5/16"',
+                'descripcion_pro' => 'Tubo de medida 5/16" (8 mm)',
+                'precio_pro' => 217,
+            ],
+            [
+                'categoria_pro' => 'Tubos',
+                'marca_pro' => 'LAS LOMAS',
+                'nombre_pro' => 'Tubo 3/8"',
+                'descripcion_pro' => 'Tubo de medida 3/8" (9.5 mm)',
+                'precio_pro' => 154,
+            ],
+            [
+                'categoria_pro' => 'Tubos',
+                'marca_pro' => 'LAS LOMAS',
+                'nombre_pro' => 'Tubo 1/2"',
+                'descripcion_pro' => 'Tubo de medida 1/2" (12 mm)',
+                'precio_pro' => 97,
+            ],
+            [
+                'categoria_pro' => 'Tubos',
+                'marca_pro' => 'LAS LOMAS',
+                'nombre_pro' => 'Tubo 5/8"',
+                'descripcion_pro' => 'Tubo de medida 5/8" (16 mm)',
+                'precio_pro' => 55,
+            ],
+            [
+                'categoria_pro' => 'Tubos',
+                'marca_pro' => 'LAS LOMAS',
+                'nombre_pro' => 'Tubo 3/4"',
+                'descripcion_pro' => 'Tubo de medida 3/4" (20 mm)',
+                'precio_pro' => 35,
+            ],
+            [
+                'categoria_pro' => 'Tubos',
+                'marca_pro' => 'LAS LOMAS',
+                'nombre_pro' => 'Tubo 1"',
+                'descripcion_pro' => 'Tubo de medida 1" (25 mm)',
+                'precio_pro' => 22,
+            ],
+        ];
 
-
+        DB::table('productos')->insert($productos);
     }
 }

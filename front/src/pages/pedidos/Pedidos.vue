@@ -62,15 +62,21 @@
             class="q-my-sm bg-white hover-bg-light-blue"
             style="border: 1px solid #e0e0e0; border-radius: 8px;"
           >
-            <q-item-section avatar>
-              <q-icon name="home" color="grey" size="md"/>
-            </q-item-section>
+<!--            <q-item-section avatar>-->
+<!--              <q-icon name="home" color="grey" size="md"/>-->
+<!--            </q-item-section>-->
 
             <q-item-section>
               <q-item-label class="text-h6">
-                {{ pedido.fecha_hora || 'Sin propietario' }}
+                {{ pedido.fecha_hora.substring(0,10) || 'Sin propietario' }}
               </q-item-label>
-              <q-item-label class="text-subtitle1 text-grey">{{ pedido.direccion }}</q-item-label>
+              <q-item-label class="text-subtitle1 text-grey">
+                {{ pedido.direccion }}
+                <q-chip>
+                  {{ pedido.total }}
+                </q-chip>
+<!--                <pre>{{ pedido}}</pre>-->
+              </q-item-label>
               <q-item-label class="text-caption text-positive">
                 {{ pedido.cliente }} - {{ pedido.tipo_construccion }} - {{ pedido.user?.name }}
                 - {{ pedido.fecha }}
@@ -83,7 +89,7 @@
           </q-item>
         </q-list>
       </q-card-section>
-  
+
  </q-page>
  <q-dialog v-model="dialog"
             :position="esMovil ? undefined : 'right'"
@@ -296,8 +302,8 @@
         loading: false,
         dialog: false,
         clientes: [],
-        fechaInicio: moment().startOf('month').format('YYYY-MM-DD'),
-        fechaFin: moment().endOf('month').format('YYYY-MM-DD'),
+        fechaInicio: moment().format('YYYY-MM-DD'),
+        fechaFin: moment().format('YYYY-MM-DD'),
         pedidos: [],
         // pedido: {},
         productos: [],

@@ -18,9 +18,19 @@
                   <template v-slot:prepend>
                     <q-icon name="search" />
                   </template>
+<!--                  btn atras-->
+                  <template v-slot:before>
+                    <q-btn
+                      flat
+                      round
+                      dense
+                      icon="arrow_back"
+                      @click="this.$router.push('/pedidos')"
+                    />
+                  </template>
                 </q-input>
               </div>
-              <div class="col-6 col-md-3" v-for="producto in productos" :key="producto.id">
+              <div class="col-6 col-md-2" v-for="producto in productos" :key="producto.id">
                 <q-card flat bordered class="q-ma-xs cursor-pointer" @click="agregarProducto(producto)">
                   <q-card-section class="q-pa-none">
                     <q-img
@@ -28,10 +38,14 @@
                       :alt="producto.nombre_pro"
                       class="full-width"
                     >
-                      <div class="absolute-bottom text-subtitle2 text-center" style="padding: 0;">
-                        {{ producto.nombre_pro }}
-                        <br>
-                        {{ producto.precio_pro }} Bs.
+                      <div class="absolute-bottom" style="padding: 0;margin: 0">
+                        <div class="row items-center" style="font-size: 9px;">
+                          <div>{{ producto.nombre_pro }}</div>
+                          <div>{{ producto.marca_pro }}</div>
+                        </div>
+                        <div style="">
+                          {{ producto.precio_pro }} Bs.
+                        </div>
                       </div>
                     </q-img>
                   </q-card-section>
@@ -72,14 +86,15 @@
                 <td>
                   <q-icon name="delete" @click="sales.splice(sales.indexOf(sale), 1)" class="cursor-pointer" color="red" />
                   {{ sale.producto.nombre_pro }}
+                  {{ sale.producto.marca_pro }}
                 </td>
                 <td>
-                  <q-input v-model="sale.cantidadVenta" type="number" dense style="width: 50px" filled />
+                  <input v-model="sale.cantidadVenta" type="number" dense style="width: 100px" filled />
 <!--                  {{ sale.cantidadVenta }}-->
                 </td>
                 <td>
 <!--                  {{ sale.precioVenta }}-->
-                  <q-input v-model="sale.precioVenta" type="number" dense style="width: 70px" filled />
+                  <input v-model="sale.precioVenta" type="number" dense style="width: 120px" filled />
                 </td>
                 <td>{{ (sale.cantidadVenta * sale.precioVenta).toFixed(2) }}</td>
               </tr>
@@ -350,6 +365,7 @@ export default {
         this.$alert.success('Pedido guardado')
         this.dialogPedido = false
         this.sales = []
+        this.$router.push('/pedidos')
       }).catch(error => {
         console.log(error)
       }).finally(() => {
