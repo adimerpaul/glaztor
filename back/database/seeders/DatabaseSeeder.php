@@ -11,6 +11,7 @@ use App\Models\Zona;
 use App\Models\Region;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,6 +27,35 @@ class DatabaseSeeder extends Seeder
 //        ]);
         User::create(['name' => 'Administrador','username' => 'admin','password' => bcrypt('admin'),'role' => 'Administrador']);
 
+
+        DB::table('users')->insert([
+            [
+                'id' => 2,
+                'name' => 'Maria Miranda',
+                'username' => 'maria',
+                'role' => 'Ventas',
+                'cargo' => null,
+                'email' => 'maria@example.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('123456'), // Reemplaza por un valor seguro
+                'remember_token' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => 3,
+                'name' => 'Susana',
+                'username' => 'susana',
+                'role' => 'Administrador',
+                'cargo' => null,
+                'email' => 'susana@gmail.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('123456'), // Reemplaza por un valor seguro
+                'remember_token' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
         Zona::create(['nombre_zona' => 'SUD','descripcion_zona' => 'Zona Sud','estado' => 'ACTIVO']);
         Zona::create(['nombre_zona' => 'ESTE','descripcion_zona' => 'Zona Este','estado' => 'ACTIVO']);
         Zona::create(['nombre_zona' => 'NORTE','descripcion_zona' => 'Zona Norte','estado' => 'ACTIVO']);

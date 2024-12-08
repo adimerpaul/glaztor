@@ -30,7 +30,7 @@
                   </template>
                 </q-input>
               </div>
-              <div class="col-6 col-md-2" v-for="producto in productos" :key="producto.id">
+              <div class="col-3 col-md-2" v-for="producto in productos" :key="producto.id">
                 <q-card flat bordered class="q-ma-xs cursor-pointer" @click="agregarProducto(producto)">
                   <q-card-section class="q-pa-none">
                     <q-img

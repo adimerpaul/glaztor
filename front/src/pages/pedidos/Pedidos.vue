@@ -62,13 +62,10 @@
             class="q-my-sm bg-white hover-bg-light-blue"
             style="border: 1px solid #e0e0e0; border-radius: 8px;"
           >
-<!--            <q-item-section avatar>-->
-<!--              <q-icon name="home" color="grey" size="md"/>-->
-<!--            </q-item-section>-->
-
             <q-item-section>
               <q-item-label class="text-h6">
-                {{ pedido.fecha_hora.substring(0,10) || 'Sin propietario' }}
+                {{ pedido.fecha.substring(0,10) || 'Sin propietario' }}
+                <q-icon name="check_circle" :color="pedido.estado === 'PENDIENTE' ? 'red' : 'grey'"/>
               </q-item-label>
               <q-item-label class="text-subtitle1 text-grey">
                 {{ pedido.direccion }}
@@ -87,6 +84,7 @@
               <q-icon name="arrow_forward"/>
             </q-item-section>
           </q-item>
+          <pre>{{pedidos}}</pre>
         </q-list>
       </q-card-section>
 
@@ -104,187 +102,124 @@
         <div class="text-h6">{{ pedido.id ? 'Editar' : 'Nuevo' }} Pedido</div>
       </q-card-section>
       <q-card-section>
-        <q-form @submit="submit" v-if=" pedido.id">
-          <div class="row">
-            <div class="col-12 col-md-12">
-              <q-input v-model="pedido" type="date" outlined />
-            </div>
+        <q-form @submit="submit">
+          <q-input v-model="pedido.fecha"
+                   label="Fecha"
+                   outlined
+                   dense
+                   color="white"
+                   type="date"
+          ></q-input>
+          <q-input
+            v-model="pedido.cliente"
+            label="Cliente"
+            outlined
+            dense
+          ></q-input>
+          <q-input
+            v-model="pedido.nombre_factura"
+            label="Nombre Factura"
+            outlined
+            dense
+          ></q-input>
+          <q-input
+            v-model="pedido.nit_factura"
+            label="Nit Factura"
+            outlined
+            dense
+          ></q-input>
+          <q-input
+            v-model="pedido.direccion"
+            label="Direccion"
+            outlined
+            dense
+          ></q-input>
+          <q-input
+            v-model="pedido.contacto"
+            label="Contacto"
+            outlined
+            dense
+          ></q-input>
+          <q-input
+            v-model="pedido.telefono"
+            label="Telefono"
+            outlined
+            dense
+          ></q-input>
+          <q-input
+            type="textarea"
+            v-model="pedido.observacion"
+            label="Observacion"
+            outlined
+            dense
+          ></q-input>
+          <q-input
+            v-model="pedido.chofer"
+            label="chofer"
+            outlined
+            dense
+          ></q-input>
+
+          <q-select
+            v-model="pedido.zona"
+            label="chofer"
+            outlined
+            dense
+            :options="zonas"
+            emit-value
+            map-options
+            option-label="nombre_zona"
+            option-value="nombre_zona"
+          ></q-select>
+          <div class="text-bold q-pa-xs">
+            <label>Total</label>
+            <div>{{ pedido.total }}</div>
           </div>
         </q-form>
+        <pre>{{pedido}}</pre>
+<!--        {-->
+<!--        "id": 1,-->
+<!--        "fecha_hora": "2024-12-08 00:00:00",-->
+<!--        "tipo": "",-->
+<!--        "cliente": "MARTHA MARTINEZ ACHACOLLO MAMANI",-->
+<!--        "producto": "",-->
+<!--        "cantidad": null,-->
+<!--        "precio": null,-->
+<!--        "factura": "",-->
+<!--        "nombre_factura": "",-->
+<!--        "nit_factura": null,-->
+<!--        "direccion": "AVENIDA 24 DE JUNIO A LADO DE CARTONBOL",-->
+<!--        "contacto": "MARTHA MARTINEZ ACHACOLLO MAMANI",-->
+<!--        "telefono": "71888721",-->
+<!--        "telefono2": null,-->
+<!--        "observacion": null,-->
+<!--        "chofer": "",-->
+<!--        "zona": null,-->
+<!--        "total": "612.00",-->
+<!--        "estado": "PENDIENTE",-->
+<!--        "fecha_pago": "2024-12-08",-->
+<!--        "user_id": 2,-->
+<!--        "cliente_id": 166,-->
+<!--        "detalles": [-->
+<!--        {-->
+<!--        "id": 1,-->
+<!--        "pedido_id": 1,-->
+<!--        "user_id": 2,-->
+<!--        "producto": null,-->
+<!--        "cantidad": 1,-->
+<!--        "precio": "392.00"-->
+<!--        },-->
+<!--        {-->
+<!--        "id": 2,-->
+<!--        "pedido_id": 1,-->
+<!--        "user_id": 2,-->
+<!--        "producto": null,-->
+<!--        "cantidad": 1,-->
+<!--        "precio": "220.00"-->
+<!--        }-->
+<!--        ]-->
+<!--        }-->
       </q-card-section>
-      <q-card-section >
-            <q-form @submit="submit" v-if="!pedido.id">
-              <div class="row">
-                <div class="col-12">
-                    <q-input dense v-model="pedido.fecha" outlined label="Fecha" type="date"  />
-                </div>
-                <div class="col-12">
-                  <q-select
-                        dense
-                        v-model="pedido.tipo"
-                        :options="[
-                            'FERRETERIA',
-                            'OBRA',
-                            'EMPRESA CONSTRUCTORA',
-                            ]"
-                        outlined
-                        :rules="[val => !!val || 'Este campo es requerido']"
-                        label="Tipo"/>
-                </div>
-                <div>
-                     <q-select
-                          filled
-                          v-model="pedido.cliente"
-                          use-input
-                          input-debounce="0"
-                          label="Cliente"
-                          :options="options"
-                          @filter="filterFn"
-                          style="width: 250px"
-                          behavior="menu"
-                        ></q-select>
-                </div>
-                <div>
-                     <q-select
-                          filled
-                          v-model="pedido.producto"
-                          use-input
-                          input-debounce="0"
-                          label="Producto"
-                          :options="options"
-                          @filter="filterFn"
-                          style="width: 250px"
-                          behavior="menu"
-                        ></q-select>
-                </div>
-                <div class="col-12">
-                  <q-input dense v-model="pedido.cantidad" outlined label="Candidad" type="number" />
-                 </div>
-                <div class="col-12">
-                 <q-input dense v-model="pedido.precio" outlined label="Precio" type="number" />
-                </div>
-
-                <div class="col-6 q-pa-xs">
-                    <q-btn label="CON FACTURA" :outline="facturaBtnBool" class="full-width" no-caps color="primary" @click="facturaBtnBool = !facturaBtnBool" />
-                </div>
-                <div class="col-6 q-pa-xs">
-                    <q-btn label="SIN FACTURA" :outline="sinfacturaBtnBool" class="full-width" no-caps color="primary" @click="sinfacturaBtnBool = !sinfacturaBtnBool" />
-                </div>
-
-                              <template v-if="!facturaBtnBool">
-                              <div class="col-12">
-                                  <q-input dense v-model="pedido.nombre_factura" outlined label="Nombre Factura" />
-                              </div>
-                              <div class="col-12">
-                                  <q-input dense v-model="pedido.nit_factura" outlined label="Nit Factura" type="number" />
-                              </div>
-                              </template>
-                <template v-if="!sinfacturaBtnBool">
-
-                </template>
-
-
-                <div class="col-12">
-                    <q-input dense v-model="pedido.direccion" outlined label="Direccion" :rules="[val => !!val || 'Este campo es requerido']" />
-                </div>
-                <div class="col-12">
-                    <q-input dense v-model="pedido.contacto" outlined label="Contacto" :rules="[val => !!val || 'Este campo es requerido']" />
-                </div>
-                <div class="col-12">
-                    <q-input dense v-model="pedido.telefono" outlined label="Telefono 1" type="number" />
-                </div>
-                <div class="col-12">
-                    <q-input dense v-model="pedido.telefono2" outlined label="Telefono 2" type="number" />
-                </div>
-                <div class="col-12">
-                    <q-input dense v-model="pedido.observacion" outlined label="Observacion"  />
-                </div>
-                <q-card-actions align="right">
-                    <q-btn label="Cancelar" color="negative" @click="dialog = false" :loading="loading" />
-                    <q-btn label="Guardar" color="primary" type="submit" :loading="loading" />
-                </q-card-actions>
-
-              </div>
-            </q-form>
-
-        </q-card-section>
-        <q-card-section >
-              <q-form @submit="submit" v-if="!pedido.id">
-                <div class="row">
-                  <div class="col-12">
-                      <q-input dense v-model="pedido.fecha" outlined label="Fecha" type="date"  />
-                  </div>
-                  <div class="col-12">
-                    <q-select
-                          dense
-                          v-model="pedido.tipo"
-                          :options="[
-                              'FERRETERIA',
-                              'OBRA',
-                              'EMPRESA CONSTRUCTORA',
-                              ]"
-                          outlined
-                          :rules="[val => !!val || 'Este campo es requerido']"
-                          label="Tipo"/>
-                  </div>
-                  <div class="col-12">
-                   <q-input dense v-model="pedido.cliente" outlined label="cliente"/>
-                </div>
-                <div class="col-12">
-                  <q-input dense v-model="pedido.producto" outlined label="producto"/>
-                 </div>
-
-                  <div class="col-12">
-                    <q-input dense v-model="pedido.cantidad" outlined label="Candidad" type="number" />
-                   </div>
-                  <div class="col-12">
-                   <q-input dense v-model="pedido.precio" outlined label="Precio" type="number" />
-                  </div>
-
-                  <div class="col-6 q-pa-xs">
-                      <q-btn label="CON FACTURA" :outline="facturaBtnBool" class="full-width" no-caps color="primary" @click="facturaBtnBool = !facturaBtnBool" />
-                  </div>
-                  <div class="col-6 q-pa-xs">
-                      <q-btn label="SIN FACTURA" :outline="sinfacturaBtnBool" class="full-width" no-caps color="primary" @click="sinfacturaBtnBool = !sinfacturaBtnBool" />
-                  </div>
-
-                                <template v-if="!facturaBtnBool">
-                                <div class="col-12">
-                                    <q-input dense v-model="pedido.nombre_factura" outlined label="Nombre Factura" />
-                                </div>
-                                <div class="col-12">
-                                    <q-input dense v-model="pedido.nit_factura" outlined label="Nit Factura" type="number" />
-                                </div>
-                                </template>
-                  <template v-if="!sinfacturaBtnBool">
-
-                  </template>
-
-
-                  <div class="col-12">
-                      <q-input dense v-model="pedido.direccion" outlined label="Direccion" :rules="[val => !!val || 'Este campo es requerido']" />
-                  </div>
-                  <div class="col-12">
-                      <q-input dense v-model="pedido.contacto" outlined label="Contacto" :rules="[val => !!val || 'Este campo es requerido']" />
-                  </div>
-                  <div class="col-12">
-                      <q-input dense v-model="pedido.telefono" outlined label="Telefono 1" type="number" />
-                  </div>
-                  <div class="col-12">
-                      <q-input dense v-model="pedido.telefono2" outlined label="Telefono 2" type="number" />
-                  </div>
-                  <div class="col-12">
-                      <q-input dense v-model="pedido.observacion" outlined label="Observacion"  />
-                  </div>
-                  <q-card-actions align="right">
-                      <q-btn label="Cancelar" color="negative" @click="dialog = false" :loading="loading" />
-                      <q-btn label="Guardar" color="primary" type="submit" :loading="loading" />
-                  </q-card-actions>
-
-                </div>
-              </q-form>
-
-          </q-card-section>
 
       </q-card>
     </q-dialog>
@@ -304,6 +239,7 @@
         clientes: [],
         fechaInicio: moment().format('YYYY-MM-DD'),
         fechaFin: moment().format('YYYY-MM-DD'),
+        zonas: [],
         pedidos: [],
         // pedido: {},
         productos: [],
@@ -313,11 +249,25 @@
       }
     },
     mounted() {
+      this.getZonas()
       this.getPedidos()
       this.getClientes()
       this.getProductos();
     },
     methods: {
+      getZonas() {
+        this.$axios.get('zonas')
+          .then(response => {
+            this.zonas = response.data
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      },
+      showPreventa(pedido) {
+        this.pedido = {...pedido}
+        this.dialog = true;
+      },
       submit() {
         this.loading = true;
         console.log(this.pedido);
@@ -386,8 +336,12 @@
       },
       getPedidos() {
         this.loading = true
-        this.$axios.get('pedidos')
-          .then(response => {
+        this.$axios.get('pedidos', {
+          params: {
+            fechaInicio: this.fechaInicio,
+            fechaFin: this.fechaFin
+          }
+        }).then(response => {
             this.pedidos = response.data
             this.loading = false
           })

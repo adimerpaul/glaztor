@@ -9,15 +9,19 @@ use App\Models\Producto;
 use Illuminate\Http\Request;
 
 class PedidoController extends Controller{
-    function index(){
-        return Pedido::all();
+    function index(Request $request){
+        $fechaInicio = $request->fechaInicio;
+        $fechaFin = $request->fechaFin;
+        return Pedido::with('detalles')->whereBetween('fecha', [$fechaInicio, $fechaFin])
+            ->orderBy('id', 'desc')
+            ->get();
     }
     function store(Request $request){
         $cliente = Cliente::find($request->cliente_id);
         $user = $request->user();
 
         $pedido = new Pedido();
-        $pedido->fecha_hora = $request->fecha_hora;
+        $pedido->fecha = $request->fecha_hora;
         $pedido->tipo = $cliente->tipo_cliente;
         $pedido->cliente = $cliente->nombre_cliente;
         $pedido->producto = null;
@@ -35,7 +39,7 @@ class PedidoController extends Controller{
         $pedido->fecha_pago = $request->fecha_pago;
         $pedido->user_id = $user->id;
         $pedido->cliente_id = $request->cliente_id;
-        $pedido->zona = $request->zona;
+        $pedido->zona = $request->zona_id;
         $pedido->save();
         $tol = 0;
         foreach ($request->detalles as $detalle){
