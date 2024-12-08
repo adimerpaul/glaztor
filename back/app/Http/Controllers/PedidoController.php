@@ -12,7 +12,8 @@ class PedidoController extends Controller{
     function index(Request $request){
         $fechaInicio = $request->fechaInicio;
         $fechaFin = $request->fechaFin;
-        return Pedido::with('detalles')->whereBetween('fecha', [$fechaInicio, $fechaFin])
+        return Pedido::with('detalles.producto')
+            ->whereBetween('fecha', [$fechaInicio, $fechaFin])
             ->orderBy('id', 'desc')
             ->get();
     }
@@ -48,6 +49,7 @@ class PedidoController extends Controller{
             $detalleSave['pedido_id'] = $pedido->id;
             $detalleSave['user_id'] = $user->id;
             $detalleSave['producto'] = $producto->nombre;
+            $detalleSave['producto_id'] = $producto->id;
             $detalleSave['cantidad'] = $detalle['cantidadVenta'];
             $detalleSave['precio'] = $detalle['precioVenta'];
             $detalleSave->save();
@@ -62,6 +64,8 @@ class PedidoController extends Controller{
     }
     function update(Request $request, $id){
         $pedido = Pedido::find($id);
+        $estado = $request->estado;
+        error_log($estado);
         $pedido->update($request->all());
         return $pedido;
     }

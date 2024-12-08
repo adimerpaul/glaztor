@@ -28,6 +28,7 @@ class Pedido extends Model
         'chofer',
         'fecha_pago',
         'user_id',
+        'estado',
         'cliente_id',
         'zona'
     ];

@@ -20,6 +20,7 @@ class Detalle extends Model{
     protected $fillable = [
         'pedido_id',
         'user_id',
+        'producto_id',
         'producto',
         'cantidad',
         'precio'
@@ -33,5 +34,8 @@ class Detalle extends Model{
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+    public function producto(){
+        return $this->belongsTo(Producto::class);
     }
 }

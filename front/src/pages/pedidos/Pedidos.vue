@@ -65,7 +65,7 @@
             <q-item-section>
               <q-item-label class="text-h6">
                 {{ pedido.fecha.substring(0,10) || 'Sin propietario' }}
-                <q-icon name="check_circle" :color="pedido.estado === 'PENDIENTE' ? 'red' : 'grey'"/>
+                <q-icon name="check_circle" :color="pedido.estado === 'PENDIENTE' ? 'red' : pedido.estado === 'ENTREGADO' ? 'green' : 'orange'"/>
               </q-item-label>
               <q-item-label class="text-subtitle1 text-grey">
                 {{ pedido.direccion }}
@@ -162,7 +162,7 @@
 
           <q-select
             v-model="pedido.zona"
-            label="chofer"
+            label="zonas"
             outlined
             dense
             :options="zonas"
@@ -171,10 +171,67 @@
             option-label="nombre_zona"
             option-value="nombre_zona"
           ></q-select>
+          <q-select
+            v-model="pedido.estado"
+            label="Estado"
+            outlined
+            dense
+            :options="[ 'PENDIENTE', 'ENTREGADO', 'ANULADO']"
+          >
+            <template v-slot:after>
+              <q-icon name="check_circle" :color="pedido.estado === 'PENDIENTE' ? 'red' : pedido.estado === 'ENTREGADO' ? 'green' : 'orange'"/>
+            </template>
+          </q-select>
           <div class="text-bold q-pa-xs">
             <label>Total</label>
             <div>{{ pedido.total }}</div>
           </div>
+          <q-markup-table dense flat bordered wrap-cells>
+            <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Precio</th>
+              <th>Subtotal</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="sale in pedido.detalles" :key="sale.id">
+              <td>
+                <q-icon name="delete" @click="sales.splice(sales.indexOf(sale), 1)" class="cursor-pointer" color="red" />
+                {{ sale.producto?.nombre_pro }}
+                {{ sale.producto?.marca_pro }}
+              </td>
+              <td>
+                <input v-model="sale.cantidad" type="number" dense style="width: 90px" filled />
+              </td>
+              <td>
+                <input v-model="sale.precio" type="number" dense style="width: 110px" filled />
+              </td>
+              <td>{{ (sale.cantidad * sale.precio).toFixed(2) }}</td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+              <td colspan="3" class="text-right">Total</td>
+              <td class="text-bold">
+                {{ (pedido.detalles.reduce((acc, sale) => acc + sale.cantidad * sale.precio, 0)).toFixed(2) }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="4">
+                <q-btn
+                  no-caps
+                  class="full-width"
+                  color="blue"
+                  :loading="loading"
+                  type="submit"
+                  label="Actulizar pedido"
+                />
+              </td>
+            </tr>
+            </tfoot>
+          </q-markup-table>
         </q-form>
         <pre>{{pedido}}</pre>
 <!--        {-->
@@ -270,26 +327,15 @@
       },
       submit() {
         this.loading = true;
-        console.log(this.pedido);
-        this.$axios.post('pedidos', this.pedido)
+        this.$axios.put('pedidos/' + this.pedido.id, this.pedido)
           .then(response => {
-            this.pedidos.push(response.data);
             this.dialog = false;
-            this.$q.notify({
-              color: 'positive',
-              message: 'Pedido guardado correctamente',
-              icon: 'check_circle'
-            });
-          })
-          .catch(error => {
+            this.$alert.success('Pedido actualizado correctamente');
+            this.getPedidos();
+          }).catch(error => {
             console.log(error);
-            this.$q.notify({
-              color: 'negative',
-              message: 'Error al guardar el pedido',
-              icon: 'error'
-            });
-          })
-          .finally(() => {
+            this.$alert.error('Error al actualizar el pedido');
+          }).finally(() => {
             this.loading = false;
           });
       },
