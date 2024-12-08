@@ -88,4 +88,17 @@ class Pedido extends Model
     {
         $this->attributes['chofer'] = strtoupper($value);
     }
+    public function pagos(){
+        return $this->hasMany(Pago::class)->with('user');
+    }
+    protected $appends = ['estadoCredito'];
+
+    public function getEstadoCreditoAttribute(){
+        $pagos = $this->pagos;
+        $totalPagos = 0;
+        foreach ($pagos as $pago){
+            $totalPagos += $pago->monto;
+        }
+        return $totalPagos >= $this->total;
+    }
 }

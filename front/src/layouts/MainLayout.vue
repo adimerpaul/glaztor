@@ -136,6 +136,7 @@ export default {
         {title: 'Principal', icon: 'home', link: '/', can: ['Administrador', 'Gerente', 'Ventas']},
         {title: 'Prospección', icon: 'local_offer', link: '/preventas', can: ['Administrador', 'Gerente', 'Ventas']},
         {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidos', can: ['Administrador', 'Gerente', 'Ventas']},
+        {title: 'Pagos', icon: 'payment', link: '/pagos', can: ['Administrador', 'Gerente', 'Ventas']},
         {title: 'Pedidos de Trailers', icon: 'local_shipping', link: '/pedidotrailers', can: ['Administrador', 'Gerente', 'Ventas']},
         {title: 'Clientes', icon: 'groups', link: '/clientes', can: ['Administrador', 'Gerente', 'Ventas']},
         {title: 'Personal', icon: 'supervisor_account', link: '/ejecutivos', can: ['Administrador', 'Gerente']},

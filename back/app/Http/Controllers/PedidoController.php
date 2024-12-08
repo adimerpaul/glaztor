@@ -9,6 +9,16 @@ use App\Models\Producto;
 use Illuminate\Http\Request;
 
 class PedidoController extends Controller{
+    function pedidosEntregados(Request $request){
+        $fechaInicio = $request->fechaInicio;
+        $fechaFin = $request->fechaFin;
+        return Pedido::with('detalles.producto')
+            ->with('pagos.user')
+            ->whereBetween('fecha', [$fechaInicio, $fechaFin])
+            ->where('estado', 'ENTREGADO')
+            ->orderBy('id', 'desc')
+            ->get();
+    }
     function index(Request $request){
         $fechaInicio = $request->fechaInicio;
         $fechaFin = $request->fechaFin;

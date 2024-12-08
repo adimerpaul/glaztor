@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\PreventaController;
 use App\Http\Controllers\ClienteController;
@@ -30,10 +31,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/updatePassword/{user}', [App\Http\Controllers\UserController::class, 'updatePassword']);
 
     Route::get('pedidos', [PedidoController::class, 'index']);
+    Route::get('pedidosEntregados', [PedidoController::class, 'pedidosEntregados']);
     Route::post('pedidos', [PedidoController::class, 'store']);
     Route::get('pedidos/{id}', [PedidoController::class, 'show']);
     Route::put('pedidos/{id}', [PedidoController::class, 'update']);
     Route::delete('pedidos/{id}', [PedidoController::class, 'destroy']);
+
+    Route::post('pagos', [PagoController::class, 'store']);
+    Route::put('pagos', [PagoController::class, 'update']);
 
     Route::get('pedidotrailers', [PedidoController::class, 'index']);
     Route::post('pedidotrailers', [PedidoController::class, 'store']);
