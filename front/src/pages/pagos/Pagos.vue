@@ -123,81 +123,69 @@
           <q-markup-table dense flat bordered wrap-cells>
             <thead>
             <tr>
-              <th>Producto</th>
-              <th>Cantidad</th>
-              <th>Precio</th>
+              <th>Fecha</th>
+              <th>Numero de Recibo</th>
+              <th>Banco</th>
               <th>Subtotal</th>
             </tr>
             </thead>
             <tbody>
             <tr v-for="sale in pedido.pagos" :key="sale.id">
               <td>
-                <q-icon name="delete" @click="sales.splice(sales.indexOf(sale), 1)" class="cursor-pointer" color="red" />
-                {{ sale.producto?.nombre_pro }}
-                {{ sale.producto?.marca_pro }}
+                {{ sale.fecha_pago }}
+                {{ sale.hora_pago }}
               </td>
               <td>
-                <input v-model="sale.cantidad" type="number" dense style="width: 90px" filled />
+                {{ sale.numero_recibo }}
               </td>
               <td>
-                <input v-model="sale.precio" type="number" dense style="width: 110px" filled />
+<!--                {{ sale.banco }}-->
+<!--                <input v-model="sale.precio" type="number" dense style="width: 110px" filled />-->
+                <input v-model="sale.banco" dense filled style="width: 110px" />
               </td>
-              <td>{{ (sale.cantidad * sale.precio).toFixed(2) }}</td>
+              <td>
+                {{ sale.monto  }}
+              </td>
             </tr>
             </tbody>
             <tfoot>
             <tr>
               <td colspan="3" class="text-right">Total</td>
               <td class="text-bold">
-                {{ (pedido.pagos.reduce((acc, sale) => acc + sale.cantidad * sale.precio, 0)).toFixed(2) }}
+                {{ (pedido.pagos.reduce((acc, sale) => acc + parseFloat(sale.monto), 0)).toFixed(2) }}
               </td>
             </tr>
             </tfoot>
           </q-markup-table>
         </q-form>
         <pre>{{pedido.pagos}}</pre>
+<!--        [-->
 <!--        {-->
-<!--        "id": 1,-->
-<!--        "fecha_hora": "2024-12-08 00:00:00",-->
-<!--        "tipo": "",-->
-<!--        "cliente": "MARTHA MARTINEZ ACHACOLLO MAMANI",-->
-<!--        "producto": "",-->
-<!--        "cantidad": null,-->
-<!--        "precio": null,-->
-<!--        "factura": "",-->
-<!--        "nombre_factura": "",-->
-<!--        "nit_factura": null,-->
-<!--        "direccion": "AVENIDA 24 DE JUNIO A LADO DE CARTONBOL",-->
-<!--        "contacto": "MARTHA MARTINEZ ACHACOLLO MAMANI",-->
-<!--        "telefono": "71888721",-->
-<!--        "telefono2": null,-->
-<!--        "observacion": null,-->
-<!--        "chofer": "",-->
-<!--        "zona": null,-->
-<!--        "total": "612.00",-->
-<!--        "estado": "PENDIENTE",-->
+<!--        "id": 4,-->
+<!--        "pedido_id": 2,-->
+<!--        "user_id": 3,-->
+<!--        "monto": "20000.00",-->
+<!--        "forma_pago": "EFECTIVO",-->
+<!--        "numero_recibo": "56",-->
 <!--        "fecha_pago": "2024-12-08",-->
-<!--        "user_id": 2,-->
-<!--        "cliente_id": 166,-->
-<!--        "detalles": [-->
-<!--        {-->
-<!--        "id": 1,-->
-<!--        "pedido_id": 1,-->
-<!--        "user_id": 2,-->
-<!--        "producto": null,-->
-<!--        "cantidad": 1,-->
-<!--        "precio": "392.00"-->
+<!--        "hora_pago": "10:15:48",-->
+<!--        "banco": null,-->
+<!--        "estado": "Activo",-->
+<!--        "user": {-->
+<!--        "id": 3,-->
+<!--        "name": "Susana",-->
+<!--        "username": "susana",-->
+<!--        "role": "Administrador",-->
+<!--        "cargo": null,-->
+<!--        "email": "susana@gmail.com",-->
+<!--        "email_verified_at": "2024-12-08T13:13:02.000000Z",-->
+<!--        "deleted_at": null,-->
+<!--        "created_at": "2024-12-08T13:13:03.000000Z",-->
+<!--        "updated_at": "2024-12-08T13:13:03.000000Z"-->
 <!--        },-->
-<!--        {-->
-<!--        "id": 2,-->
-<!--        "pedido_id": 1,-->
-<!--        "user_id": 2,-->
-<!--        "producto": null,-->
-<!--        "cantidad": 1,-->
-<!--        "precio": "220.00"-->
+<!--        "precio": 3456-->
 <!--        }-->
 <!--        ]-->
-<!--        }-->
       </q-card-section>
 
       </q-card>
@@ -388,7 +376,7 @@
       },
       getPedidos() {
         this.loading = true
-        this.$axios.get('pedidos', {
+        this.$axios.get('pedidosEntregados', {
           params: {
             fechaInicio: this.fechaInicio,
             fechaFin: this.fechaFin
