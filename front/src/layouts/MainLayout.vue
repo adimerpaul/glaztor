@@ -95,7 +95,8 @@
         <!--          v-for="link in linksList"-->
         <!--          :key="link.title"-->
         <!--          v-bind="link"-->
-        <!--        />-->
+        <!--            {title: 'Pedidos de Trailers', icon: 'local_shipping', link: '/pedidotrailers', can: ['Administrador', 'Gerente', 'Ventas']},
+    />-->
         <q-item v-for="link in filteredLinks" :key="link.title" clickable :to="link.link" exact
                 class="text-grey"
                 active-class="menu"
@@ -137,7 +138,7 @@ export default {
         {title: 'Prospección', icon: 'local_offer', link: '/preventas', can: ['Administrador', 'Gerente', 'Ventas']},
         {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidos', can: ['Administrador', 'Gerente', 'Ventas']},
         {title: 'Pagos', icon: 'payment', link: '/pagos', can: ['Administrador', 'Gerente', 'Ventas']},
-        {title: 'Pedidos de Trailers', icon: 'local_shipping', link: '/pedidotrailers', can: ['Administrador', 'Gerente', 'Ventas']},
+  
         {title: 'Clientes', icon: 'groups', link: '/clientes', can: ['Administrador', 'Gerente', 'Ventas']},
         {title: 'Personal', icon: 'supervisor_account', link: '/ejecutivos', can: ['Administrador', 'Gerente']},
         {title: 'Productos', icon: 'inventory', link: '/productos', can: ['Administrador', 'Gerente']},
@@ -145,6 +146,7 @@ export default {
         {title: 'Zonas', icon: 'place', link: '/zonas', can: ['Administrador', 'Gerente']},
         {title: 'Region', icon: 'place', link: '/regions', can: ['Administrador', 'Gerente']},
         {title: 'Usuarios', icon: 'people', link: '/users', can: ['Administrador']},
+
       ]
     }
   },

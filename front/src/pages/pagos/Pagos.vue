@@ -84,7 +84,8 @@
               <q-icon name="arrow_forward"/>
             </q-item-section>
           </q-item>
-          <pre>{{pedidos}}</pre>
+            <!--         <pre>{{pedidos}}</pre>
+          <pre>{{pedidos}}</pre> -->
         </q-list>
       </q-card-section>
 

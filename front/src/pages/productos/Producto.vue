@@ -228,22 +228,47 @@ export default {
 </script>
 <style scoped>
 .styled-table {
-  width: 100%;
-  border-collapse: collapse;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #6a1b9a;
+    color: #ffffff;
+    text-align: left;
 }
 
 .styled-table th,
 .styled-table td {
-  padding: 12px;
-  text-align: left;
+    padding: 12px 15px;
 }
 
-.styled-table thead {
-  background-color: #974ac1;
-  color: white;
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
 }
 
 .styled-table tbody tr:hover {
-  background-color: #f1f1f1;
+    background-color: #e9e9e9;
+    cursor: pointer;
+}
+
+.img-thumbnail {
+    max-width: 100px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.image-preview {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
 }
 </style>
