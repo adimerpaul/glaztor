@@ -17,6 +17,7 @@ const routes = [
       { path: 'regions', component: () => import('pages/regions/Region.vue'), meta: { requiresAuth: true } },
       { path: 'users', component: () => import('pages/usuarios/Usuarios.vue'), meta: { requiresAuth: true } },
       { path: 'servicios', component: () => import('pages/administrativos/Servicio.vue'), meta: { requiresAuth: true }  },
+      { path: 'cajachicas', component: () => import('pages/administrativos/Cajachica.vue'), meta: { requiresAuth: true }  },
     ]
   },
   {

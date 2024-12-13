@@ -17,12 +17,15 @@ class Cliente extends Model
         'telefono_2',
         'direccion',
         'complemento',
+        'lat',
+        'lng',
 //        'ubicacion',
         'zona',
         'region',
         'cumple',
         'estado',
         'ejecutivo',
+        'sap',
         'user_id'
     ];
 

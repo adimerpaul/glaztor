@@ -10,9 +10,8 @@ class Cajachica extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'cajachica';
-
     protected $fillable = [
+        'recibo',
         'concepto',
         'monto',
         'fecha',

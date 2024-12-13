@@ -347,29 +347,12 @@
                 :rules="[val => !!val || 'Este campo es requerido']"
                 label="Estado"/>
             </div>
-
-
             <q-card-actions align="right">
               <q-btn label="Cancelar" color="negative" @click="dialog = false" :loading="loading"/>
               <q-btn label="Guardar" color="primary" type="submit" :loading="loading"/>
             </q-card-actions>
           </div>
-
         </q-form>
-    
-    
-            
-
-
-
-
-
-           
-
-
-            
-  
-
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -460,24 +443,24 @@ export default {
       encargadoBtnBool: true,
       clientes: [],
       cliente: {
-      id: null,
-      tipo_cliente: '',
-      nombre_cliente: '',
-      telefono_1: '',
-      telefono_2: '',
-      direccion: '',
-      complemento: '',
-      ubicacion: '',
-      lat: null,
-      lng: null,
-      zona_id: null,
-      ejecutivo_id: null,
-      region_id: null,
-      cumple: '',
-      estado: ''
-    },
-      zonass: {zona_id: null,},
-      ejecutivoss: {ejecutivo_id: null,},
+            id: null,
+            tipo_cliente: '',
+            nombre_cliente: '',
+            telefono_1: '',
+            telefono_2: '',
+            direccion: '',
+            complemento: '',
+            ubicacion: '',
+            lat: null,
+            lng: null,
+            zona_id: null,  // Keep 'zona_id' here
+            ejecutivo_id: null,
+            region_id: null, // Keep 'region_id' here
+            cumple: '',
+            estado: ''
+          },
+    zonass: {zona_id: null},
+    ejecutivoss: {ejecutivo_id: null}, 
       regions: [],
       dialog: false,
       loading: false
@@ -494,10 +477,10 @@ export default {
   methods: {
 
     modificar(cliente) {
-      // Cargar datos del cliente seleccionado
-      this.cliente = { ...cliente }; // Clona el objeto seleccionado
-      this.dialog = true; // Abre el diálogo para edición
-    },
+  // Cargar datos del cliente seleccionado
+  this.cliente = { ...cliente }; // Clona el objeto seleccionado
+  this.dialog = true; // Abre el diálogo para edición
+},
 
 
     showGlobal() {
@@ -582,18 +565,40 @@ export default {
       }
     },
     submit() {
-      this.loading = true
-      this.$axios.post('clientes', this.cliente)
-        .then(response => {
-          this.clientes.unshift(response.data)
-          this.dialog = false
-        })
-        .catch(error => {
-          console.log(error)
-        }).finally(() => {
-        this.loading = false
+  this.loading = true;
+
+  // Verifica si el cliente tiene un ID (si existe, significa que es una actualización)
+  if (this.cliente.id) {
+    this.$axios.put(`clientes/${this.cliente.id}`, this.cliente) // Actualización con PUT
+      .then(response => {
+        // Encuentra el cliente en la lista y lo actualiza
+        const index = this.clientes.findIndex(cliente => cliente.id === this.cliente.id);
+        if (index !== -1) {
+          this.clientes[index] = response.data;
+        }
+        this.dialog = false; // Cierra el diálogo
       })
-    },
+      .catch(error => {
+        console.log(error);
+      })
+      .finally(() => {
+        this.loading = false;
+      });
+  } else {
+    // Si no tiene ID, es un nuevo cliente y hacemos un POST
+    this.$axios.post('clientes', this.cliente)
+      .then(response => {
+        this.clientes.unshift(response.data); // Agrega el nuevo cliente al inicio
+        this.dialog = false; // Cierra el diálogo
+      })
+      .catch(error => {
+        console.log(error);
+      })
+      .finally(() => {
+        this.loading = false;
+      });
+  }
+},
     dialogClick() {
       this.dialog = true
       this.cliente = {
@@ -619,30 +624,42 @@ export default {
           console.log(error)
         })
     },
-    async userDelete(clienteId) {
-    try {
-      const confirmDelete = confirm("¿Estás seguro de que deseas eliminar este cliente?");
-      if (confirmDelete) {
-        // Realiza una petición HTTP para eliminar el cliente
-        const response = await axios.delete(`api/clientes/${clienteId}`);
-        if (response.status === 200) {
-          this.clientes = this.clientes.filter(cliente => cliente.id !== clienteId);
-          this.$q.notify({
-            color: 'green',
-            message: 'Cliente eliminado correctamente.',
-            icon: 'check'
-          });
-        }
+   async userDelete(clienteId) {
+  try {
+    // Confirmación antes de eliminar
+    const confirmDelete = confirm("¿Estás seguro de que deseas eliminar este cliente?");
+    if (confirmDelete) {
+      // Realiza una petición HTTP para eliminar el cliente
+      const response = await this.$axios.delete(`clientes/${clienteId}`); // Asegúrate de que la URL sea correcta
+
+      if (response.status === 200) {
+        // Filtra el cliente eliminado de la lista local
+        this.clientes = this.clientes.filter(cliente => cliente.id !== clienteId);
+
+        // Muestra notificación de éxito
+        this.$q.notify({
+          color: 'green',
+          message: 'Cliente eliminado correctamente.',
+          icon: 'check'
+        });
+      } else {
+        // Si la respuesta no es 200, muestra un mensaje de error
+        this.$q.notify({
+          color: 'red',
+          message: 'Error al eliminar el cliente.',
+          icon: 'error'
+        });
       }
-    } catch (error) {
-      console.error("Error al eliminar el cliente", error);
-      this.$q.notify({
-        color: 'red',
-        message: 'Ocurrió un error al eliminar el cliente.',
-        icon: 'error'
-      });
     }
-  },
+  } catch (error) {
+    console.error("Error al eliminar el cliente", error);
+    this.$q.notify({
+      color: 'red',
+      message: 'Ocurrió un error al eliminar el cliente.',
+      icon: 'error'
+    });
+  }
+},
   },
   computed: {
     esMovil() {

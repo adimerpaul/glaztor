@@ -145,6 +145,8 @@ export default {
         {title: 'Cargos', icon: 'work', link: '/cargos', can: ['Administrador', 'Gerente']},
         {title: 'Zonas', icon: 'place', link: '/zonas', can: ['Administrador', 'Gerente']},
         {title: 'Region', icon: 'place', link: '/regions', can: ['Administrador', 'Gerente']},
+        {title: 'Servicios',icon: 'place',link: '/servicios', can: ['Administrador', 'Gerente']},
+        {title: 'Cajachicas',icon: 'place',link: '/Cajachicas', can: ['Administrador', 'Gerente']},
         {title: 'Usuarios', icon: 'people', link: '/users', can: ['Administrador']},
 
       ]

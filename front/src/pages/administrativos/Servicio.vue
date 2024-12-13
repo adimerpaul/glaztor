@@ -64,7 +64,7 @@
                             <q-select
                                 dense
                                 v-model="servicio.nombre_servicio"
-                                :options="['LUZ', 'AGUA', 'ALQUILER', 'INTERNET']"
+                                :options="['LUZ', 'AGUA', 'ALQUILER', 'INTERNET', 'TELEFONIA', 'ALQUILER']"
                                 outlined
                                 :rules="[val => !!val || 'Este campo es requerido']"
                                 label="Nombre servicio" />
