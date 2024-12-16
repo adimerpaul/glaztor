@@ -95,11 +95,12 @@ Route::get('servicios/{id}', [ServicioController::class, 'show']);
 Route::put('servicios/{id}', [ServicioController::class, 'update']);
 Route::delete('servicios/{id}', [ServicioController::class, 'destroy']);
 
-Route::get('cajachica', [CajaChicaController::class, 'index']);
-Route::post('cajachica', [CajaChicaController::class, 'store']);
-Route::get('cajachica/{id}', [CajaChicaController::class, 'show']);
-Route::put('cajachica/{id}', [CajaChicaController::class, 'update']);
-Route::delete('cajachica/{id}', [CajaChicaController::class, 'destroy']);
+Route::get('cajachicas', [CajachicaController::class, 'index']);
+Route::post('cajachicas', [CajachicaController::class, 'store']);
+Route::put('cajachicas/{id}', [CajachicaController::class, 'update']);
+Route::delete('cajachicas/{id}', [CajachicaController::class, 'destroy']);
+
+
     Route::get('regions', [RegionController::class, 'index']);
     Route::post('regions', [RegionController::class, 'store']);
     Route::get('regions/{id}', [RegionController::class, 'show']);

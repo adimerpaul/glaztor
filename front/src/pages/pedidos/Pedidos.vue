@@ -75,6 +75,7 @@
 <!--                <pre>{{ pedido}}</pre>-->
               </q-item-label>
               <q-item-label class="text-caption text-positive">
+              
                 {{ pedido.cliente }} - {{ pedido.tipo_construccion }} - {{ pedido.user?.name }}
                 - {{ pedido.fecha }}
               </q-item-label>
@@ -84,7 +85,7 @@
               <q-icon name="arrow_forward"/>
             </q-item-section>
           </q-item>
-          <pre>{{pedidos}}</pre>
+  <!--         <pre>{{pedidos}}</pre> -->
         </q-list>
       </q-card-section>
 
@@ -233,7 +234,7 @@
             </tfoot>
           </q-markup-table>
         </q-form>
-        <pre>{{pedido}}</pre>
+   <!--       <pre>{{pedido}}</pre>-->
 <!--        {-->
 <!--        "id": 1,-->
 <!--        "fecha_hora": "2024-12-08 00:00:00",-->

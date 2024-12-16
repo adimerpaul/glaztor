@@ -2,13 +2,22 @@
   <q-page class="bg-grey-3 q-pa-xs">
     <q-card>
       <q-card-section class="q-pa-xs">
-        <q-table :rows="clientes" :columns="columns" dense wrap-cells flat bordered :rows-per-page-options="[0]"
-                 title="Clientes" :filter="filter">
+        <q-table
+          :rows="clientes"
+          :columns="columns"
+          dense
+          wrap-cells
+          flat
+          bordered
+          :rows-per-page-options="[0]"
+          title="Clientes"
+          :filter="filter"
+        >
           <template v-slot:top-right>
-            <q-btn color="primary" label="Mapa" @click="showGlobal" outline no-caps icon="public" :loading="loading"/>
+            <q-btn color="primary" label="Mapa" @click="showGlobal" outline no-caps icon="public" :loading="loading" />
             <q-input v-model="filter" label="Buscar" dense outlined>
               <template v-slot:append>
-                <q-icon name="search"/>
+                <q-icon name="search" />
               </template>
             </q-input>
           </template>
@@ -16,58 +25,49 @@
             <q-td :props="props">
               <q-btn-dropdown label="Opciones" no-caps size="10px" dense color="primary">
                 <q-list>
-                  <q-item clickable @click="modificar(props)" v-close-popup>
+                  <q-item clickable @click="modificar(props.row)" v-close-popup>
                     <q-item-section avatar>
-                      <q-icon name="edit"/>
+                      <q-icon name="edit" />
                     </q-item-section>
                     <q-item-section>
                       <q-item-label>Editar</q-item-label>
                     </q-item-section>
                   </q-item>
                   <q-item clickable @click="userDelete(props.row.id)" v-close-popup>
-                    <q-item-section avatar>
-                      <q-icon name="delete"/>
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Eliminar</q-item-label>
-                    </q-item-section>
-                  </q-item>
-
+                  <q-item-section avatar>
+                    <q-icon name="delete" />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label>Eliminar</q-item-label>
+                  </q-item-section>
+                </q-item>
                 </q-list>
               </q-btn-dropdown>
             </q-td>
           </template>
-          <template v-slot:body-cell-role="props">
-            <q-td :props="props">
-              <q-chip :label="props.row.role"
-                      :color="props.row.role === 'Administrador' ? 'primary' : props.row.role === 'Gerente' ? 'info' : 'positive'"
-                      text-color="white" dense size="14px"/>
-            </q-td>
-          </template>
-        </q-table>
+  </q-table>
+
       </q-card-section>
     </q-card>
   </q-page>
   <q-page-sticky position="bottom-right" class="text-bold" :offset="[18, 18]">
     <q-btn fab icon="add" color="primary" @click="dialogClick"/>
   </q-page-sticky>
-  <q-dialog v-model="dialog"
-            :position="esMovil ? undefined : 'right'"
-            :maximized="true"
-            transition-show="slide-left"
-            transition-hide="slide-right"
-  >
-    <q-card style="width: 450px; max-width: 100vw;">
-      <q-card-section class="row items-center q-px-md bg-primary text-white q-px-none">
-        <q-btn flat round dense icon="fa-solid fa-arrow-left" v-close-popup/>
-        <q-space/>
-        <div class="text-h6">{{ cliente.id ? 'Editar' : 'Nuevo' }} cliente</div>
-      </q-card-section>
+
+
+    <q-dialog v-model="dialog" :position="esMovil ? undefined : 'right'" :maximized="true" transition-show="slide-left" transition-hide="slide-right">
+        <q-card style="width: 450px; max-width: 100vw;">
+          <q-card-section class="row items-center q-px-md bg-primary text-white q-px-none">
+            <q-btn flat round dense icon="fa-solid fa-arrow-left" v-close-popup/>
+            <q-space/>
+            <div class="text-h6">{{ cliente.id ? 'Editar' : 'Nuevo' }} cliente</div>
+          </q-card-section>
+
+
       <q-card-section>
         <q-form @submit="submit" v-if="!cliente.id">
           <div class="row">
             <div class="col-12">
-              <!-- <q-input dense v-model="cliente.zona" outlined label="Zona" /> -->
               <q-select
                 dense
                 v-model="cliente.tipo_cliente"
@@ -209,39 +209,150 @@
             </q-card-actions>
           </div>
         </q-form>
-        <div class="row" v-else>
-          <div class="col-5">
-            <div style="height: 150px; width: 100%;"> <!-- Reduce el alto del mapa -->
-              <l-map ref="map"
-                     v-model:zoom="zoom"
-                     :use-global-leaflet="false"
-                     :center="location"
-                     :scrollWheelZoom="false"
-                     :dragging="false"
-                     :touchZoom="false"
-                     :doubleClickZoom="false"
-                     :boxZoom="false"
-                     :keyboard="false">
-                <l-tile-layer
-                  v-for="tileProvider in tileProviders"
-                  :key="tileProvider.name"
-                  :name="tileProvider.name"
-                  :visible="tileProvider.visible"
-                  :url="tileProvider.url"
-                  :attribution="tileProvider.attribution"
-                  layer-type="base"
-                />
-                <l-marker
-                  :lat-lng="location"
-                  ref="marker"
-                />
-              </l-map>
+        <q-form @submit="submit" v-if="cliente.id">
+
+
+          <div class="row">
+            <div class="col-12">
+              <q-select
+                dense
+                v-model="cliente.tipo_cliente"
+                :options="[
+                                'FERRETERIA',
+                                'OBRA',
+                                'EMPRESA CONSTRUCTORA',
+                            ]"
+                outlined
+                :rules="[val => !!val || 'Este campo es requerido']"
+                label="Tipo"/>
             </div>
+            <div class="col-12">
+              <q-input
+                dense
+                v-model="cliente.nombre_cliente"
+                outlined
+                label="Cliente"
+                :rules="[val => !!val || 'Este campo es requerido']"
+                @input="cliente.nombre_cliente = cliente.nombre_cliente.toUpperCase()"
+                style="text-transform: uppercase;"
+              />
+            </div>
+            <div class="col-12">
+              <q-input dense v-model="cliente.telefono_1" outlined label="Telefono cliente"
+                       :rules="[val => !!val || 'Este campo es requerido']" />
+            </div>
+            <div class="col-12">
+              <q-input dense v-model="cliente.telefono_2" outlined label="Telefono cliente 2" />
+            </div>
+            <div class="col-12">
+              <q-input
+                dense
+                v-model="cliente.direccion"
+                outlined
+                label="Dirección"
+                :rules="[val => !!val || 'Este campo es requerido']"
+                @input="cliente.direccion = cliente.direccion.toUpperCase()"
+                style="text-transform: uppercase;"
+              />
+            </div>
+            <div class="col-12">
+              <q-input
+                dense
+                v-model="cliente.complemento"
+                outlined
+                label="Complemento"
+                @input="cliente.complemento = cliente.complemento.toUpperCase()"
+                style="text-transform: uppercase;"
+              />
+            </div>
+            <div class="col-12">
+              <q-input dense v-model="cliente.ubicacion" outlined label="Ubicacion">
+                <template v-slot:append>
+                  <q-btn flat icon="fa-solid fa-map-marker-alt" @click="myLocation"/>
+                </template>
+              </q-input>
+            </div>
+            <div class="col-12">
+              <div style="height:250px; width:100%">
+                <l-map ref="map" v-model:zoom="zoom" :use-global-leaflet="false" :center="location">
+                  <l-tile-layer
+                    v-for="tileProvider in tileProviders"
+                    :key="tileProvider.name"
+                    :name="tileProvider.name"
+                    :visible="tileProvider.visible"
+                    :url="tileProvider.url"
+                    :attribution="tileProvider.attribution"
+                    layer-type="base"
+                  />
+                  <l-marker
+                    :lat-lng="location"
+                    @moveend="onMarkerMoveEnd"
+                    ref="marker"
+                    :draggable="true"
+                  />
+                </l-map>
+              </div>
+            </div>
+            <div class="col-12">
+              <q-select
+                dense
+                v-model="zonass.zona_id"
+                :options="zonas"
+                option-label="nombre_zona"
+                option-value="id"
+                outlined
+                :rules="[val => !!val || 'Este campo es requerido']"
+                label="Seleccionar Zona"
+              />
+            </div>
+            <div class="col-12">
+            <q-select
+              dense
+              v-model="ejecutivoss.ejecutivo_id"
+              :options="ejecutivos"
+              option-label="apodo"
+              option-value="id"
+              outlined
+              label="Seleccionar Ejecutivo"
+              :rules="[val => !!val || 'Este campo es requerido']"
+              
+            />
           </div>
 
-        </div>
-
-
+            <div class="col-12">
+              <q-select
+                dense
+                v-model="cliente.region_id"
+                :options="regions"
+                option-value="id"
+                option-label="nombre_region"
+                outlined
+                label="Región"
+                :rules="[val => !!val || 'Seleccione una región']"
+              />
+            </div>
+            <div class="col-12">
+              <q-input dense v-model="cliente.cumple" outlined label="Cumpleaños" type="date"/>
+            </div>
+            <div class="col-12">
+              <!-- <q-input dense v-model="cliente.zona" outlined label="Zona" /> -->
+              <q-select
+                dense
+                v-model="cliente.estado"
+                :options="[
+                                'ACTIVO',
+                                'INACTIVO',
+                            ]"
+                outlined
+                :rules="[val => !!val || 'Este campo es requerido']"
+                label="Estado"/>
+            </div>
+            <q-card-actions align="right">
+              <q-btn label="Cancelar" color="negative" @click="dialog = false" :loading="loading"/>
+              <q-btn label="Guardar" color="primary" type="submit" :loading="loading"/>
+            </q-card-actions>
+          </div>
+        </q-form>
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -332,24 +443,24 @@ export default {
       encargadoBtnBool: true,
       clientes: [],
       cliente: {
-      id: null,
-      tipo_cliente: '',
-      nombre_cliente: '',
-      telefono_1: '',
-      telefono_2: '',
-      direccion: '',
-      complemento: '',
-      ubicacion: '',
-      lat: null,
-      lng: null,
-      zona_id: null,
-      ejecutivo_id: null,
-      region_id: null,
-      cumple: '',
-      estado: ''
-    },
-      zonass: {zona_id: null,},
-      ejecutivoss: {ejecutivo_id: null,},
+            id: null,
+            tipo_cliente: '',
+            nombre_cliente: '',
+            telefono_1: '',
+            telefono_2: '',
+            direccion: '',
+            complemento: '',
+            ubicacion: '',
+            lat: null,
+            lng: null,
+            zona_id: null,  // Keep 'zona_id' here
+            ejecutivo_id: null,
+            region_id: null, // Keep 'region_id' here
+            cumple: '',
+            estado: ''
+          },
+    zonass: {zona_id: null},
+    ejecutivoss: {ejecutivo_id: null}, 
       regions: [],
       dialog: false,
       loading: false
@@ -365,11 +476,12 @@ export default {
   },
   methods: {
 
-    modificar(props) {
-    // Asignar los datos del cliente seleccionado al objeto cliente
-      this.cliente = { ...props.row }; // Copia los datos del cliente
-      this.dialog = true; // Abre el diálogo
-    },
+    modificar(cliente) {
+  // Cargar datos del cliente seleccionado
+  this.cliente = { ...cliente }; // Clona el objeto seleccionado
+  this.dialog = true; // Abre el diálogo para edición
+},
+
 
     showGlobal() {
       this.dialogGlobal = true
@@ -453,18 +565,40 @@ export default {
       }
     },
     submit() {
-      this.loading = true
-      this.$axios.post('clientes', this.cliente)
-        .then(response => {
-          this.clientes.unshift(response.data)
-          this.dialog = false
-        })
-        .catch(error => {
-          console.log(error)
-        }).finally(() => {
-        this.loading = false
+  this.loading = true;
+
+  // Verifica si el cliente tiene un ID (si existe, significa que es una actualización)
+  if (this.cliente.id) {
+    this.$axios.put(`clientes/${this.cliente.id}`, this.cliente) // Actualización con PUT
+      .then(response => {
+        // Encuentra el cliente en la lista y lo actualiza
+        const index = this.clientes.findIndex(cliente => cliente.id === this.cliente.id);
+        if (index !== -1) {
+          this.clientes[index] = response.data;
+        }
+        this.dialog = false; // Cierra el diálogo
       })
-    },
+      .catch(error => {
+        console.log(error);
+      })
+      .finally(() => {
+        this.loading = false;
+      });
+  } else {
+    // Si no tiene ID, es un nuevo cliente y hacemos un POST
+    this.$axios.post('clientes', this.cliente)
+      .then(response => {
+        this.clientes.unshift(response.data); // Agrega el nuevo cliente al inicio
+        this.dialog = false; // Cierra el diálogo
+      })
+      .catch(error => {
+        console.log(error);
+      })
+      .finally(() => {
+        this.loading = false;
+      });
+  }
+},
     dialogClick() {
       this.dialog = true
       this.cliente = {
@@ -489,7 +623,43 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+   async userDelete(clienteId) {
+  try {
+    // Confirmación antes de eliminar
+    const confirmDelete = confirm("¿Estás seguro de que deseas eliminar este cliente?");
+    if (confirmDelete) {
+      // Realiza una petición HTTP para eliminar el cliente
+      const response = await this.$axios.delete(`clientes/${clienteId}`); // Asegúrate de que la URL sea correcta
+
+      if (response.status === 200) {
+        // Filtra el cliente eliminado de la lista local
+        this.clientes = this.clientes.filter(cliente => cliente.id !== clienteId);
+
+        // Muestra notificación de éxito
+        this.$q.notify({
+          color: 'green',
+          message: 'Cliente eliminado correctamente.',
+          icon: 'check'
+        });
+      } else {
+        // Si la respuesta no es 200, muestra un mensaje de error
+        this.$q.notify({
+          color: 'red',
+          message: 'Error al eliminar el cliente.',
+          icon: 'error'
+        });
+      }
     }
+  } catch (error) {
+    console.error("Error al eliminar el cliente", error);
+    this.$q.notify({
+      color: 'red',
+      message: 'Ocurrió un error al eliminar el cliente.',
+      icon: 'error'
+    });
+  }
+},
   },
   computed: {
     esMovil() {

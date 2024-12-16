@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('cajachicas', function (Blueprint $table) {
             $table->id();
-            $table->string('concepto')->nullable(); // Concepto del movimiento
-            $table->decimal('monto', 10, 2); // Monto del movimiento
-            $table->date('fecha'); // Fecha del movimiento
+            $table->string(column: 'recibo')->nullable();
+            $table->string('concepto')->nullable(); 
+            $table->decimal('monto', 10, 2); 
+            $table->date('fecha'); 
             $table->string('tipo_movimiento')->nullable(); 
             $table->text('descripcion')->nullable();
             $table->unsignedBigInteger('user_id')->nullable(); 
