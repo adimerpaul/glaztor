@@ -414,8 +414,9 @@ export default {
     },
     filterProductos() {
       this.productos = this.productosAll.filter(producto => {
-        return producto.nombre_pro.toLowerCase().includes(this.filter.toLowerCase())
-      })
+        return producto.nombre_pro.toLowerCase().includes(this.filter.toLowerCase()) ||
+          producto.marca_pro.toLowerCase().includes(this.filter.toLowerCase());
+      });
     },
     getProductos() {
       this.$axios.get('productos').then(response => {

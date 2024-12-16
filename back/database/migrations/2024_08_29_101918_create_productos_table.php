@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('marca_pro')->nullable();
             $table->string('nombre_pro')->nullable();
             $table->string('descripcion_pro')->nullable();
-            $table->decimal('precio_pro', 10, 2)->nullable(); 
+            $table->decimal('precio_pro', 10, 2)->nullable();
+            $table->decimal('precio_compra', 10, 2)->nullable();
+            $table->string('cantidad_pro')->nullable();
             $table->text('foto_pro')->nullable();
             $table->string('estado_pro')->nullable()->default('ACTIVO');
             $table->unsignedBigInteger('user_id')->nullable();
