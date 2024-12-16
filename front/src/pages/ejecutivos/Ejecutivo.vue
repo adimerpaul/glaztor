@@ -1,42 +1,60 @@
 <template>
-    <q-page class="bg-grey-3 q-pa-xs">
+    <q-page class="bg-grey-2 q-pa-lg">
         <q-card>
-            <q-card-section class="q-pa-xs">
-                <table border="1" style="width:100%; border-collapse:collapse;" class="styled-table">
+            <q-card-section class="q-pa-sm">
+                <table class="styled-table">
                         <thead>
                             <tr>
-                                <th style="padding: 5px;">Nombre</th>
-                                <th style="padding: 5px;">Apellido</th>
-                                <th style="padding: 5px;">Telefono</th>
-                                <th style="padding: 5px;">Telefono 2</th>
-                                <th style="padding: 5px;">Cargo</th>
-                                <th style="padding: 5px;">seudónimo</th>
-                                <th style="padding: 5px;">Correo</th>
-                                <th style="padding: 5px;">Direccion</th>
-                                <th style="width:10%;padding: 5px;">Ubicacion</th>
-                                <th style="padding: 5px;">Zona</th>
-                                <th style="padding: 5px;">Cumpleaños</th>
-                                <th style="padding: 5px;">Estado</th>
+                                <th >Nombre</th>
+                                <th >Apellido</th>
+                                <th >Telefono</th>
+                                <th >Telefono 2</th>
+                                <th >Cargo</th>
+                                <th >seudónimo</th>
+                                <th >Correo</th>
+                                <th >Direccion</th>
+                                <th >Ubicacion</th>
+                                <th >Zona</th>
+                                <th >Cumpleaños</th>
+                                <th >Estado</th>
+                                <th >Acciones</th>
+
+
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(ejecutivo,index) in ejecutivos" :key="index">
-                                <td style="padding: 5px; line-height: 1.2;">{{ejecutivo.nombre_eje}}</td>
-                                <td style="padding: 5px; line-height: 1.2;">{{ejecutivo.apellido_eje}}</td>
-                                <td style="padding: 5px; line-height: 1.2;">{{ejecutivo.telefono_1}}</td>
-                                <td style="padding: 5px; line-height: 1.2;">{{ejecutivo.telefono_2}}</td>
-                                <td style="padding: 5px; line-height: 1.2;">{{ejecutivo.cargo}}</td>
-                                <td style="padding: 5px; line-height: 1.2;">{{ejecutivo.apodo}}</td>
-                                <td style="padding: 5px; line-height: 1.2;">{{ejecutivo.correo}}</td>
-                                <td style="padding: 5px; line-height: 1.2;">{{ejecutivo.direccion}}</td>
-                                <td style="padding: 2px; line-height: 1.2;">
-<!--                                  {{ejecutivo.ubicacion}} ver ubicacion-->
-<!--                                  lat y lng-->
-                                    <q-btn color="red" flat dense style="height: 0" @click="showLocation(ejecutivo)" icon="fa-solid fa-map-marker-alt" />
+                                <td>{{ejecutivo.nombre_eje}}</td>
+                                <td>{{ejecutivo.apellido_eje}}</td>
+                                <td>{{ejecutivo.telefono_1}}</td>
+                                <td>{{ejecutivo.telefono_2}}</td>
+                                <td>{{ejecutivo.cargo}}</td>
+                                <td>{{ejecutivo.apodo}}</td>
+                                <td>{{ejecutivo.correo}}</td>
+                                <td>{{ejecutivo.direccion}}</td>
+                                <td> <q-btn color="red" flat dense @click="showLocation(ejecutivo)" icon="fa-solid fa-map-marker-alt" />
                                 </td>
-                                <td style="padding: 5px; line-height: 1.2;">{{ejecutivo.zona}}</td>
-                                <td style="padding: 5px; line-height: 1.2;">{{ejecutivo.cumple}}</td>
-                                <td style="padding: 5px; line-height: 1.2;">{{ejecutivo.estado}}</td>
+                                <td>{{ejecutivo.zona}}</td>
+                                <td>{{ejecutivo.cumple}}</td>
+                                <td>{{ejecutivo.estado}}</td>
+                                <td>
+                  <q-btn
+                    flat
+                    dense
+                    icon="edit"
+                    color="blue"
+                    label="Editar"
+                    @click="modificar(ejecutivo)"
+                  />
+                  <q-btn
+                    flat
+                    dense
+                    icon="delete"
+                    color="negative"
+                    label="Eliminar"
+                    @click="eliminar(ejecutivo.id)"
+                  />
+                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -59,7 +77,7 @@
         <div class="text-h6">{{ ejecutivo.id ? 'Editar' : 'Nuevo' }} Ejecutivo</div>
         </q-card-section>
         <q-card-section>
-            <q-form @submit="submit" v-if="!ejecutivo.id">
+            <q-form @submit.prevent="confirmarGuardar">
                 <div class="row">
                     <div class="col-12">
                         <q-input
@@ -200,41 +218,7 @@
                     </q-card-actions>
                 </div>
             </q-form>
-            <div class="row" v-else>
-                <div class="col-5">
-                                        <div style="height: 150px; width: 100%;"> <!-- Reduce el alto del mapa -->
-                                            <l-map ref="map"
-                                                v-model:zoom="zoom"
-                                                :use-global-leaflet="false"
-                                                :center="location"
-                                                :scrollWheelZoom="false"
-                                                :dragging="false"
-                                                :touchZoom="false"
-                                                :doubleClickZoom="false"
-                                                :boxZoom="false"
-                                                :keyboard="false">
-                                                <l-tile-layer
-                                                    v-for="tileProvider in tileProviders"
-                                                    :key="tileProvider.name"
-                                                    :name="tileProvider.name"
-                                                    :visible="tileProvider.visible"
-                                                    :url="tileProvider.url"
-                                                    :attribution="tileProvider.attribution"
-                                                    layer-type="base"
-                                                />
-                                                <l-marker
-                                                    :lat-lng="location"
-                                                    ref="marker"
-                                                />
-                                            </l-map>
-                                        </div>
-                                    </div>
-
-            </div>
-
-
-
-
+           
     </q-card-section>
   </q-card>
 </q-dialog>
@@ -337,11 +321,39 @@ export default {
             this.dialog = true; // Abrimos el diálogo
         },
         confirmarGuardar() {
-            // Aquí va la lógica de confirmación y guardado...
-        },
-        eliminar(id) {
-            // Aquí va la lógica de eliminación...
-        },
+        this.$q
+          .dialog({
+            title: "Confirmar Guardado",
+            message: "¿Estás seguro de que quieres guardar los cambios?",
+            ok: { label: "Sí", color: "primary" },
+            cancel: { label: "No", color: "negative" },
+          })
+          .onOk(() => {
+            this.submit();
+          });
+      },
+      eliminar(id) {
+  this.$q
+    .dialog({
+      title: "Eliminar Ejecutivo",
+      message: "¿Estás seguro de eliminar este ejecutivo?",
+      ok: { label: "Eliminar", color: "negative" },
+      cancel: true,
+    })
+    .onOk(() => {
+      this.$axios.delete(`ejecutivos/${id}`).then(() => {
+        // Filtramos la lista de ejecutivos para eliminar al que se ha eliminado
+        this.ejecutivos = this.ejecutivos.filter((e) => e.id !== id);
+        this.$q.notify({ color: "positive", message: "Ejecutivo eliminado con éxito." });
+      }).catch(error => {
+        this.$q.notify({
+          color: 'negative',
+          message: 'Hubo un error al eliminar el ejecutivo. Intenta nuevamente.',
+          icon: 'report_problem',
+        });
+      });
+    });
+},
         dialogClick() {
             this.dialog = true;
             this.ejecutivo = { // Inicializar un nuevo ejecutivo
@@ -382,19 +394,37 @@ export default {
                 })
             }
         },
-        submit () {
-            this.loading = true
-            this.$axios.post('ejecutivos', this.ejecutivo)
-            .then(response => {
-                this.ejecutivos.push(response.data)
-                this.dialog = false
-            })
-            .catch(error => {
-                console.log(error)
-            }).finally(() => {
-                this.loading = false
-            })
-        },
+        submit() {
+  this.loading = true;
+  const url = this.ejecutivo.id ? `ejecutivos/${this.ejecutivo.id}` : 'ejecutivos'; // Usamos una URL dinámica dependiendo de si es una edición o una creación.
+  const method = this.ejecutivo.id ? 'put' : 'post'; // Si tiene id, es edición, si no, es nueva creación
+
+  this.$axios({
+    method: method,
+    url: url,
+    data: this.ejecutivo,
+  })
+  .then(response => {
+    this.$q.notify({
+      color: 'positive',
+      message: this.ejecutivo.id ? 'Ejecutivo actualizado correctamente' : 'Ejecutivo creado correctamente',
+      icon: 'check_circle',
+    });
+    this.dialog = false;
+    this.getEjecutivo(); // Para actualizar la lista de ejecutivos
+  })
+  .catch(error => {
+    this.$q.notify({
+      color: 'negative',
+      message: 'Hubo un error al guardar los datos. Intenta nuevamente.',
+      icon: 'report_problem',
+    });
+  })
+  .finally(() => {
+    this.loading = false;
+  });
+}
+,
         dialogClick () {
             this.dialog = true
             this.ejecutivo = {
@@ -426,22 +456,48 @@ export default {
 
 <style scoped>
 .styled-table {
-  width: 100%;
-  border-collapse: collapse;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
 }
 
-.styled-table th,
-.styled-table td {
-  padding: 12px;
-  text-align: left;
+.styled-table thead tr {
+    background-color: #3f51b5;
+    color: #ffffff;
 }
 
-.styled-table thead {
-  background-color: #4CAF50;
-  color: white;
+.styled-table th, .styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f9f9f9;
 }
 
 .styled-table tbody tr:hover {
-  background-color: #f1f1f1;
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.img-thumbnail {
+    max-width: 100px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.input-group-text {
+    background-color: #fff;
+}
+
+.input-group .form-control {
+    border-radius: 8px;
 }
 </style>
