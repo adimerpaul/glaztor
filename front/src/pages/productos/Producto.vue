@@ -1,8 +1,8 @@
 <template>
-    <q-page class="bg-grey-3 q-pa-xs">
+    <q-page class="bg-grey-2 q-pa-lg">
         <q-card>
-            <q-card-section class="q-pa-xs">
-                <table border="1" style="width:100%" class="styled-table">
+            <q-card-section class="q-pa-sm">
+                <table class="styled-table">
                     <thead>
                         <tr>
                             <th>id</th>
@@ -25,15 +25,30 @@
                             <td>{{ producto.descripcion_pro }}</td>
                             <td>{{ producto.precio_pro }}</td>
                             <td>
-                              <a v-if="producto.foto_pro" :href="$url+'..'+producto.foto_pro" target="_blank">
-                                <q-img :src="$url+'..'+producto.foto_pro" alt="Imagen del producto" class="img-thumbnail" height="100"/>
-                              </a>
+                                <a v-if="producto.foto_pro" :href="$url+'..'+producto.foto_pro" target="_blank">
+                                    <q-img :src="$url+'..'+producto.foto_pro" alt="Imagen del producto" class="img-thumbnail" height="100"/>
+                                </a>
                             </td>
                             <td>{{ producto.estado_pro }}</td>
                             <td>
-                                <q-btn @click="eliminar(producto)" color="negative" size="xs" icon="delete"/>
-                                <q-btn @click="showProducto(producto)" class="glossy" rounded color="deep-orange" label="Modificar" />
-                            </td>
+
+                                <q-btn
+                    flat
+                    dense
+                    icon="edit"
+                    color="blue"
+                    label="Editar"
+                    @click="showProducto(producto)"
+                  />
+                  <q-btn
+                    flat
+                    dense
+                    icon="delete"
+                    color="negative"
+                    label="Eliminar"
+                    @click="eliminar(producto)"
+                  />
+                    </td>
                         </tr>
                     </tbody>
                 </table>
@@ -45,11 +60,7 @@
         <q-btn fab icon="add" color="primary" @click="dialogClick" />
     </q-page-sticky>
 
-    <q-dialog v-model="dialog"
-              :position="esMovil ? undefined : 'right'"
-              :maximized="true"
-              transition-show="slide-left"
-              transition-hide="slide-right">
+    <q-dialog v-model="dialog" :position="esMovil ? undefined : 'right'" :maximized="true" transition-show="slide-left" transition-hide="slide-right">
         <q-card style="width: 450px; max-width: 100vw;">
             <q-card-section class="row items-center q-px-md bg-primary text-white q-px-none">
                 <q-btn flat round dense icon="fa-solid fa-arrow-left" v-close-popup />
@@ -57,7 +68,7 @@
                 <div class="text-h6">{{ producto.id ? 'Editar' : 'Nuevo' }} Producto</div>
             </q-card-section>
             <q-card-section>
-                <q-form @submit="submit" v-if="!producto.id">
+                <q-form @submit.prevent="confirmarGuardar">
                     <div class="row">
                         <div class="col-12">
                             <q-select
@@ -149,27 +160,56 @@ export default {
     },
     methods: {
         showProducto(producto) {
-            this.producto = producto;
-            this.dialog = true;
+            this.producto = { ...producto }; // Esto es importante para asegurarse de que los datos del producto se copien correctamente
+            this.dialog = true; // Muestra el diálogo de edición
+        },
+
+        confirmarGuardar() {
+            this.$q
+                .dialog({
+                    title: "Confirmar Guardado",
+                    message: "¿Estás seguro de que quieres guardar los cambios?",
+                    ok: { label: "Sí", color: "primary" },
+                    cancel: { label: "No", color: "negative" },
+                })
+                .onOk(() => {
+                    this.submit();
+                });
         },
 
         submit() {
             this.loading = true;
-
-            this.$axios.post('productos', this.producto)
-                .then(response => {
-                    this.productos.push(response.data);
-                    this.dialog = false;
-                })
-                .catch(error => {
-                    console.log(error);
-                }).finally(() => {
-                    this.loading = false;
-                });
+            
+            // Verificar si el producto tiene un id para hacer una actualización
+            if (this.producto.id) {
+                this.$axios.put(`productos/${this.producto.id}`, this.producto)
+                    .then(response => {
+                        const index = this.productos.findIndex(item => item.id === this.producto.id);
+                        this.productos[index] = response.data; // Actualiza el producto modificado
+                        this.dialog = false; // Cierra el diálogo
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+                    .finally(() => {
+                        this.loading = false;
+                    });
+            } else {
+                this.$axios.post('productos', this.producto)
+                    .then(response => {
+                        this.productos.push(response.data);
+                        this.dialog = false;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+                    .finally(() => {
+                        this.loading = false;
+                    });
+            }
         },
 
         eliminar(producto) {
-            // Confirmar eliminación
             this.$q.dialog({
                 title: 'Confirmar Eliminación',
                 message: '¿Estás seguro de que deseas eliminar este producto?',
@@ -178,7 +218,6 @@ export default {
             }).onOk(() => {
                 this.$axios.delete(`productos/${producto.id}`)
                     .then(response => {
-                        // Filtrar el producto eliminado de la lista
                         this.productos = this.productos.filter(item => item.id !== producto.id);
                     })
                     .catch(error => {
@@ -196,7 +235,7 @@ export default {
                 descripcion_pro: '',
                 precio_pro: '',
                 foto_pro: '',
-                estado_pro:'ACTIVO',
+                estado_pro: 'ACTIVO',
             };
         },
 
@@ -226,6 +265,7 @@ export default {
     }
 }
 </script>
+
 <style scoped>
 .styled-table {
     width: 100%;

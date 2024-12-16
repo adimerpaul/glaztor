@@ -192,28 +192,48 @@
   
   <style scoped>
   .styled-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: white;
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 16px;
+      text-align: left;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
   }
   
-  .styled-table th {
-    background-color: #0078d7;
-    color: white;
-    text-align: left;
-    padding: 12px;
+  .styled-table thead tr {
+      background-color: #3f51b5;
+      color: #ffffff;
   }
   
-  .styled-table td {
-    padding: 12px;
+  .styled-table th, .styled-table td {
+      padding: 12px 15px;
+  }
+  
+  .styled-table tbody tr {
+      border-bottom: 1px solid #ddd;
+  }
+  
+  .styled-table tbody tr:nth-of-type(even) {
+      background-color: #f9f9f9;
   }
   
   .styled-table tbody tr:hover {
-    background-color: #f5f5f5;
+      background-color: #f1f1f1;
+      cursor: pointer;
   }
   
-  .q-btn {
-    margin: 0 4px;
+  .img-thumbnail {
+      max-width: 100px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+  }
+  
+  .input-group-text {
+      background-color: #fff;
+  }
+  
+  .input-group .form-control {
+      border-radius: 8px;
   }
   </style>
-  

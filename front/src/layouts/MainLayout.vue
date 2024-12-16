@@ -1,28 +1,28 @@
 <template>
   <q-layout view="hHh Lpr lFf">
-    <q-header
-      class="bg-white text-primary"
-      bordered
-    >
+    <q-header class="bg-white text-primary" bordered>
       <q-toolbar>
         <q-btn
           flat
           dense
           round
           icon="menu"
-          aria-label="Menu"
+          aria-label="Abrir menú"
           @click="toggleLeftDrawer"
         />
-
         <q-toolbar-title>
-<!--          <q-btn no-caps flat dense round icon="o_search" />-->
-          <!--          {{ rutaActual }}-->
+          <!-- {{ rutaActual }} -->
         </q-toolbar-title>
         <div>
-          <!--          Quasar v{{ $q.version }}-->
           <q-btn-group flat>
-            <q-btn no-caps icon="o_notifications" />
-            <q-btn no-caps icon="o_account_circle" >
+            <q-btn
+              no-caps
+              icon="o_notifications"
+              aria-label="Notificaciones"
+              @click="openNotifications"
+              class="icon-hover"
+            />
+            <q-btn no-caps icon="o_account_circle" aria-label="Perfil">
               <q-menu>
                 <q-list>
                   <q-item clickable>
@@ -68,42 +68,30 @@
             <q-icon name="account_circle" />
           </q-item-section>
           <q-item-section>
-            <!--            <pre>-->
-            <!--              {{ $store.user}}-->
-            <!--            </pre>-->
-            <q-item-label >
+            <q-item-label>
               {{ $store.user.name }}
-              <!--              <q-chip color="white" text-color="primary" dense>-->
-              <span class="text-bold">
-                {{ $store.user.role }}
-              </span>
-              <!--              </q-chip>-->
+              <span class="text-bold">{{ $store.user.role }}</span>
             </q-item-label>
-            <!--            <q-item-label class="text-grey">-->
-            <!--              <q-chip color="white" text-color="primary" dense>-->
-            <!--                {{ $store.user.role }}-->
-            <!--              </q-chip>-->
-            <!--            </q-item-label>-->
           </q-item-section>
         </q-item>
-        <q-separator  class="bg-white" inset />
-        <q-item-label header class="text-white">
-          Opciones
-        </q-item-label>
+        <q-separator class="bg-white" inset />
+        <q-item-label header class="text-white">Opciones</q-item-label>
 
-        <!--        <EssentialLink-->
-        <!--          v-for="link in linksList"-->
-        <!--          :key="link.title"-->
-        <!--          v-bind="link"-->
-        <!--            {title: 'Pedidos de Trailers', icon: 'local_shipping', link: '/pedidotrailers', can: ['Administrador', 'Gerente', 'Ventas']},
-    />-->
-        <q-item v-for="link in filteredLinks" :key="link.title" clickable :to="link.link" exact
-                class="text-grey"
-                active-class="menu"
+        <q-item
+          v-for="link in filteredLinks"
+          :key="link.title"
+          clickable
+          :to="link.link"
+          exact
+          class="text-grey"
+          active-class="menu"
         >
           <q-item-section avatar>
-            <q-icon :name="$route.path === link.link ? 'o_' + link.icon : link.icon"
-                    :class="$route.path === link.link ? 'text-white' : ''"/>
+            <q-icon
+              :name="$route.path === link.link ? 'o_' + link.icon : link.icon"
+              :class="$route.path === link.link ? 'text-white' : 'text-grey'"
+              class="icon-hover"
+            />
           </q-item-section>
           <q-item-section>
             <q-item-label :class="$route.path === link.link ? 'text-white text-bold' : ''">
@@ -111,6 +99,7 @@
             </q-item-label>
           </q-item-section>
         </q-item>
+
         <q-item clickable class="text-red" @click="logout">
           <q-item-section avatar>
             <q-icon name="exit_to_app" />
@@ -127,6 +116,7 @@
     </q-page-container>
   </q-layout>
 </template>
+
 <script>
 export default {
   name: 'MainLayout',
@@ -138,17 +128,15 @@ export default {
         {title: 'Prospección', icon: 'local_offer', link: '/preventas', can: ['Administrador', 'Gerente', 'Ventas']},
         {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidos', can: ['Administrador', 'Gerente', 'Ventas']},
         {title: 'Pagos', icon: 'payment', link: '/pagos', can: ['Administrador', 'Gerente', 'Ventas']},
-  
         {title: 'Clientes', icon: 'groups', link: '/clientes', can: ['Administrador', 'Gerente', 'Ventas']},
         {title: 'Personal', icon: 'supervisor_account', link: '/ejecutivos', can: ['Administrador', 'Gerente']},
         {title: 'Productos', icon: 'inventory', link: '/productos', can: ['Administrador', 'Gerente']},
         {title: 'Cargos', icon: 'work', link: '/cargos', can: ['Administrador', 'Gerente']},
         {title: 'Zonas', icon: 'place', link: '/zonas', can: ['Administrador', 'Gerente']},
         {title: 'Region', icon: 'place', link: '/regions', can: ['Administrador', 'Gerente']},
-        {title: 'Servicios',icon: 'place',link: '/servicios', can: ['Administrador', 'Gerente']},
-        {title: 'Cajachicas',icon: 'place',link: '/Cajachicas', can: ['Administrador', 'Gerente']},
+        {title: 'Servicios', icon: 'miscellaneous_services', link: '/servicios', can: ['Administrador', 'Gerente']},
+        {title: 'Caja Chica', icon: 'account_balance_wallet', link: '/Cajachicas', can: ['Administrador', 'Gerente']},
         {title: 'Usuarios', icon: 'people', link: '/users', can: ['Administrador']},
-
       ]
     }
   },
@@ -164,6 +152,9 @@ export default {
     },
     toggleLeftDrawer () {
       this.leftDrawerOpen = !this.leftDrawerOpen
+    },
+    openNotifications() {
+      // Implementar acción para abrir las notificaciones
     }
   },
   computed: {
@@ -171,21 +162,25 @@ export default {
       return this.$route.path
     },
     filteredLinks() {
-      // console.log(this.$store.user);
-      const userRole = this.$store.user?.role; // Obtén el rol del usuario
+      const userRole = this.$store.user?.role;
       if (!userRole) {
-        return []; // Si no hay rol, devuelve una lista vacía
+        return [];
       }
       return this.linksList.filter(link => link.can.includes(userRole));
-    },
+    }
   }
 }
 </script>
-<style>
-.menu{
+
+<style scoped>
+.menu {
   background-color: #1976D2;
   border-radius: 10px;
   margin: 5px;
-  padding: 5px
+  padding: 5px;
+}
+.icon-hover:hover {
+  color: #1976D2;
+  transition: 0.3s ease;
 }
 </style>
