@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('lng')->nullable();
             $table->string('zona')->nullable();
             $table->string('region')->nullable();
+            $table->text('foto')->nullable();
             $table->date('cumple')->nullable();
             $table->string('estado')->nullable()->default('Activo');
             $table->string('ejecutivo')->nullable();

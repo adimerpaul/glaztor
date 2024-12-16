@@ -17,6 +17,7 @@ class Ejecutivo extends Model
         'telefono_2',
         'cargo',
         'apodo',
+        'foto',
         'correo',
         'direccion',
         'ubicacion',

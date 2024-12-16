@@ -45,6 +45,7 @@
                 <q-img :src="$url+'..'+producto.foto_pro" alt="Imagen del producto" class="img-thumbnail" height="10"/>
               </a>
             </td>
+            
             <td>{{ producto.estado_pro }}</td>
             <td>{{ producto.id }}</td>
             <td>{{ producto.categoria_pro }}</td>

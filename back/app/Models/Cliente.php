@@ -22,6 +22,7 @@ class Cliente extends Model
 //        'ubicacion',
         'zona',
         'region',
+        'foto',
         'cumple',
         'estado',
         'ejecutivo',

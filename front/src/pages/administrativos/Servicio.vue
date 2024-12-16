@@ -25,7 +25,7 @@
                             <td>{{ servicio.monto_cancelado }}</td>
                             <td>{{ servicio.numero_recibo }}</td>
                             <td>{{ servicio.observacion }}</td>
-                           
+                            
                            
                             <td>{{ servicio.estado }}</td>
                             <td>
@@ -132,7 +132,7 @@
 <script>
 import moment from "moment";
 import "moment/locale/es"; // Importar español
-moment.locale("es"); // Configurar idioma por defecto
+moment.locale("es"); // Configurar idioma por defect
 
 export default {
 
@@ -148,7 +148,8 @@ export default {
     };
     },
     mounted() {
-        this.getServicios();
+    moment.locale("es"); // Forzar idioma español al montar el componente
+    this.getServicios();
     },
     methods: {
         modificar(servicio) {
@@ -251,15 +252,13 @@ export default {
         getServicios() {
             this.$axios.get('servicios')
                 .then(response => {
-                    this.servicios = response.data;
+                    this.servicios = response.data.map(servicio => ({
+                        ...servicio,
+                        fecha_pago: moment(servicio.fecha_pago, "YYYY-MM-DD").locale("es").format("MMMM - YYYY"),
+                    }));
                 })
                 .catch(error => {
                     console.error("Error al obtener los servicios:", error);
-                    this.$q.notify({
-                        color: 'negative',
-                        message: 'Error al obtener los servicios. Intenta nuevamente.',
-                        icon: 'report_problem'
-                    });
                 });
         },
 
@@ -276,33 +275,31 @@ export default {
                 });
         },
         generarPeriodos() {
-            const periodos = [];
-            const hoy = moment(); // Fecha actual
-            const inicio = hoy.clone().subtract(5, "years"); // 5 años atrás
-            const fin = hoy.clone().add(2, "years"); // 2 años adelante
+                const periodos = [];
+                const hoy = moment(); // Fecha actual
+                const inicio = hoy.clone().subtract(5, "years"); // 5 años atrás
+                const fin = hoy.clone().add(2, "years"); // 2 años adelante
 
-            while (inicio.isSameOrBefore(fin)) {
-                // Asegurarse de que moment tenga el locale correcto
-                periodos.push(inicio.locale("es").format("MMMM - YYYY")); 
-                inicio.add(1, "months"); // Avanza un mes
-            }
+                while (inicio.isSameOrBefore(fin)) {
+                    periodos.push(inicio.locale("es").format("MMMM - YYYY")); // Asegura el idioma
+                    inicio.add(1, "months"); // Avanza un mes
+                }
 
-            return periodos;
-        },
-        confirmarGuardar() {
-    // Convertir a formato estándar antes de enviar
-            const fechaEstandarizada = moment(this.servicio.fecha_pago, "MMMM - YYYY").format("YYYY-MM-DD");
-            this.servicio.fecha_pago = fechaEstandarizada;
+                return periodos;
+            },
+            confirmarGuardar() {
+              const fechaEstandarizada = moment(this.servicio.fecha_pago, "MMMM - YYYY").format("YYYY-MM-DD");
+                this.servicio.fecha_pago = fechaEstandarizada;
 
-            this.$q.dialog({
-                title: 'Confirmar Guardado',
-                message: '¿Estás seguro de que quieres guardar los cambios?',
-                ok: { label: 'Sí', color: 'primary' },
-                cancel: { label: 'No', color: 'negative' }
-            }).onOk(() => {
-                this.submit(); // Llama al método submit para guardar
-            });
-        },
+                this.$q.dialog({
+                    title: 'Confirmar Guardado',
+                    message: '¿Estás seguro de que quieres guardar los cambios?',
+                    ok: { label: 'Sí', color: 'primary' },
+                    cancel: { label: 'No', color: 'negative' }
+                }).onOk(() => {
+                    this.submit(); // Llama al método submit para guardar
+                });
+            },
         formatPeriodoPago(fechaPago) {
             return moment(fechaPago).format("MMMM - YYYY");
         },

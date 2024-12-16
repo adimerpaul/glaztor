@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('telefono_2')->nullable();
             $table->string('cargo')->nullable();
             $table->string('apodo')->nullable();
+            $table->text('foto')->nullable();
             $table->string('correo')->nullable();
             $table->string('direccion')->nullable();
             $table->string('ubicacion')->nullable()->default('-17.969753,-67.114749');

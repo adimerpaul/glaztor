@@ -98,7 +98,7 @@
               />
               <q-select
                 v-model="region.estado"
-                :options="['Activo', 'Inactivo']"
+                :options="['ACTIVO', 'INACTIVO']"
                 outlined
                 dense
                 :rules="[val => !!val || 'Este campo es requerido']"

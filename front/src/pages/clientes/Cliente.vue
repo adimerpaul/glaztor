@@ -45,7 +45,7 @@
               </q-btn-dropdown>
             </q-td>
           </template>
-  </q-table>
+     </q-table>
 
       </q-card-section>
     </q-card>
@@ -54,7 +54,6 @@
     <q-btn fab icon="add" color="primary" @click="dialogClick"/>
   </q-page-sticky>
 
-
     <q-dialog v-model="dialog" :position="esMovil ? undefined : 'right'" :maximized="true" transition-show="slide-left" transition-hide="slide-right">
         <q-card style="width: 450px; max-width: 100vw;">
           <q-card-section class="row items-center q-px-md bg-primary text-white q-px-none">
@@ -62,7 +61,6 @@
             <q-space/>
             <div class="text-h6">{{ cliente.id ? 'Editar' : 'Nuevo' }} cliente</div>
           </q-card-section>
-
 
       <q-card-section>
         <q-form @submit="submit" v-if="!cliente.id">
@@ -159,6 +157,25 @@
                 label="Seleccionar Zona"
               />
             </div>
+
+
+            
+            <div class="d-grid col-6 mx-auto mb-3">
+                    <img v-if="cliente.foto"
+                        :src="cliente.foto.includes('data') ? cliente.foto : $url + '..' + cliente.foto"
+                        alt="Imagen del producto" class="img-thumbnail" height="100">
+                    <img v-else height="100" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-256.png"
+                        class="img-thumbnail" id="fotoimg" alt="">
+                    </div>
+
+                    <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa-solid fa-gift"></i></span>
+                    <input v-on:change="previsualizarFoto" type="file" accept="image/png, image/jpg, image/gif"
+                            class="form-control">
+            </div>
+
+
+
             <div class="col-12">
             <q-select
               dense
@@ -202,7 +219,6 @@
                 label="Estado"/>
             </div>
 
-
             <q-card-actions align="right">
               <q-btn label="Cancelar" color="negative" @click="dialog = false" :loading="loading"/>
               <q-btn label="Guardar" color="primary" type="submit" :loading="loading"/>
@@ -210,7 +226,6 @@
           </div>
         </q-form>
         <q-form @submit="submit" v-if="cliente.id">
-
 
           <div class="row">
             <div class="col-12">
@@ -305,6 +320,23 @@
                 label="Seleccionar Zona"
               />
             </div>
+
+            <div class="d-grid col-6 mx-auto mb-3">
+                    <img v-if="cliente.foto"
+                        :src="cliente.foto.includes('data') ? cliente.foto : $url + '..' + cliente.foto"
+                        alt="Imagen del producto" class="img-thumbnail" height="100">
+                    <img v-else height="100" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-256.png"
+                        class="img-thumbnail" id="fotoimg" alt="">
+                    </div>
+
+                    <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa-solid fa-gift"></i></span>
+                    <input v-on:change="previsualizarFoto" type="file" accept="image/png, image/jpg, image/gif"
+                            class="form-control">
+            </div>
+
+
+                
             <div class="col-12">
             <q-select
               dense
@@ -453,6 +485,7 @@ export default {
             ubicacion: '',
             lat: null,
             lng: null,
+            foto: '',
             zona_id: null,  // Keep 'zona_id' here
             ejecutivo_id: null,
             region_id: null, // Keep 'region_id' here
@@ -481,7 +514,6 @@ export default {
   this.cliente = { ...cliente }; // Clona el objeto seleccionado
   this.dialog = true; // Abre el diálogo para edición
 },
-
 
     showGlobal() {
       this.dialogGlobal = true
@@ -609,6 +641,7 @@ export default {
         direccion: '',
         complemento: '',
         ubicacion: '-17.969753, -67.114749',
+        foto: '',
         zona: '',
         region: '',
         cumple: moment().format('YYYY-MM-DD'),
@@ -660,13 +693,25 @@ export default {
     });
   }
 },
+
+
+previsualizarFoto(event) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = () => {
+        this.foto = reader.result;
+        this.cliente.foto = this.foto; 
+      };
+    }
+
+
+
   },
   computed: {
     esMovil() {
       return this.$q.screen.lt.md;
     }
   }
-
 
 }
 </script>
@@ -691,3 +736,5 @@ export default {
   background-color: #f1f1f1;
 }
 </style>
+
+

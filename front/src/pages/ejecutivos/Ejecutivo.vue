@@ -13,6 +13,7 @@
                                 <th >seudónimo</th>
                                 <th >Correo</th>
                                 <th >Direccion</th>
+                                <th >Foto</th>
                                 <th >Ubicacion</th>
                                 <th >Zona</th>
                                 <th >Cumpleaños</th>
@@ -32,8 +33,15 @@
                                 <td>{{ejecutivo.apodo}}</td>
                                 <td>{{ejecutivo.correo}}</td>
                                 <td>{{ejecutivo.direccion}}</td>
-                                <td> <q-btn color="red" flat dense @click="showLocation(ejecutivo)" icon="fa-solid fa-map-marker-alt" />
+                                <td>
+                                <a v-if="ejecutivo.foto" :href="$url+'..'+ejecutivo.foto" target="_blank">
+                                    <q-img :src="$url+'..'+ejecutivo.foto" alt="Imagen del ejecutivo" class="img-thumbnail" height="10"/>
+                                </a>
+
                                 </td>
+                                    <td> <q-btn color="red" flat dense @click="showLocation(ejecutivo)" icon="fa-solid fa-map-marker-alt" />
+                                </td>
+
                                 <td>{{ejecutivo.zona}}</td>
                                 <td>{{ejecutivo.cumple}}</td>
                                 <td>{{ejecutivo.estado}}</td>
@@ -192,6 +200,21 @@
                             label="Seleccionar Zona"
                         />
                     </div>
+
+                    <div class="d-grid col-6 mx-auto mb-3">
+                    <img v-if="ejecutivo.foto"
+                        :src="ejecutivo.foto.includes('data') ? ejecutivo.foto : $url + '..' + ejecutivo.foto"
+                        alt="Imagen del producto" class="img-thumbnail" height="100">
+                    <img v-else height="100" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-256.png"
+                        class="img-thumbnail" id="fotoimg" alt="">
+                    </div>
+
+                    <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa-solid fa-gift"></i></span>
+                    <input v-on:change="previsualizarFoto" type="file" accept="image/png, image/jpg, image/gif"
+                            class="form-control">
+                    </div>
+
 
 
                     <div class="col-12">
@@ -358,6 +381,7 @@ export default {
             this.dialog = true;
             this.ejecutivo = { // Inicializar un nuevo ejecutivo
                 nombre: '',
+                foto: '',
                 cargo_id: null, // Inicializa el ID del cargo
             };
         },
@@ -442,6 +466,15 @@ export default {
                 estado: 'ACTIVO',
             }
         },
+
+        previsualizarFoto(event) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = () => {
+        this.foto = reader.result;
+        this.ejecutivo.foto = this.foto; 
+      };
+    }
 
     },
     computed: {
