@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
                 'cargo' => null,
                 'email' => 'maria@example.com',
                 'email_verified_at' => now(),
-                'password' => Hash::make('123456'), // Reemplaza por un valor seguro
+                'password' => Hash::make('123456'), 
                 'remember_token' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
                 'cargo' => null,
                 'email' => 'susana@gmail.com',
                 'email_verified_at' => now(),
-                'password' => Hash::make('123456'), // Reemplaza por un valor seguro
+                'password' => Hash::make('123456'),
                 'remember_token' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -70,12 +70,14 @@ class DatabaseSeeder extends Seeder
         $sqlContent = file_get_contents($sqlFIle);
         DB::unprepared($sqlContent);
 
-        Cargo::create(['nombre_cargo' => 'Gerente Comercial','descripcion_cargo' => 'Gerente Comercial','estado' => 'ACTIVO']);
-        Cargo::create(['nombre_cargo' => 'Gerente Administrativo','descripcion_cargo' => 'Gerente Administrativo','estado' => 'ACTIVO']);
-        Cargo::create(['nombre_cargo' => 'Encargado Zona Este','descripcion_cargo' => 'Encargado Zona Este','estado' => 'ACTIVO']);
-        Cargo::create(['nombre_cargo' => 'Encargado Zona Norte','descripcion_cargo' => 'Encargado Zona Norte','estado' => 'ACTIVO']);
+        Cargo::create(['nombre_cargo' => 'Director Comercial','descripcion_cargo' => 'Director Comercial','estado' => 'ACTIVO']);
+        Cargo::create(['nombre_cargo' => 'Director Administrativo','descripcion_cargo' => 'Director Administrativo','estado' => 'ACTIVO']);
+        Cargo::create(['nombre_cargo' => 'Supervisor Zona Este','descripcion_cargo' => 'Supervisor Zona Este','estado' => 'ACTIVO']);
+        Cargo::create(['nombre_cargo' => 'Supervisor Zona Norte','descripcion_cargo' => 'Supervisor Zona Norte','estado' => 'ACTIVO']);
         Cargo::create(['nombre_cargo' => 'Ejecutivo de Ventas','descripcion_cargo' => 'Ejecutivo de Ventas','estado' => 'ACTIVO']);
         Cargo::create(['nombre_cargo' => 'Ejecutivo de Obra','descripcion_cargo' => 'Ejecutivo de Obra','estado' => 'ACTIVO']);
+        Cargo::create(['nombre_cargo' => 'Administrativo','descripcion_cargo' => 'Administracion','estado' => 'ACTIVO']);
+        
 
         Ejecutivo::create(['nombre_eje' => 'Jose','apellido_eje' => 'Oquendo','cargo' => 'Administrativo','apodo' => 'JOQUENDO','estado' => 'ACTIVO']);
         Ejecutivo::create(['nombre_eje' => 'Maria','apellido_eje' => 'Miranda','cargo' => 'Ejecutivo de venta','apodo' => 'MMIRANDA','estado' => 'ACTIVO']);
@@ -83,10 +85,10 @@ class DatabaseSeeder extends Seeder
         Ejecutivo::create(['nombre_eje' => 'Victor','apellido_eje' => 'Ramirez','cargo' => 'Administrativo','apodo' => 'VRAMIREZ','estado' => 'ACTIVO']);
         Ejecutivo::create(['nombre_eje' => 'Susana','apellido_eje' => 'Condori','cargo' => 'Administrativo','apodo' => 'SCONDORI','estado' => 'ACTIVO']);
         Ejecutivo::create(['nombre_eje' => 'Marcela','apellido_eje' => 'Balcazar','cargo' => 'Administrativo','apodo' => 'MBALCAZAR','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Maria','apellido_eje' => 'Laredo','cargo' => 'Encargado Norte','apodo' => 'MLAREDO','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Valeria','apellido_eje' => 'Lopez','cargo' => 'Encargado Este','apodo' => 'VLOPEZ','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Zenaida','apellido_eje' => 'Torrez','cargo' => 'Gerente Comercial','apodo' => 'ZTORREZ','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Gerardo','apellido_eje' => 'LAredo','cargo' => 'Gerente Adminstrativo','apodo' => 'JLAREDO','estado' => 'ACTIVO']);
+        Ejecutivo::create(['nombre_eje' => 'Maria','apellido_eje' => 'Laredo','cargo' => 'Supervisor Norte','apodo' => 'MLAREDO','estado' => 'ACTIVO']);
+        Ejecutivo::create(['nombre_eje' => 'Valeria','apellido_eje' => 'Lopez','cargo' => 'Supervisor Este','apodo' => 'VLOPEZ','estado' => 'ACTIVO']);
+        Ejecutivo::create(['nombre_eje' => 'Zenaida','apellido_eje' => 'Torrez','cargo' => 'Director Adminstrativo','apodo' => 'ZTORREZ','estado' => 'ACTIVO']);
+        Ejecutivo::create(['nombre_eje' => 'Gerardo','apellido_eje' => 'LAredo','cargo' => 'Director Comercial','apodo' => 'JLAREDO','estado' => 'ACTIVO']);
 
 
 //        Schema::create('productos', function (Blueprint $table) {
@@ -112,7 +114,6 @@ class DatabaseSeeder extends Seeder
 //        Producto::create(['categoria_pro' => 'Cemento','marca_pro' => 'Soboce','nombre_pro' => 'VIACHA-IP30','descripcion_pro' => 'Cemento soboce viacha-IP30','precio_pro' => 42]);
 
         $productos = [
-            
             [
                 'categoria_pro' => 'FIERRO',
                 'marca_pro' => 'LAS LOMAS',
@@ -163,7 +164,6 @@ class DatabaseSeeder extends Seeder
                 'precio_pro' => 468,
             ],
         ];
-
         DB::table('productos')->insert($productos);
     }
 }

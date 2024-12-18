@@ -11,6 +11,8 @@ use App\Http\Controllers\ZonaController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\CajaChicaController;
+use App\Http\Controllers\SueldoController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -106,4 +108,11 @@ Route::delete('cajachicas/{id}', [CajachicaController::class, 'destroy']);
     Route::get('regions/{id}', [RegionController::class, 'show']);
     Route::put('regions/{id}', [RegionController::class, 'update']);
     Route::delete('regions/{id}', [RegionController::class, 'destroy']);
+
+
+    Route::get('sueldos', [SueldoController::class, 'index']);
+    Route::post('sueldos', [SueldoController::class, 'store']);
+    Route::get('sueldos/{id}', [SueldoController::class, 'show']);
+    Route::put('sueldos/{id}', [SueldoController::class, 'update']);
+    Route::delete('sueldos/{id}', [SueldoController::class, 'destroy']);
 });

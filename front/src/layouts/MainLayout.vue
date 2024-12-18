@@ -135,6 +135,8 @@ export default {
         {title: 'Zonas', icon: 'place', link: '/zonas', can: ['Administrador', 'Gerente']},
         {title: 'Region', icon: 'place', link: '/regions', can: ['Administrador', 'Gerente']},
         {title: 'Servicios', icon: 'miscellaneous_services', link: '/servicios', can: ['Administrador', 'Gerente']},
+        {title: 'sueldos', icon: 'miscellaneous_services', link: '/sueldos', can: ['Administrador', 'Gerente']},
+        
        // {title: 'Caja Chica', icon: 'account_balance_wallet', link: '/Cajachicas', can: ['Administrador', 'Gerente']},
         {title: 'Usuarios', icon: 'people', link: '/users', can: ['Administrador']},
       ]

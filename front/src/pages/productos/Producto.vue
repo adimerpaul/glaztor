@@ -50,25 +50,6 @@
             <td>{{ producto.id }}</td>
             <td>{{ producto.categoria_pro }}</td>
             <td>{{ producto.marca_pro }}</td>
-            <!--                            <td>-->
-
-            <!--                                <q-btn-->
-            <!--                    flat-->
-            <!--                    dense-->
-            <!--                    icon="edit"-->
-            <!--                    color="blue"-->
-            <!--                    label="Editar"-->
-            <!--                    @click="showProducto(producto)"-->
-            <!--                  />-->
-            <!--                  <q-btn-->
-            <!--                    flat-->
-            <!--                    dense-->
-            <!--                    icon="delete"-->
-            <!--                    color="negative"-->
-            <!--                    label="Eliminar"-->
-            <!--                    @click="eliminar(producto)"-->
-            <!--                  />-->
-            <!--                    </td>-->
           </tr>
           </tbody>
         </q-markup-table>
