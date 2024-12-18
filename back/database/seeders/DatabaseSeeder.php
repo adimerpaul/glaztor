@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
                 'cargo' => null,
                 'email' => 'maria@example.com',
                 'email_verified_at' => now(),
-                'password' => Hash::make('123456'), 
+                'password' => Hash::make('123456'),
                 'remember_token' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
         Cargo::create(['nombre_cargo' => 'Ejecutivo de Ventas','descripcion_cargo' => 'Ejecutivo de Ventas','estado' => 'ACTIVO']);
         Cargo::create(['nombre_cargo' => 'Ejecutivo de Obra','descripcion_cargo' => 'Ejecutivo de Obra','estado' => 'ACTIVO']);
         Cargo::create(['nombre_cargo' => 'Administrativo','descripcion_cargo' => 'Administracion','estado' => 'ACTIVO']);
-        
+
 
         Ejecutivo::create(['nombre_eje' => 'Jose','apellido_eje' => 'Oquendo','cargo' => 'Administrativo','apodo' => 'JOQUENDO','estado' => 'ACTIVO']);
         Ejecutivo::create(['nombre_eje' => 'Maria','apellido_eje' => 'Miranda','cargo' => 'Ejecutivo de venta','apodo' => 'MMIRANDA','estado' => 'ACTIVO']);
@@ -120,6 +120,9 @@ class DatabaseSeeder extends Seeder
                 'nombre_pro' => 'Tubo 1/4"',
                 'descripcion_pro' => 'Tubo de medida 1/4" (6 mm)',
                 'precio_pro' => 33.5,
+                'precio_compra' => 29.8,
+                'cantidad_pro' => 1151,
+                'tonelada' => 375,
             ],
             [
                 'categoria_pro' => 'FIERRO',
@@ -127,6 +130,9 @@ class DatabaseSeeder extends Seeder
                 'nombre_pro' => 'Tubo 5/16"',
                 'descripcion_pro' => 'Tubo de medida 5/16" (8 mm)',
                 'precio_pro' => 47.47,
+                'precio_compra' => 44.9,
+                'cantidad_pro' => 0,
+                'tonelada' => 217,
             ],
             [
                 'categoria_pro' => 'FIERRO',
@@ -134,6 +140,9 @@ class DatabaseSeeder extends Seeder
                 'nombre_pro' => 'Tubo 3/8"',
                 'descripcion_pro' => 'Tubo de medida 3/8" (9.5 mm)',
                 'precio_pro' => 72.5,
+                'precio_compra' => 63.27,
+                'cantidad_pro' => 1232,
+                'tonelada' => 154,
             ],
             [
                 'categoria_pro' => 'FIERRO',
@@ -141,6 +150,9 @@ class DatabaseSeeder extends Seeder
                 'nombre_pro' => 'Tubo 1/2"',
                 'descripcion_pro' => 'Tubo de medida 1/2" (12 mm)',
                 'precio_pro' => 114,
+                'precio_compra' => 0.45,
+                'cantidad_pro' => 1552,
+                'tonelada' => 97,
             ],
             [
                 'categoria_pro' => 'FIERRO',
@@ -148,6 +160,9 @@ class DatabaseSeeder extends Seeder
                 'nombre_pro' => 'Tubo 5/8"',
                 'descripcion_pro' => 'Tubo de medida 5/8" (16 mm)',
                 'precio_pro' => 187.27,
+                'precio_compra' => 170.16,
+                'cantidad_pro' => 0,
+                'tonelada' => 55,
             ],
             [
                 'categoria_pro' => 'FIERRO',
@@ -155,6 +170,9 @@ class DatabaseSeeder extends Seeder
                 'nombre_pro' => 'Tubo 3/4"',
                 'descripcion_pro' => 'Tubo de medida 3/4" (20 mm)',
                 'precio_pro' => 294,
+                'precio_compra' => 278.4,
+                'cantidad_pro' => 0,
+                'tonelada' => 35,
             ],
             [
                 'categoria_pro' => 'FIERRO',
@@ -162,6 +180,9 @@ class DatabaseSeeder extends Seeder
                 'nombre_pro' => 'Tubo 1"',
                 'descripcion_pro' => 'Tubo de medida 1" (25 mm)',
                 'precio_pro' => 468,
+                'precio_compra' => 442.90,
+                'cantidad_pro' => 0,
+                'tonelada' => 22,
             ],
         ];
         DB::table('productos')->insert($productos);

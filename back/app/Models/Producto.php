@@ -20,7 +20,8 @@ class Producto extends Model
         'estado_pro',
         'user_id',
         'precio_compra',
-        'cantidad_pro'
+        'cantidad_pro',
+        'tonelada',
     ];
 
     protected $hidden = ['created_at','updated_at','deleted_at'];

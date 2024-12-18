@@ -45,7 +45,7 @@
                 <q-img :src="$url+'..'+producto.foto_pro" alt="Imagen del producto" class="img-thumbnail" height="10"/>
               </a>
             </td>
-            
+
             <td>{{ producto.estado_pro }}</td>
             <td>{{ producto.id }}</td>
             <td>{{ producto.categoria_pro }}</td>
@@ -124,6 +124,11 @@
             </div>
             <div class="col-12">
               <q-input dense v-model="producto.cantidad_pro" outlined label="Cantidad" type="number"
+                       hint=""
+              />
+            </div>
+            <div class="col-12">
+              <q-input dense v-model="producto.tonelada" outlined label="Cantidad tonelada" type="number"
                        hint=""
               />
             </div>

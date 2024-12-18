@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('precio_compra', 10, 2)->nullable();
             $table->string('cantidad_pro')->nullable();
             $table->text('foto_pro')->nullable();
+            $table->text('tonelada')->nullable();
             $table->string('estado_pro')->nullable()->default('ACTIVO');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
