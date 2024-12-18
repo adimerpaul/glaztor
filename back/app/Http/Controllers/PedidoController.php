@@ -28,9 +28,24 @@ class PedidoController extends Controller{
             ->get();
     }
     function store(Request $request){
+
+        foreach ($request->detalles as $detalle){
+            $producto = Producto::find($detalle['id']);
+            if ($detalle['tipo_pro'] == 'BA'){
+                if($producto->cantidad_pro < $detalle['cantidadVenta']){
+                    return response()->json(['message' => 'No hay suficiente cantidad de '.$producto->nombre_pro], 400);
+                }
+            }
+            if ($detalle['tipo_pro'] == 'TN'){
+                $cantidad = $detalle['cantidadVenta'] * $producto->tonelada;
+                if($producto->cantidad_pro < $cantidad){
+                    return response()->json(['message' => 'No hay suficiente cantidad de '.$producto->nombre_pro], 400);
+                }
+            }
+        }
+
         $cliente = Cliente::find($request->cliente_id);
         $user = $request->user();
-
         $pedido = new Pedido();
         $pedido->fecha = $request->fecha_hora;
         $pedido->tipo = $cliente->tipo_cliente;
@@ -64,6 +79,15 @@ class PedidoController extends Controller{
             $detalleSave['precio'] = $detalle['precioVenta'];
             $detalleSave->save();
             $tol += $detalleSave['cantidad'] * $detalleSave['precio'];
+
+            if ($detalle['tipo_pro'] == 'BA'){
+                $producto->cantidad_pro -= $detalle['cantidadVenta'];
+            }
+            if ($detalle['tipo_pro'] == 'TN'){
+                $cantidad = $detalle['cantidadVenta'] * $producto->tonelada;
+                $producto->cantidad_pro -= $cantidad;
+            }
+            $producto->save();
         }
         $pedido->total = $tol;
         $pedido->save();

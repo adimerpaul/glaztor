@@ -43,8 +43,14 @@
                           <div>{{ producto.nombre_pro }}</div>
                           <div>{{ producto.marca_pro }}</div>
                         </div>
-                        <div style="">
-                          {{ producto.precio_pro }} Bs.
+                        <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                          <div>
+                            {{ producto.precio_pro }} Bs.
+                          </div>
+                          <div :class="'text-bold ' + (producto.cantidad_pro == '0' ? 'text-negative' : 'text-positive')">
+                            {{ producto.cantidad_pro }}
+                          </div>
+
                         </div>
                       </div>
                     </q-img>
@@ -76,8 +82,10 @@
               <thead>
               <tr>
                 <th>Producto</th>
+                <th>Tipo</th>
                 <th>Cantidad</th>
                 <th>Precio</th>
+                <th>Real</th>
                 <th>Subtotal</th>
               </tr>
               </thead>
@@ -89,21 +97,41 @@
                   {{ sale.producto.marca_pro }}
                 </td>
                 <td>
-                  <input v-model="sale.cantidadVenta" type="number" dense style="width: 100px" filled />
-<!--                  {{ sale.cantidadVenta }}-->
+                  <q-select v-model="sale.tipo_pro" filled dense :options="['BA', 'TN']" />
                 </td>
                 <td>
-<!--                  {{ sale.precioVenta }}-->
-                  <input v-model="sale.precioVenta" type="number" dense style="width: 120px" filled />
+                  <input v-model="sale.cantidadVenta" type="number" style="width: 50px" filled />
                 </td>
-                <td>{{ (sale.cantidadVenta * sale.precioVenta).toFixed(2) }}</td>
+                <td>
+                  <input v-model="sale.precioVenta" type="number" style="width: 70px" filled />
+                </td>
+                <td>
+                  <template v-if="sale.tipo_pro == 'BA'">
+                    {{ sale.cantidadVenta }}
+                  </template>
+                  <template v-else>
+                    {{ sale.cantidadVenta * sale.producto.tonelada }}
+                  </template>
+
+                </td>
+                <td>
+                  <template v-if="sale.tipo_pro == 'BA'">
+                    {{ (sale.cantidadVenta * sale.precioVenta).toFixed(2) }}
+                  </template>
+                  <template v-else>
+                    {{ (sale.cantidadVenta * sale.precioVenta * sale.producto.tonelada).toFixed(2) }}
+                  </template>
+<!--                  {{ (sale.cantidadVenta * sale.precioVenta).toFixed(2) }}-->
+                </td>
               </tr>
               </tbody>
               <tfoot>
               <tr>
-                <td colspan="3" class="text-right">Total</td>
+                <td colspan="3" class="text-right text-bold">Total</td>
                 <td class="text-bold">
-                  {{ (sales.reduce((acc, sale) => acc + sale.cantidadVenta * sale.precioVenta, 0)).toFixed(2) }}
+                  <template v-if="sales.length > 0">
+                    {{ totalVenta }} Bs
+                  </template>
                 </td>
               </tr>
               <tr>
@@ -359,7 +387,8 @@ export default {
         detalles: this.sales.map(sale => ({
           id: sale.producto.id,
           cantidadVenta: sale.cantidadVenta,
-          precioVenta: sale.precioVenta
+          precioVenta: sale.precioVenta,
+          tipo_pro: sale.tipo_pro
         }))
       }).then(response => {
         this.$alert.success('Pedido guardado')
@@ -368,6 +397,7 @@ export default {
         this.$router.push('/pedidos')
       }).catch(error => {
         console.log(error)
+        this.$alert.error(error.response.data.message)
       }).finally(() => {
         this.loading = false
       })
@@ -400,7 +430,13 @@ export default {
       this.pedido.contacto = cliente.nombre_cliente
     },
     agregarProducto(producto) {
-      // verificar si existe en el carrito y aiumentar cantidadventas
+
+      const cantidad = parseInt(producto.cantidad_pro)
+      if (cantidad === 0) {
+        this.$alert.error('Producto sin stock')
+        return false
+      }
+
       const index = this.sales.findIndex(sale => sale.producto.id === producto.id)
       if (index !== -1) {
         this.sales[index].cantidadVenta += 1
@@ -408,7 +444,8 @@ export default {
         this.sales.push({
           producto,
           cantidadVenta: 1,
-          precioVenta: producto.precio_pro
+          precioVenta: producto.precio_pro,
+          tipo_pro: 'BA'
         })
       }
     },
@@ -438,6 +475,17 @@ export default {
   computed: {
     esMovil() {
       return this.$q.screen.lt.md;
+    },
+    totalVenta() {
+      let sum = 0
+      this.sales.forEach(sale => {
+        if (sale.tipo_pro === 'BA') {
+          sum += sale.cantidadVenta * sale.precioVenta
+        } else {
+          sum += (sale.cantidadVenta * sale.precioVenta * sale.producto.tonelada)
+        }
+      })
+      return sum
     }
   }
 }
