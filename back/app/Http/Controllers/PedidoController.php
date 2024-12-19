@@ -78,14 +78,16 @@ class PedidoController extends Controller{
             $detalleSave['cantidad'] = $detalle['cantidadVenta'];
             $detalleSave['precio'] = $detalle['precioVenta'];
             $detalleSave->save();
-            $tol += $detalleSave['cantidad'] * $detalleSave['precio'];
+//            $tol += $detalleSave['cantidad'] * $detalleSave['precio'];
 
             if ($detalle['tipo_pro'] == 'BA'){
                 $producto->cantidad_pro -= $detalle['cantidadVenta'];
+                $tol += $detalle['cantidadVenta'] * $detalle['precioVenta'];
             }
             if ($detalle['tipo_pro'] == 'TN'){
                 $cantidad = $detalle['cantidadVenta'] * $producto->tonelada;
                 $producto->cantidad_pro -= $cantidad;
+                $tol += $cantidad * $detalle['precioVenta'];
             }
             $producto->save();
         }

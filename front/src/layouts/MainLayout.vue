@@ -127,16 +127,16 @@ export default {
         {title: 'Principal', icon: 'home', link: '/', can: ['Administrador', 'Gerente', 'Ventas']},
         {title: 'Prospección', icon: 'local_offer', link: '/preventas', can: ['Administrador', 'Gerente', 'Ventas']},
         {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidos', can: ['Administrador', 'Gerente', 'Ventas']},
-        {title: 'Pagos', icon: 'payment', link: '/pagos', can: ['Administrador', 'Gerente', 'Ventas']},
+        {title: 'Pagos', icon: 'payment', link: '/pagos', can: ['Administrador', 'Gerente', 'Ventas','Cobranza']},
         {title: 'Clientes', icon: 'groups', link: '/clientes', can: ['Administrador', 'Gerente', 'Ventas']},
         {title: 'Personal', icon: 'supervisor_account', link: '/ejecutivos', can: ['Administrador', 'Gerente']},
         {title: 'Productos', icon: 'inventory', link: '/productos', can: ['Administrador', 'Gerente']},
         {title: 'Cargos', icon: 'work', link: '/cargos', can: ['Administrador', 'Gerente']},
         {title: 'Zonas', icon: 'place', link: '/zonas', can: ['Administrador', 'Gerente']},
         {title: 'Region', icon: 'place', link: '/regions', can: ['Administrador', 'Gerente']},
-        {title: 'Servicios', icon: 'miscellaneous_services', link: '/servicios', can: ['Administrador', 'Gerente']},
-        {title: 'sueldos', icon: 'miscellaneous_services', link: '/sueldos', can: ['Administrador', 'Gerente']},
-        
+        {title: 'Servicios', icon: 'miscellaneous_services', link: '/servicios', can: ['Administrador', 'Gerente','Cobranza']},
+        {title: 'sueldos', icon: 'miscellaneous_services', link: '/sueldos', can: ['Administrador', 'Gerente','Cobranza']},
+
        // {title: 'Caja Chica', icon: 'account_balance_wallet', link: '/Cajachicas', can: ['Administrador', 'Gerente']},
         {title: 'Usuarios', icon: 'people', link: '/users', can: ['Administrador']},
       ]

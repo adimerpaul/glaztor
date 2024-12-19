@@ -75,7 +75,7 @@
 <!--                <pre>{{ pedido}}</pre>-->
               </q-item-label>
               <q-item-label class="text-caption text-positive">
-              
+
                 {{ pedido.cliente }} - {{ pedido.tipo_construccion }} - {{ pedido.user?.name }}
                 - {{ pedido.fecha }}
               </q-item-label>
@@ -103,12 +103,12 @@
         <div class="text-h6">{{ pedido.id ? 'Editar' : 'Nuevo' }} Pedido</div>
       </q-card-section>
       <q-card-section>
-        <q-form @submit="submit">
+        <q-form @submit="submit" :disable="$store.user.role !== 'Administrador'">
           <q-input v-model="pedido.fecha"
                    label="Fecha"
                    outlined
+                   :disable="$store.user.role !== 'Administrador'"
                    dense
-                   color="white"
                    type="date"
           ></q-input>
           <q-input
@@ -165,6 +165,7 @@
             v-model="pedido.zona"
             label="zonas"
             outlined
+            :disable="$store.user.role !== 'Administrador'"
             dense
             :options="zonas"
             emit-value
@@ -176,6 +177,7 @@
             v-model="pedido.estado"
             label="Estado"
             outlined
+            :disable="$store.user.role !== 'Administrador'"
             dense
             :options="[ 'PENDIENTE', 'ENTREGADO', 'ANULADO']"
           >
@@ -204,10 +206,10 @@
                 {{ sale.producto?.marca_pro }}
               </td>
               <td>
-                <input v-model="sale.cantidad" type="number" dense style="width: 90px" filled />
+                <input v-model="sale.cantidad" type="number" style="width: 50px" step="0.01" />
               </td>
               <td>
-                <input v-model="sale.precio" type="number" dense style="width: 110px" filled />
+                <input v-model="sale.precio" type="number" style="width: 70px" step="0.01" />
               </td>
               <td>{{ (sale.cantidad * sale.precio).toFixed(2) }}</td>
             </tr>
@@ -219,7 +221,7 @@
                 {{ (pedido.detalles.reduce((acc, sale) => acc + sale.cantidad * sale.precio, 0)).toFixed(2) }}
               </td>
             </tr>
-            <tr>
+            <tr v-if="$store.user.role === 'Administrador'">
               <td colspan="4">
                 <q-btn
                   no-caps
@@ -280,8 +282,11 @@
           })
       },
       showPreventa(pedido) {
-        this.pedido = {...pedido}
-        this.dialog = true;
+        // const user = this.$store.user
+        // if (user.role === 'Administrador') {
+          this.pedido = {...pedido}
+          this.dialog = true;
+        // }
       },
       submit() {
         this.loading = true;

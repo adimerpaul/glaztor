@@ -98,7 +98,7 @@ export default {
         { name: 'email', label: 'Email', align: 'left', field: 'email' },
         // { name: 'area', label: 'Area', align: 'left', field: row => row.area?.nombre },
       ],
-      roles: ['Administrador', 'Gerente', 'Ventas'],
+      roles: ['Administrador', 'Gerente', 'Ventas','Cobranza'],
     }
   },
   mounted() {

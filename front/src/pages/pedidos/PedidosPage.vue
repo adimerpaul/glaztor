@@ -1,7 +1,7 @@
 <template>
   <q-page class="bg-grey-3 q-pa-xs">
     <div class="row">
-      <div class="col-12 col-md-8 q-pa-xs">
+      <div class="col-12 col-md-7 q-pa-xs">
         <q-card flat bordered>
           <q-card-section class="q-pa-xs">
             <div class="row">
@@ -62,7 +62,7 @@
           </q-card-section>
         </q-card>
       </div>
-      <div class="col-12 col-md-4 q-pa-xs">
+      <div class="col-12 col-md-5 q-pa-xs">
         <q-card flat bordered>
           <q-card-section class="q-pa-xs">
             <div class="row items-center">
@@ -85,7 +85,7 @@
                 <th>Tipo</th>
                 <th>Cant.</th>
                 <th>Cant. Real</th>
-                <th>Precio</th>  
+                <th>Precio</th>
                 <th>Subtotal</th>
               </tr>
               </thead>
@@ -114,7 +114,7 @@
                 <td>
                   <input v-model="sale.precioVenta" type="number" style="width: 70px" filled />
                 </td>
-                
+
                 <td>
                   <template v-if="sale.tipo_pro == 'BA'">
                     {{ (sale.cantidadVenta * sale.precioVenta).toFixed(2) }}
