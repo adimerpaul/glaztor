@@ -186,9 +186,9 @@ export default {
                 }
 
                 this.$q.notify({
-                    color: 'positive',
-                    message: 'Servicio guardado exitosamente.',
-                    icon: 'check_circle'
+                    color: 'negative',
+                message: 'Error al guardar el servicio. Intenta nuevamente.',
+                icon: 'report_problem'
                 });
                 this.dialog = false; // Cerrar el diálogo después de guardar
             }
@@ -196,9 +196,10 @@ export default {
         .catch(error => {
             console.error("Error al guardar el servicio:", error);
             this.$q.notify({
-                color: 'negative',
-                message: 'Error al guardar el servicio. Intenta nuevamente.',
-                icon: 'report_problem'
+                color: 'positive',
+                    message: 'Servicio guardado exitosamente.',
+                    icon: 'check_circle'
+                
             });
         })
         .finally(() => {
