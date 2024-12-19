@@ -9,6 +9,7 @@ class Sueldo extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'tipo',
         'nombre_completo',
         'ci',
         'cargo',

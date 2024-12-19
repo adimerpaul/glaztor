@@ -234,49 +234,6 @@
             </tfoot>
           </q-markup-table>
         </q-form>
-   <!--       <pre>{{pedido}}</pre>-->
-<!--        {-->
-<!--        "id": 1,-->
-<!--        "fecha_hora": "2024-12-08 00:00:00",-->
-<!--        "tipo": "",-->
-<!--        "cliente": "MARTHA MARTINEZ ACHACOLLO MAMANI",-->
-<!--        "producto": "",-->
-<!--        "cantidad": null,-->
-<!--        "precio": null,-->
-<!--        "factura": "",-->
-<!--        "nombre_factura": "",-->
-<!--        "nit_factura": null,-->
-<!--        "direccion": "AVENIDA 24 DE JUNIO A LADO DE CARTONBOL",-->
-<!--        "contacto": "MARTHA MARTINEZ ACHACOLLO MAMANI",-->
-<!--        "telefono": "71888721",-->
-<!--        "telefono2": null,-->
-<!--        "observacion": null,-->
-<!--        "chofer": "",-->
-<!--        "zona": null,-->
-<!--        "total": "612.00",-->
-<!--        "estado": "PENDIENTE",-->
-<!--        "fecha_pago": "2024-12-08",-->
-<!--        "user_id": 2,-->
-<!--        "cliente_id": 166,-->
-<!--        "detalles": [-->
-<!--        {-->
-<!--        "id": 1,-->
-<!--        "pedido_id": 1,-->
-<!--        "user_id": 2,-->
-<!--        "producto": null,-->
-<!--        "cantidad": 1,-->
-<!--        "precio": "392.00"-->
-<!--        },-->
-<!--        {-->
-<!--        "id": 2,-->
-<!--        "pedido_id": 1,-->
-<!--        "user_id": 2,-->
-<!--        "producto": null,-->
-<!--        "cantidad": 1,-->
-<!--        "precio": "220.00"-->
-<!--        }-->
-<!--        ]-->
-<!--        }-->
       </q-card-section>
 
       </q-card>

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('sueldos', function (Blueprint $table) {
             $table->id(); // ID único para cada registro
+            $table->string('tipo')->nullable(); 
             $table->string('nombre_completo')->nullable(); // Nombre completo del empleado
             $table->string('ci')->nullable(); // Carnet de Identidad
             $table->string('cargo')->nullable(); // Cargo del empleado

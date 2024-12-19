@@ -83,9 +83,9 @@
               <tr>
                 <th>Producto</th>
                 <th>Tipo</th>
-                <th>Cantidad</th>
-                <th>Precio</th>
-                <th>Real</th>
+                <th>Cant.</th>
+                <th>Cant. Real</th>
+                <th>Precio</th>  
                 <th>Subtotal</th>
               </tr>
               </thead>
@@ -103,9 +103,6 @@
                   <input v-model="sale.cantidadVenta" type="number" style="width: 50px" filled />
                 </td>
                 <td>
-                  <input v-model="sale.precioVenta" type="number" style="width: 70px" filled />
-                </td>
-                <td>
                   <template v-if="sale.tipo_pro == 'BA'">
                     {{ sale.cantidadVenta }}
                   </template>
@@ -114,6 +111,10 @@
                   </template>
 
                 </td>
+                <td>
+                  <input v-model="sale.precioVenta" type="number" style="width: 70px" filled />
+                </td>
+                
                 <td>
                   <template v-if="sale.tipo_pro == 'BA'">
                     {{ (sale.cantidadVenta * sale.precioVenta).toFixed(2) }}

@@ -1,67 +1,238 @@
 <template>
-    <q-page class="q-pa-md">
-      <q-table :rows="sueldos" :columns="columns" dense wrap-cells flat bordered :rows-per-page-options="[0]"
-               title="Sueldos" :filter="filter">
-        <template v-slot:top-right>
-          <q-btn color="primary" label="Nuevo Sueldo" @click="sueldoNew" outline no-caps icon="add_circle_outline" :loading="loading" />
-          <q-input v-model="filter" label="Buscar" dense outlined>
-            <template v-slot:append>
-              <q-icon name="search" />
+    <q-page class="bg-grey-2">
+      <q-card flat bordered>
+        <q-card-section>
+          <q-table
+            flat
+            bordered
+            dense
+            :rows="sueldos"
+            row-key="id"
+            :columns="columns"
+            class="styled-table"
+            hide-bottom
+          >
+            <template v-slot:top-right>
+              <q-btn icon="add" label="Nuevo Sueldo" color="primary" @click="openDialog" />
             </template>
-          </q-input>
-        </template>
-  
-        <template v-slot:body-cell-actions="props">
-          <q-td :props="props">
-            <q-btn-dropdown label="Opciones" no-caps size="10px" dense color="primary">
-              <q-list>
-                <q-item clickable @click="sueldoEdit(props.row)" v-close-popup>
-                  <q-item-section avatar>
+            <template v-slot:body-cell-acciones="props">
+              <q-btn-dropdown flat dense color="primary" no-caps label="Opciones">
+                <q-item clickable v-ripple @click="editSueldo(props.row)" v-close-popup>
+                  <q-item-section>
                     <q-icon name="edit" />
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>Editar</q-item-label>
+                    Editar
                   </q-item-section>
                 </q-item>
-                <q-item clickable @click="sueldoDelete(props.row.id)" v-close-popup>
-                  <q-item-section avatar>
+                <q-item clickable v-ripple @click="deleteSueldo(props.row)" v-close-popup>
+                  <q-item-section>
                     <q-icon name="delete" />
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>Eliminar</q-item-label>
+                    Eliminar
                   </q-item-section>
                 </q-item>
-              </q-list>
-            </q-btn-dropdown>
-          </q-td>
-        </template>
+              </q-btn-dropdown>
+            </template>
+          </q-table>
+        </q-card-section>
+      </q-card>
   
-        <template v-slot:body-cell-role="props">
-          <q-td :props="props">
-            <q-chip :label="props.row.role"
-                    :color="props.row.role === 'Administrador' ? 'primary' : props.row.role === 'Gerente' ? 'info' : 'positive'"
-                    text-color="white" dense size="14px"/>
-          </q-td>
-        </template>
-      </q-table>
+      <!-- Botón flotante -->
+      <q-page-sticky position="bottom-right" :offset="[18, 18]">
+        <q-btn fab icon="add" color="primary" @click="openDialog" />
+      </q-page-sticky>
   
-      <q-dialog v-model="sueldoDialog" persistent>
-        <q-card>
-          <q-card-section class="q-pb-none row items-center">
-            <div>{{ actionPeriodo }} Sueldo</div>
+      <!-- Dialog para formulario -->
+      <q-dialog v-model="dialog" transition-show="slide-up" transition-hide="slide-down">
+        <q-card style="width: 500px; max-width: 100vw;">
+          <q-card-section class="row items-center bg-primary text-white">
+            <q-btn flat round dense icon="arrow_back" v-close-popup />
             <q-space />
-            <q-btn icon="close" flat round dense @click="sueldoDialog = false" />
+            <div class="text-h6">{{ sueldo.id ? 'Editar Sueldo' : 'Nuevo Sueldo' }}</div>
           </q-card-section>
-  
-          <q-card-section class="q-pt-none">
-            <q-form @submit="sueldo.id ? sueldoPut() : sueldoPost()">
-              <q-input v-model="sueldo.monto" label="Monto" dense outlined :rules="[val => !!val || 'Campo requerido']" />
-              <q-select v-model="sueldo.ejecutivo_id" label="Ejecutivo" dense outlined :options="ejecutivos" :rules="[val => !!val || 'Campo requerido']" emit-value map-options :option-label="ejecutivo => ejecutivo.nombre" :option-value="ejecutivo => ejecutivo.id" />
-              <q-select v-model="sueldo.periodo" label="Periodo" dense outlined :options="periodos" :rules="[val => !!val || 'Campo requerido']" />
-              <div class="text-right">
-                <q-btn color="negative" label="Cancelar" @click="sueldoDialog = false" no-caps :loading="loading" />
-                <q-btn color="primary" label="Guardar" type="submit" no-caps :loading="loading" class="q-ml-sm" />
+          <q-card-section>
+            <q-form @submit.prevent="saveSueldo">
+              <!-- Formulario -->
+              <div class="row q-col-gutter-md">
+                <div class="col-12">
+                  <q-select
+                    dense
+                    v-model="sueldo.tipo"
+                    :options="['PERMANENTE', 'TEMPORAL']"
+                    outlined
+                    label="Tipo"
+                    :rules="[val => !!val || 'Este campo es requerido']"
+                  />
+                </div>
+                <div class="col-12">
+                  <q-input
+                    dense
+                    v-model="sueldo.nombre_completo"
+                    outlined
+                    label="Nombre Completo"
+                    style="text-transform: uppercase"
+                    :rules="[val => !!val || 'Este campo es requerido']"
+                  />
+                </div>
+                <div class="col-6">
+                  <q-input dense v-model="sueldo.ci" outlined label="C.I." />
+                </div>
+                <div class="col-6">
+                  <q-input dense v-model="sueldo.cargo" outlined label="Cargo" />
+                </div>
+                <div class="col-12">
+                  <q-input
+                    dense
+                    v-model="sueldo.fecha_ingreso"
+                    type="date"
+                    outlined
+                    label="Fecha de Ingreso"
+                  />
+                </div>
+                <div class="col-6">
+                  <q-input
+                    dense
+                    v-model="sueldo.haber_basico"
+                    outlined
+                    type="number"
+                    label="Haber Básico"
+                  />
+                </div>
+                <div class="col-6">
+                  <q-input
+                    dense
+                    v-model="sueldo.monto_acumulado"
+                    outlined
+                    type="number"
+                    label="Monto Acumulado"
+                  />
+                </div>
+                <q-separator />
+                <div class="col-6">
+                  <q-input
+                    dense
+                    v-model="sueldo.descuento_afp"
+                    outlined
+                    type="number"
+                    label="Descuento AFP"
+                  />
+                </div>
+                <div class="col-6">
+                  <q-input
+                    dense
+                    v-model="sueldo.descuento_seguro"
+                    outlined
+                    type="number"
+                    label="Descuento Seguro"
+                    
+                  />
+                </div>
+                <div class="col-12">
+                  <q-input
+                    dense
+                    v-model="sueldo.descuento_solidario"
+                    outlined
+                    type="number"
+                    label="Descuento Solidario"
+                    
+                  />
+                </div>
+
+
+
+                <div class="col-12">
+                  <q-input
+                    dense
+                    v-model="sueldo.descuento_otros"
+                    outlined
+                    type="number"
+                    label="Descuento Otros"
+                    
+                  />
+                </div>
+                <div class="col-12">
+                  <q-input
+                    dense
+                    v-model="sueldo.total_descuentos_lab"
+                    outlined
+                    type="number"
+                    label="Total Descuento"
+                    
+                  />
+                </div>
+                <div class="col-12">
+                  <q-input
+                    dense
+                    v-model="sueldo.total_liquido"
+                    outlined
+                    type="number"
+                    label="total liquido"
+                    
+                  />
+                </div>
+                <div class="col-12">
+                  <q-input
+                    dense
+                    v-model="sueldo.descuento_rc_iva"
+                    outlined
+                    type="number"
+                    label="Descuento rc_iva"
+                    
+                  />
+                </div>
+                <div class="col-12">
+                  <q-input
+                    dense
+                    v-model="sueldo.descuento_anticipo"
+                    outlined
+                    type="number"
+                    label="Descuento anticipo	"
+                    
+                  />
+                </div>
+                <div class="col-12">
+                  <q-input
+                    dense
+                    v-model="sueldo.total_descuentos"
+                    outlined
+                    type="number"
+                    label="Total Descuento	"
+                    
+                  />
+                </div>
+
+
+
+           
+                <div class="col-12">
+                  <q-input
+                    dense
+                    v-model="sueldo.liquido_pagable"
+                    outlined
+                    type="number"
+                    label="Líquido Pagable"
+                  />
+                </div>
+
+
+                <div class="d-grid col-6 mx-auto mb-3">
+                <img v-if="sueldo.foto"
+                     :src="sueldo.foto.includes('data') ? sueldo.foto : $url + '..' + sueldo.foto"
+                     alt="Imagen del sueldo" class="img-thumbnail" height="100">
+                <img v-else height="100" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-256.png"
+                     class="img-thumbnail" id="fotoimg" alt="">
               </div>
+  
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-gift"></i></span>
+                <input v-on:change="previsualizarFoto" type="file" accept="image/png, image/jpg, image/gif"
+                       class="form-control">
+              </div>
+
+
+              </div>
+              <q-card-actions align="right">
+                <q-btn label="Cancelar" flat color="negative" @click="dialog = false" />
+                <q-btn label="Guardar" flat color="primary" type="submit" />
+              </q-card-actions>
             </q-form>
           </q-card-section>
         </q-card>
@@ -70,104 +241,95 @@
   </template>
   
   <script>
+  import moment from 'moment'
+  import {Loading} from 'quasar';
   export default {
-    name: 'SueldoPage',
+    name: 'sueldos',
     data() {
       return {
         sueldos: [],
         sueldo: {},
-        sueldoDialog: false,
-        loading: false,
-        actionPeriodo: '',
-        ejecutivos: [],
-        periodos: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-        filter: '',
-        columns: [
-          { name: 'actions', label: 'Acciones', align: 'center' },
-          { name: 'monto', label: 'Monto', align: 'left', field: 'monto' },
-          { name: 'ejecutivo', label: 'Ejecutivo', align: 'left', field: row => row.ejecutivo?.nombre },
-          { name: 'periodo', label: 'Periodo', align: 'left', field: 'periodo' },
-        ],
+        dialog: false,
       };
     },
     mounted() {
-      this.sueldoGet();
-      this.ejecutivosGet();
+      this.getSueldos();
     },
     methods: {
-      sueldoGet() {
-        this.loading = true;
-        this.$axios.get('sueldos').then(res => {
-          this.sueldos = res.data;
-        }).catch(error => {
-          this.$alert.error(error.response.data.message);
-        }).finally(() => {
-          this.loading = false;
-        });
-      },
-      ejecutivosGet() {
-        this.loading = true;
-        this.$axios.get('ejecutivos').then(res => {
-          this.ejecutivos = res.data;
-        }).catch(error => {
-          this.$alert.error(error.response.data.message);
-        }).finally(() => {
-          this.loading = false;
-        });
-      },
-      sueldoNew() {
+      openDialog() {
+        this.dialog = true;
         this.sueldo = {
-          monto: '',
-          ejecutivo_id: null,
-          periodo: '',
+          tipo: '',
+          nombre_completo: '',
+          ci: '',
+          cargo: '',
+          fecha_ingreso:moment().format('YYYY-MM-DD'),
+          haber_basico: 0,
+          monto_acumulado: 0,
+          descuento_afp: 0,
+          descuento_seguro: 0,
+          total_descuentos: 0,
+          liquido_pagable: 0,
         };
-        this.actionPeriodo = 'Nuevo';
-        this.sueldoDialog = true;
       },
-      sueldoPost() {
-        this.loading = true;
-        this.$axios.post('sueldos', this.sueldo).then(res => {
-          this.sueldoGet();
-          this.sueldoDialog = false;
-          this.$alert.success('Sueldo creado');
-        }).catch(error => {
-          this.$alert.error(error.response.data.message);
-        }).finally(() => {
-          this.loading = false;
-        });
-      },
-      sueldoPut() {
-        this.loading = true;
-        this.$axios.put('sueldos/' + this.sueldo.id, this.sueldo).then(res => {
-          this.sueldoGet();
-          this.sueldoDialog = false;
-          this.$alert.success('Sueldo actualizado');
-        }).catch(error => {
-          this.$alert.error(error.response.data.message);
-        }).finally(() => {
-          this.loading = false;
-        });
-      },
-      sueldoEdit(sueldo) {
+      editSueldo(sueldo) {
         this.sueldo = { ...sueldo };
-        this.actionPeriodo = 'Editar';
-        this.sueldoDialog = true;
+        this.dialog = true;
       },
-      sueldoDelete(id) {
-        this.$alert.dialog('¿Desea eliminar este sueldo?')
-          .onOk(() => {
-            this.loading = true;
-            this.$axios.delete('sueldos/' + id).then(res => {
-              this.sueldoGet();
-              this.$alert.success('Sueldo eliminado');
-            }).catch(error => {
-              this.$alert.error(error.response.data.message);
-            }).finally(() => {
-              this.loading = false;
-            });
-          });
+      saveSueldo() {
+        if (this.sueldo.id) {
+          this.updateSueldo();
+        } else {
+          this.addSueldo();
+        }
+      },
+      addSueldo() {
+        this.$axios.post('sueldos', this.sueldo).then((response) => {
+          this.sueldos.push(response.data);
+          this.dialog = false;
+        });
+      },
+      updateSueldo() {
+        this.$axios.put(`sueldos/${this.sueldo.id}`, this.sueldo).then((response) => {
+          const index = this.sueldos.findIndex((item) => item.id === this.sueldo.id);
+          this.sueldos[index] = response.data;
+          this.dialog = false;
+        });
+      },
+      deleteSueldo(sueldo) {
+        this.$axios.delete(`sueldos/${sueldo.id}`).then(() => {
+          this.sueldos = this.sueldos.filter((item) => item.id !== sueldo.id);
+        });
+      },
+      getSueldos() {
+        this.$axios.get('sueldos').then((response) => {
+          this.sueldos = response.data;
+        });
       },
     },
   };
   </script>
+  
+  <style scoped>
+  .styled-table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+  }
+  
+  .styled-table th,
+  .styled-table td {
+    padding: 8px 12px;
+    text-align: left;
+  }
+  
+  .styled-table th {
+    background-color: #f4f4f9;
+    color: #333;
+  }
+  
+  .styled-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+  </style>
   

@@ -28,6 +28,7 @@ class SueldoController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
+            'tipo' => 'required|string',
             'nombre_completo' => 'required|string',
             'ci' => 'required|string|unique:sueldos',
             'cargo' => 'required|string',
