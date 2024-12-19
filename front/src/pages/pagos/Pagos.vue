@@ -72,7 +72,9 @@
                 <q-chip>
                   {{ pedido.total }}
                 </q-chip>
-<!--                <pre>{{ pedido}}</pre>-->
+                <q-chip :color="pedido.totalPagado >= pedido.total ? 'positive' : 'negative'">
+                  {{ pedido.totalPagado }}
+                </q-chip>
               </q-item-label>
               <q-item-label class="text-caption text-positive">
                 {{ pedido.cliente }} - {{ pedido.tipo_construccion }} - {{ pedido.user?.name }}
@@ -84,8 +86,7 @@
               <q-icon name="arrow_forward"/>
             </q-item-section>
           </q-item>
-            <!--         <pre>{{pedidos}}</pre>
-          <pre>{{pedidos}}</pre> -->
+<!--          <pre>{{pedidos}}</pre>-->
         </q-list>
       </q-card-section>
 
@@ -131,21 +132,19 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="sale in pedido.pagos" :key="sale.id">
+            <tr v-for="pago in pedido.pagos" :key="pago.id">
               <td>
-                {{ sale.fecha_pago }}
-                {{ sale.hora_pago }}
+                {{ pago.fecha_pago }}
+                {{ pago.hora_pago }}
               </td>
               <td>
-                {{ sale.numero_recibo }}
+                {{ pago.numero_recibo }}
               </td>
               <td>
-<!--                {{ sale.banco }}-->
-<!--                <input v-model="sale.precio" type="number" dense style="width: 110px" filled />-->
-                <input v-model="sale.banco" dense filled style="width: 110px" />
+                <q-input v-model="pago.banco" dense filled style="width: 110px" :debounce="500" @update:modelValue="updatePago(pago)" />
               </td>
               <td>
-                {{ sale.monto  }}
+                {{ pago.monto  }}
               </td>
             </tr>
             </tbody>
@@ -153,40 +152,13 @@
             <tr>
               <td colspan="3" class="text-right">Total</td>
               <td class="text-bold">
-                {{ (pedido.pagos.reduce((acc, sale) => acc + parseFloat(sale.monto), 0)).toFixed(2) }}
+                {{ (pedido.pagos.reduce((acc, pago) => acc + parseFloat(pago.monto), 0)).toFixed(2) }}
               </td>
             </tr>
             </tfoot>
           </q-markup-table>
         </q-form>
-        <pre>{{pedido.pagos}}</pre>
-<!--        [-->
-<!--        {-->
-<!--        "id": 4,-->
-<!--        "pedido_id": 2,-->
-<!--        "user_id": 3,-->
-<!--        "monto": "20000.00",-->
-<!--        "forma_pago": "EFECTIVO",-->
-<!--        "numero_recibo": "56",-->
-<!--        "fecha_pago": "2024-12-08",-->
-<!--        "hora_pago": "10:15:48",-->
-<!--        "banco": null,-->
-<!--        "estado": "Activo",-->
-<!--        "user": {-->
-<!--        "id": 3,-->
-<!--        "name": "Susana",-->
-<!--        "username": "susana",-->
-<!--        "role": "Administrador",-->
-<!--        "cargo": null,-->
-<!--        "email": "susana@gmail.com",-->
-<!--        "email_verified_at": "2024-12-08T13:13:02.000000Z",-->
-<!--        "deleted_at": null,-->
-<!--        "created_at": "2024-12-08T13:13:03.000000Z",-->
-<!--        "updated_at": "2024-12-08T13:13:03.000000Z"-->
-<!--        },-->
-<!--        "precio": 3456-->
-<!--        }-->
-<!--        ]-->
+<!--        <pre>{{pedido.pagos}}</pre>-->
       </q-card-section>
 
       </q-card>
@@ -281,6 +253,16 @@
       this.getProductos();
     },
     methods: {
+      updatePago(pago) {
+        console.log(pago);
+        this.$axios.put('pagos/' + pago.id, pago)
+          .then(response => {
+            this.$alert.success('Pago actualizado correctamente');
+          }).catch(error => {
+            console.log(error);
+            this.$alert.error('Error al actualizar el pago');
+          });
+      },
       submitPago() {
         this.loading = true;
         this.$axios.post('pagos', {
@@ -291,6 +273,7 @@
             this.dialogPagos = false;
             this.$alert.success('Pago agregado correctamente');
             this.pedido.pagos.push(response.data);
+            this.getPedidos();
           }).catch(error => {
             console.log(error);
             this.$alert.error('Error al agregar el pago');

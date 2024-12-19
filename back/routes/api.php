@@ -40,7 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('pedidos/{id}', [PedidoController::class, 'destroy']);
 
     Route::post('pagos', [PagoController::class, 'store']);
-    Route::put('pagos', [PagoController::class, 'update']);
+    Route::put('pagos/{id}', [PagoController::class, 'update']);
 
     Route::get('pedidotrailers', [PedidoController::class, 'index']);
     Route::post('pedidotrailers', [PedidoController::class, 'store']);

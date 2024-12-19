@@ -20,4 +20,10 @@ class PagoController extends Controller{
         $pago->save();
         return Pago::with('user')->find($pago->id);
     }
+    function update(Request $request, $id){
+        $pago = Pago::find($id);
+        $pago->banco = $request->banco;
+        $pago->save();
+        return Pago::with('user')->find($pago->id);
+    }
 }
