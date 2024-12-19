@@ -14,7 +14,7 @@ class PagoController extends Controller{
         $pago->monto = $request->monto;
         $pago->forma_pago = $request->forma_pago;
         $pago->numero_recibo = $request->numero_recibo;
-        $pago->fecha_pago = now();
+        $pago->fecha_pago = $request->fecha_pago;
         $pago->hora_pago = now();
         $pago->banco = $request->banco;
         $pago->save();
@@ -22,6 +22,11 @@ class PagoController extends Controller{
     }
     function update(Request $request, $id){
         $pago = Pago::find($id);
+        $pago->monto = $request->monto;
+        $pago->forma_pago = $request->forma_pago;
+        $pago->numero_recibo = $request->numero_recibo;
+        $pago->fecha_pago = $request->fecha_pago;
+        $pago->hora_pago = now();
         $pago->banco = $request->banco;
         $pago->save();
         return Pago::with('user')->find($pago->id);

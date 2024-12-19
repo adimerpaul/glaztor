@@ -116,6 +116,7 @@
               label="Agregar Pago"
               @click="clickDialogPago"
               no-caps
+              v-if="$store.user.role === 'Cobranza'"
             ></q-btn>
           </div>
           <div class="text-bold q-pa-xs">
@@ -132,7 +133,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="pago in pedido.pagos" :key="pago.id">
+            <tr v-for="pago in pedido.pagos" :key="pago.id" @click="showPago(pago)">
               <td>
                 {{ pago.fecha_pago }}
                 {{ pago.hora_pago }}
@@ -141,17 +142,24 @@
                 {{ pago.numero_recibo }}
               </td>
               <td>
-                <q-input v-model="pago.banco" dense filled style="width: 110px" :debounce="500" @update:modelValue="updatePago(pago)" />
+<!--                <q-input v-model="pago.banco" dense filled style="width: 110px" :debounce="500" @update:modelValue="updatePago(pago)" />-->
+                {{ pago.banco }}
               </td>
-              <td>
+              <td class="text-right">
                 {{ pago.monto  }}
               </td>
             </tr>
             </tbody>
             <tfoot>
             <tr>
-              <td colspan="3" class="text-right">Total</td>
-              <td class="text-bold">
+              <td colspan="2" >
+                Deuda
+                <span class="text-bold text-red">
+                  {{ (pedido.total - pedido.pagos.reduce((acc, pago) => acc + parseFloat(pago.monto), 0)).toFixed(2) }}
+                </span>
+              </td>
+              <td class="text-right">Total</td>
+              <td class="text-bold text-right">
                 {{ (pedido.pagos.reduce((acc, pago) => acc + parseFloat(pago.monto), 0)).toFixed(2) }}
               </td>
             </tr>
@@ -168,10 +176,22 @@
       <q-card-section class="row items-center q-px-md bg-primary text-white q-px-none">
         <q-btn flat round dense icon="fa-solid fa-arrow-left" @click="dialogPagos = false" />
         <q-space/>
-        <div class="text-h6">Agregar Pago</div>
+        <div class="text-h6">
+          {{ pago.id ? 'Editar' : 'Nuevo' }}
+          Pago
+        </div>
       </q-card-section>
       <q-card-section>
         <q-form @submit="submitPago">
+<!--          fecha_pago -->
+          <q-input
+            v-model="pago.fecha_pago"
+            outlined
+            label="Fecha de Pago"
+            type="date"
+            :rules="[val => !!val || 'Campo requerido']"
+            dense
+          ></q-input>
           <q-input
             v-model="pago.monto"
             outlined
@@ -205,8 +225,8 @@
           <q-btn
             type="submit"
             class="full-width"
-            label="Agregar Pago"
-            color="green"
+            :label="pago.id ? 'Actualizar' : 'Agregar'"
+            :color="pago.id ? 'primary' : 'green'"
             :loading="loading"
             no-caps
           ></q-btn>
@@ -253,18 +273,36 @@
       this.getProductos();
     },
     methods: {
+      showPago(pago) {
+        const user = this.$store.user;
+        if (user.role !== 'Cobranza') {
+          return;
+        }
+        this.dialogPagos = true;
+        this.pago = {...pago}
+      },
       updatePago(pago) {
         console.log(pago);
         this.$axios.put('pagos/' + pago.id, pago)
           .then(response => {
             this.$alert.success('Pago actualizado correctamente');
+            this.getPedidos();
+            this.dialogPagos = false;
+            this.dialog = false;
           }).catch(error => {
             console.log(error);
             this.$alert.error('Error al actualizar el pago');
+          }).finally(() => {
+            this.loading = false;
           });
       },
       submitPago() {
         this.loading = true;
+
+        if (this.pago.id) {
+          this.updatePago(this.pago);
+          return;
+        }
         this.$axios.post('pagos', {
           ...this.pago,
           pedido_id: this.pedido.id
@@ -288,6 +326,7 @@
           forma_pago: 'EFECTIVO',
           numero_recibo: '',
           banco: '',
+          fecha_pago: moment().format('YYYY-MM-DD'),
         }
       },
       getZonas() {
