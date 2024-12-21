@@ -6,7 +6,7 @@
           <thead>
           <tr>
             <th>Nombre</th>
-            <th>Apellido</th>
+            <th>ci</th>
             <th>Telefono</th>
             <th>Telefono 2</th>
             <th>Cargo</th>
@@ -26,7 +26,7 @@
           <tbody>
           <tr v-for="(ejecutivo,index) in ejecutivos" :key="index">
             <td>{{ ejecutivo.nombre_eje }}</td>
-            <td>{{ ejecutivo.apellido_eje }}</td>
+            <td>{{ ejecutivo.ci }}</td>
             <td>{{ ejecutivo.telefono_1 }}</td>
             <td>{{ ejecutivo.telefono_2 }}</td>
             <td>{{ ejecutivo.cargo }}</td>
@@ -103,11 +103,11 @@
             <div class="col-12">
               <q-input
                 dense
-                v-model="ejecutivo.apellido_eje"
+                v-model="ejecutivo.ci"
                 outlined
                 label="Apellido"
                 :rules="[val => !!val || 'Este campo es requerido']"
-                @input="ejecutivo.apellido_eje = ejecutivo.apellido_eje.toUpperCase()"
+                @input="ejecutivo.ci = ejecutivo.ci.toUpperCase()"
                 style="text-transform: uppercase;"
               />
             </div>
@@ -455,7 +455,7 @@ export default {
       this.dialog = true
       this.ejecutivo = {
         nombre_eje: '',
-        apellido_eje: '',
+        ci: '',
         telefono_1: '',
         telefono_2: '',
         cargo: '',

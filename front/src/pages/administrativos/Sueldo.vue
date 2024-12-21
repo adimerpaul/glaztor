@@ -51,6 +51,15 @@
           <q-card-section>
             <q-form @submit.prevent="saveSueldo">
               <!-- Formulario -->
+              <div class="col-12">
+                  <q-input
+                    dense
+                    v-model="sueldo.sueldo_correspondiente"
+                    type="date"
+                    outlined
+                    label="sueldo Correspondiente"
+                  />
+                </div>
               <div class="row q-col-gutter-md">
                 <div class="col-12">
                   <q-select
@@ -59,7 +68,6 @@
                     :options="['PERMANENTE', 'TEMPORAL']"
                     outlined
                     label="Tipo"
-                    :rules="[val => !!val || 'Este campo es requerido']"
                   />
                 </div>
                 <div class="col-12">
@@ -69,7 +77,6 @@
                     outlined
                     label="Nombre Completo"
                     style="text-transform: uppercase"
-                    :rules="[val => !!val || 'Este campo es requerido']"
                   />
                 </div>
                 <div class="col-6">
@@ -99,22 +106,33 @@
                 <div class="col-6">
                   <q-input
                     dense
-                    v-model="sueldo.monto_acumulado"
+                    v-model="sueldo.bono_antiguedad"
                     outlined
                     type="number"
-                    label="Monto Acumulado"
+                    label="bono antiguedad"
                   />
                 </div>
-                <q-separator />
+                <div class="col-12">
+                    <q-input
+                        dense
+                        v-model="sueldo.monto_acumulado"
+                        outlined
+                        type="number"
+                        label="total Ganado"
+                        readonly
+                    />
+                </div>
+                
                 <div class="col-6">
-                  <q-input
-                    dense
-                    v-model="sueldo.descuento_afp"
-                    outlined
-                    type="number"
-                    label="Descuento AFP"
-                  />
-                </div>
+                    <q-input
+                        dense
+                        v-model="sueldo.descuento_afp"
+                        outlined
+                        type="number"
+                        label="Descuento AFP (0.5%)"
+                        readonly
+                    />
+                    </div>
                 <div class="col-6">
                   <q-input
                     dense
@@ -125,7 +143,7 @@
                     
                   />
                 </div>
-                <div class="col-12">
+                <div class="col-6">
                   <q-input
                     dense
                     v-model="sueldo.descuento_solidario"
@@ -135,10 +153,7 @@
                     
                   />
                 </div>
-
-
-
-                <div class="col-12">
+                <div class="col-6">
                   <q-input
                     dense
                     v-model="sueldo.descuento_otros"
@@ -159,26 +174,25 @@
                   />
                 </div>
                 <div class="col-12">
-                  <q-input
-                    dense
-                    v-model="sueldo.total_liquido"
-                    outlined
-                    type="number"
-                    label="total liquido"
-                    
-                  />
+                    <q-input
+                        dense
+                        v-model="sueldo.total_liquido"
+                        outlined
+                        type="number"
+                        label="total liquido"
+                        readonly
+                    />
                 </div>
-                <div class="col-12">
+                <div class="col-6">
                   <q-input
                     dense
                     v-model="sueldo.descuento_rc_iva"
                     outlined
                     type="number"
                     label="Descuento rc_iva"
-                    
                   />
                 </div>
-                <div class="col-12">
+                <div class="col-6">
                   <q-input
                     dense
                     v-model="sueldo.descuento_anticipo"
@@ -198,18 +212,15 @@
                     
                   />
                 </div>
-
-
-
-           
                 <div class="col-12">
-                  <q-input
+                <q-input
                     dense
                     v-model="sueldo.liquido_pagable"
                     outlined
                     type="number"
                     label="Líquido Pagable"
-                  />
+                
+                />
                 </div>
 
 
@@ -244,71 +255,142 @@
   import moment from 'moment'
   import {Loading} from 'quasar';
   export default {
-    name: 'sueldos',
-    data() {
-      return {
-        sueldos: [],
-        sueldo: {},
-        dialog: false,
+  name: 'sueldos',
+  data() {
+    return {
+      sueldos: [],
+      sueldo: {},
+      dialog: false,
+    };
+  },
+  mounted() {
+    this.getSueldos();
+  },
+  computed: {
+    montoAcumulado() {
+      return (
+        parseFloat(this.sueldo.haber_basico || 0) +
+        parseFloat(this.sueldo.bono_antiguedad || 0)
+      );
+    },
+    descuentoAFP() {
+      return (this.montoAcumulado * 0.005).toFixed(2);
+    },
+    descuentoSeguro() {
+      return (this.montoAcumulado * 0.1).toFixed(2);
+    },
+    descuentoSolidario() {
+      return (this.montoAcumulado * 0.0171).toFixed(2);
+    },
+    descuentoOtros() {
+      return (this.montoAcumulado * 0.005).toFixed(2);
+    },
+    totalDescuentosLab() {
+      return (
+        parseFloat(this.descuentoAFP) +
+        parseFloat(this.descuentoSeguro) +
+        parseFloat(this.descuentoSolidario) +
+        parseFloat(this.descuentoOtros)
+      ).toFixed(2);
+    },
+    liquido() {
+        return (
+        parseFloat(this.montoAcumulado || 0) - parseFloat(this.totalDescuentosLab || 0)
+        ).toFixed(2);  // Asegúrate de redondear el valor para mostrarlo correctamente
+    },
+    liquidoPagable() {
+      return (
+        parseFloat(this.sueldo.total_liquido || 0) -
+        parseFloat(this.sueldo.total_descuentos || 0)
+      );
+    },
+  },
+        watch: {
+            montoAcumulado(newValue) {
+            this.sueldo.monto_acumulado = newValue;
+            },
+            descuentoAFP(newValue) {
+            this.sueldo.descuento_afp = newValue;
+            },
+            descuentoSeguro(newValue) {
+            this.sueldo.descuento_seguro = newValue;
+            },
+            descuentoSolidario(newValue) {
+            this.sueldo.descuento_solidario = newValue;
+            },
+            descuentoOtros(newValue) {
+            this.sueldo.descuento_otros = newValue;
+            },
+            totalDescuentosLab(newValue) {
+            this.sueldo.total_descuentos_lab = newValue;
+            },
+            liquido(newValue) {
+                this.sueldo.total_liquido = newValue;
+            },
+            liquidoPagable(newValue) {
+                this.sueldo.liquido_pagable = newValue;
+            },
+        },
+  methods: {
+    openDialog() {
+      this.dialog = true;
+      this.sueldo = {
+        sueldo_correspondiente: moment().format('YYYY-MM-DD'),
+        tipo: '',
+        nombre_completo: '',
+        ci: '',
+        cargo: '',
+        fecha_ingreso: moment().format('YYYY-MM-DD'),
+        haber_basico: 0,
+        bono_antiguedad: 0,
+        monto_acumulado: 0,
+        descuento_afp: 0,
+        descuento_seguro: 0,
+        total_descuentos: 0,
+        descuento_rc_iva: 0,
+        descuento_anticipo: 0,
+        liquido_pagable: 0,
       };
     },
-    mounted() {
-      this.getSueldos();
+    editSueldo(sueldo) {
+      this.sueldo = { ...sueldo };
+      this.dialog = true;
     },
-    methods: {
-      openDialog() {
-        this.dialog = true;
-        this.sueldo = {
-          tipo: '',
-          nombre_completo: '',
-          ci: '',
-          cargo: '',
-          fecha_ingreso:moment().format('YYYY-MM-DD'),
-          haber_basico: 0,
-          monto_acumulado: 0,
-          descuento_afp: 0,
-          descuento_seguro: 0,
-          total_descuentos: 0,
-          liquido_pagable: 0,
-        };
-      },
-      editSueldo(sueldo) {
-        this.sueldo = { ...sueldo };
-        this.dialog = true;
-      },
-      saveSueldo() {
-        if (this.sueldo.id) {
-          this.updateSueldo();
-        } else {
-          this.addSueldo();
-        }
-      },
-      addSueldo() {
-        this.$axios.post('sueldos', this.sueldo).then((response) => {
-          this.sueldos.push(response.data);
-          this.dialog = false;
-        });
-      },
-      updateSueldo() {
-        this.$axios.put(`sueldos/${this.sueldo.id}`, this.sueldo).then((response) => {
-          const index = this.sueldos.findIndex((item) => item.id === this.sueldo.id);
-          this.sueldos[index] = response.data;
-          this.dialog = false;
-        });
-      },
-      deleteSueldo(sueldo) {
-        this.$axios.delete(`sueldos/${sueldo.id}`).then(() => {
-          this.sueldos = this.sueldos.filter((item) => item.id !== sueldo.id);
-        });
-      },
-      getSueldos() {
-        this.$axios.get('sueldos').then((response) => {
-          this.sueldos = response.data;
-        });
-      },
+    saveSueldo() {
+      if (this.sueldo.id) {
+        this.updateSueldo();
+      } else {
+        this.addSueldo();
+      }
     },
-  };
+    addSueldo() {
+      this.$axios.post('sueldos', this.sueldo).then((response) => {
+        this.sueldos.push(response.data);
+        this.dialog = false;
+      });
+    },
+    updateSueldo() {
+      this.$axios.put(`sueldos/${this.sueldo.id}`, this.sueldo).then((response) => {
+        const index = this.sueldos.findIndex((item) => item.id === this.sueldo.id);
+        this.sueldos[index] = response.data;
+        this.dialog = false;
+      });
+    },
+    deleteSueldo(sueldo) {
+      this.$axios.delete(`sueldos/${sueldo.id}`).then(() => {
+        this.sueldos = this.sueldos.filter((item) => item.id !== sueldo.id);
+      });
+    },
+    getSueldos() {
+      this.$axios.get('sueldos').then((response) => {
+        this.sueldos = response.data;
+      });
+    },
+  },
+};
+  
   </script>
+  
   
   <style scoped>
   .styled-table {

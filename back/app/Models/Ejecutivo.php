@@ -12,7 +12,7 @@ class Ejecutivo extends Model
 
     protected $fillable = [
         'nombre_eje',
-        'apellido_eje',
+        'ci',
         'telefono_1',
         'telefono_2',
         'cargo',
@@ -38,7 +38,7 @@ class Ejecutivo extends Model
     // Mutador para convertir apellido_eje a mayúsculas
     public function setApellidoEjeAttribute($value)
     {
-        $this->attributes['apellido_eje'] = strtoupper($value);
+        $this->attributes['ci'] = strtoupper($value);
     }
 
     // Mutador para convertir cargo a mayúsculas

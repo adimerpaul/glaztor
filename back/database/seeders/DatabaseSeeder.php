@@ -78,40 +78,15 @@ class DatabaseSeeder extends Seeder
         Cargo::create(['nombre_cargo' => 'Ejecutivo de Obra','descripcion_cargo' => 'Ejecutivo de Obra','estado' => 'ACTIVO']);
         Cargo::create(['nombre_cargo' => 'Administrativo','descripcion_cargo' => 'Administracion','estado' => 'ACTIVO']);
 
-
-        Ejecutivo::create(['nombre_eje' => 'Jose','apellido_eje' => 'Oquendo','cargo' => 'Administrativo','apodo' => 'JOQUENDO','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Maria','apellido_eje' => 'Miranda','cargo' => 'Ejecutivo de venta','apodo' => 'MMIRANDA','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Adriana','apellido_eje' => 'Teran','cargo' => 'Ejecutivo de venta','apodo' => 'ATERAN','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Victor','apellido_eje' => 'Ramirez','cargo' => 'Administrativo','apodo' => 'VRAMIREZ','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Susana','apellido_eje' => 'Condori','cargo' => 'Administrativo','apodo' => 'SCONDORI','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Marcela','apellido_eje' => 'Balcazar','cargo' => 'Administrativo','apodo' => 'MBALCAZAR','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Maria','apellido_eje' => 'Laredo','cargo' => 'Supervisor Norte','apodo' => 'MLAREDO','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Valeria','apellido_eje' => 'Lopez','cargo' => 'Supervisor Este','apodo' => 'VLOPEZ','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Zenaida','apellido_eje' => 'Torrez','cargo' => 'Director Adminstrativo','apodo' => 'ZTORREZ','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Gerardo','apellido_eje' => 'LAredo','cargo' => 'Director Comercial','apodo' => 'JLAREDO','estado' => 'ACTIVO']);
-
-
-//        Schema::create('productos', function (Blueprint $table) {
-//            $table->id();
-//            $table->string('categoria_pro')->nullable();
-//            $table->string('marca_pro')->nullable();
-//            $table->string('nombre_pro')->nullable();
-//            $table->string('descripcion_pro')->nullable();
-//            $table->integer('precio_pro')->nullable();
-//            $table->text('foto_pro')->nullable();
-//            $table->string('estado_pro')->nullable();
-//            $table->unsignedBigInteger('user_id')->nullable();
-//            $table->foreign('user_id')->references('id')->on('users');
-//            $table->softDeletes();
-//            $table->timestamps();
-//        });
-
-        // cemento soboce emisa-IP40 cemento soboce 44
-//        Producto::create(['categoria_pro' => 'Cemento','marca_pro' => 'Soboce','nombre_pro' => 'EMISA-IP40','descripcion_pro' => 'Cemento soboce emisa-IP40','precio_pro' => 44]);
-//        Producto::create(['categoria_pro' => 'Cemento','marca_pro' => 'Soboce','nombre_pro' => 'VIACHA-IP40','descripcion_pro' => 'Cemento soboce viacha-IP40','precio_pro' => 44]);
-//
-//        Producto::create(['categoria_pro' => 'Cemento','marca_pro' => 'Soboce','nombre_pro' => 'EMISA-IP30','descripcion_pro' => 'Cemento soboce emisa-IP30','precio_pro' => 42]);
-//        Producto::create(['categoria_pro' => 'Cemento','marca_pro' => 'Soboce','nombre_pro' => 'VIACHA-IP30','descripcion_pro' => 'Cemento soboce viacha-IP30','precio_pro' => 42]);
+        Ejecutivo::create(['nombre_eje' => 'Zenaida Torrez Escobar','ci' => '3062291 Or','cargo' => 'Director Adminstrativo','apodo' => 'ZTORREZ','estado' => 'ACTIVO']);
+        Ejecutivo::create(['nombre_eje' => 'Jiklid Gerardo Laredo Muriel','ci' => '3062291 Or','cargo' => 'Director Comercial','apodo' => 'JLAREDO','estado' => 'ACTIVO']);
+        Ejecutivo::create(['nombre_eje' => 'Maria Rosa Miranda Enrriquez','ci' => '3544080 Or','cargo' => 'Ejecutivo de venta','apodo' => 'MMIRANDA','estado' => 'ACTIVO']);
+        Ejecutivo::create(['nombre_eje' => 'Mayte Adriana teran Bautista','ci' => '7407409 Or.','cargo' => 'Ejecutivo de venta','apodo' => 'ATERAN','estado' => 'ACTIVO']);
+        Ejecutivo::create(['nombre_eje' => 'Maria del Rosario Laredo Muriel','ci' => '4050796 Or','cargo' => 'Supervisor','apodo' => 'MLAREDO','estado' => 'ACTIVO']);
+        Ejecutivo::create(['nombre_eje' => 'Valeria Isabel Lopez Torrez','ci' => '7344234-1 Or','cargo' => 'Supervisor','apodo' => 'VLOPEZ','estado' => 'ACTIVO']);
+        Ejecutivo::create(['nombre_eje' => 'Susana','ci' => '0','cargo' => 'Administrativo','apodo' => 'SCONDORI','estado' => 'ACTIVO']);
+        Ejecutivo::create(['nombre_eje' => 'Jose','ci' => '0','cargo' => 'Administrativo','apodo' => 'JOQUENDO','estado' => 'ACTIVO']);
+       
 
         $productos = [
             [
@@ -122,6 +97,7 @@ class DatabaseSeeder extends Seeder
                 'precio_pro' => 33.5,
                 'precio_compra' => 29.8,
                 'cantidad_pro' => 1151,
+                'foto_pro' => '/storage/fotos/6765ed5b2d405.png',
                 'tonelada' => 375,
             ],
             [
@@ -132,6 +108,7 @@ class DatabaseSeeder extends Seeder
                 'precio_pro' => 47.47,
                 'precio_compra' => 44.9,
                 'cantidad_pro' => 0,
+                'foto_pro' => '/storage/fotos/6765ed8d3dfbc.png',
                 'tonelada' => 217,
             ],
             [
@@ -142,6 +119,7 @@ class DatabaseSeeder extends Seeder
                 'precio_pro' => 72.5,
                 'precio_compra' => 63.27,
                 'cantidad_pro' => 1232,
+                'foto_pro' => '/storage/fotos/6765ed9aca6ed.png',
                 'tonelada' => 154,
             ],
             [
@@ -152,6 +130,7 @@ class DatabaseSeeder extends Seeder
                 'precio_pro' => 114,
                 'precio_compra' => 0.45,
                 'cantidad_pro' => 1552,
+                'foto_pro' => '/storage/fotos/6765eda3dd407.png',
                 'tonelada' => 97,
             ],
             [
@@ -162,6 +141,7 @@ class DatabaseSeeder extends Seeder
                 'precio_pro' => 187.27,
                 'precio_compra' => 170.16,
                 'cantidad_pro' => 0,
+                'foto_pro' => '/storage/fotos/6765edaa779bf.png',
                 'tonelada' => 55,
             ],
             [
@@ -172,6 +152,7 @@ class DatabaseSeeder extends Seeder
                 'precio_pro' => 294,
                 'precio_compra' => 278.4,
                 'cantidad_pro' => 0,
+                'foto_pro' => '/storage/fotos/6765edb2b8ed5.png',
                 'tonelada' => 35,
             ],
             [
@@ -182,6 +163,7 @@ class DatabaseSeeder extends Seeder
                 'precio_pro' => 468,
                 'precio_compra' => 442.90,
                 'cantidad_pro' => 0,
+                'foto_pro' => '/storage/fotos/6765edb8e8dfd.png',
                 'tonelada' => 22,
             ],
         ];

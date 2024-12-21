@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ejecutivos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_eje')->nullable();
-            $table->string('apellido_eje')->nullable();
+            $table->string('ci')->nullable();
             $table->integer('telefono_1')->nullable();
             $table->integer('telefono_2')->nullable();
             $table->string('cargo')->nullable();

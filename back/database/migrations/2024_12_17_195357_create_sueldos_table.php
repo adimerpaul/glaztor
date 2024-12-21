@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('sueldos', function (Blueprint $table) {
             $table->id(); // ID único para cada registro
+            $table->date('sueldo_correspondiente')->nullable(); // Fecha de ingreso
             $table->string('tipo')->nullable(); 
             $table->string('nombre_completo')->nullable(); // Nombre completo del empleado
             $table->string('ci')->nullable(); // Carnet de Identidad
             $table->string('cargo')->nullable(); // Cargo del empleado
             $table->date('fecha_ingreso')->nullable(); // Fecha de ingreso
             $table->decimal('haber_basico', 10, 2)->nullable(); // Haber básico
+            $table->decimal('bono_antiguedad', 10, 2)->nullable(); // Haber básico
             $table->decimal('monto_acumulado', 10, 2)->nullable(); // Monto acumulado
             $table->decimal('descuento_afp', 10, 2)->nullable(); // AFP 0.5%
             $table->decimal('descuento_seguro', 10, 2)->nullable(); // Seguro 10%

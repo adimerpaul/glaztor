@@ -9,12 +9,14 @@ class Sueldo extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'sueldo_correspondiente',
         'tipo',
         'nombre_completo',
         'ci',
         'cargo',
         'fecha_ingreso',
         'haber_basico',
+        'bono_antiguedad',
         'monto_acumulado',
         'descuento_afp',
         'descuento_seguro',

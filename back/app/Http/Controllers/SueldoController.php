@@ -28,12 +28,14 @@ class SueldoController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
+            'sueldo_correspondiente' => 'required|date',
             'tipo' => 'required|string',
             'nombre_completo' => 'required|string',
             'ci' => 'required|string|unique:sueldos',
             'cargo' => 'required|string',
             'fecha_ingreso' => 'required|date',
             'haber_basico' => 'required|numeric',
+            'bono_antiguedad' => 'required|numeric',
             'monto_acumulado' => 'nullable|numeric',
             'descuento_afp' => 'nullable|numeric',
             'descuento_seguro' => 'nullable|numeric',
@@ -85,11 +87,14 @@ class SueldoController extends Controller
         $sueldo = Sueldo::findOrFail($id);
 
         $validatedData = $request->validate([
+            'sueldo_correspondiente' => 'required|date',
+            'tipo' => 'required|string',
             'nombre_completo' => 'nullable|string',
             'ci' => 'nullable|string|unique:sueldos,ci,' . $id,
             'cargo' => 'nullable|string',
             'fecha_ingreso' => 'nullable|date',
             'haber_basico' => 'nullable|numeric',
+            'bono_antiguedad' => 'nullable|numeric',
             'monto_acumulado' => 'nullable|numeric',
             'descuento_afp' => 'nullable|numeric',
             'descuento_seguro' => 'nullable|numeric',
