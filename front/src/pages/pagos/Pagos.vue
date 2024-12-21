@@ -32,16 +32,6 @@
                   no-caps
               ></q-btn>
             </div>
-            <div class="col-6 col-md-3 text-right">
-              <q-btn
-                icon="add_circle_outline"
-                color="green"
-                label="Nuevo Pedido"
-                @click="addPedido"
-                :loading="loading"
-                no-caps
-              ></q-btn>
-            </div>
           </div>
         </q-card-section>
  </q-card>

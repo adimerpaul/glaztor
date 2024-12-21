@@ -34,12 +34,7 @@
           </q-table>
         </q-card-section>
       </q-card>
-  
-      <!-- Botón flotante -->
-      <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn fab icon="add" color="primary" @click="openDialog" />
-      </q-page-sticky>
-  
+
       <!-- Dialog para formulario -->
       <q-dialog v-model="dialog" transition-show="slide-up" transition-hide="slide-down">
         <q-card style="width: 500px; max-width: 100vw;">

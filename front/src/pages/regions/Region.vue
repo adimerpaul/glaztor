@@ -62,7 +62,7 @@
           <q-td :props="props">
             <q-chip
               :label="props.row.estado"
-              :color="props.row.estado === 'Activo' ? 'red' : 'green'"
+              :color="props.row.estado === 'Activo' ? 'green' : 'red'"
               text-color="white"
               dense
               size="14px"
@@ -98,7 +98,7 @@
               />
               <q-select
                 v-model="region.estado"
-                :options="['ACTIVO', 'INACTIVO']"
+                :options="['Activo', 'Inactivo']"
                 outlined
                 dense
                 :rules="[val => !!val || 'Este campo es requerido']"

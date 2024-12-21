@@ -62,7 +62,7 @@
               <q-select
                 dense
                 v-model="servicio.nombre_servicio"
-                :options="['LUZ', 'AGUA', 'ALQUILER', 'INTERNET', 'TELEFONIA', 'ALQUILER']"
+                :options="['Luz', 'Agua', 'Alquiler', 'Internet', 'Telefonia', 'Alquiler']"
                 outlined
                 :rules="[val => !!val || 'Este campo es requerido']"
                 label="Nombre servicio"/>
@@ -90,7 +90,7 @@
                 outlined
                 label="Numero de Recibo"
                 @input="servicio.numero_recibo = servicio.numero_recibo.toUpperCase()"
-                style="text-transform: uppercase;"/>
+                />
             </div>
 
             <div class="col-12">
@@ -100,7 +100,7 @@
                 outlined
                 label="observacion"
                 @input="servicio.observacion = servicio.observacion.toUpperCase()"
-                style="text-transform: uppercase;"/>
+                />
             </div>
 
 
@@ -108,7 +108,7 @@
               <q-select
                 dense
                 v-model="servicio.estado"
-                :options="['CANCELADO', 'PENDIENTE']"
+                :options="['Cancelado', 'Pendiente']"
                 outlined
                 :rules="[val => !!val || 'Este campo es requerido']"
                 label="Estado"/>
@@ -253,7 +253,7 @@ export default {
         monto_cancelado: "",
         numero_recibo: "",
         observacion: "",
-        estado: "",
+        estado: "Cancelado",
       };
     },
 

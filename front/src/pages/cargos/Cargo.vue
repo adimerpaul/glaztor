@@ -86,7 +86,7 @@
               <q-select
                 dense
                 v-model="cargo.estado"
-                :options="['ACTIVO', 'INACTIVO']"
+                :options="['Activo', 'Inactivo']"
                 outlined
                 label="Estado"
                 :rules="[val => !!val || 'Campo requerido']"

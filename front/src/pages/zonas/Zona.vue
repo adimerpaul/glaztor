@@ -76,7 +76,7 @@
               />
               <q-select
                 v-model="zona.estado"
-                :options="['ACTIVO', 'INACTIVO']"
+                :options="['Activo', 'Inactivo']"
                 outlined
                 label="Estado"
                 dense
@@ -203,7 +203,7 @@
         this.zona = {
           nombre_zona: '',
           descripcion_zona: '',
-          estado: 'ACTIVO'
+          estado: 'Activo'
         };
       },
       getZonas() {

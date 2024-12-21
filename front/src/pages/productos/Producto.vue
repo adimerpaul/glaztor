@@ -151,7 +151,7 @@
               <q-select
                 dense
                 v-model="producto.estado_pro"
-                :options="['ACTIVO', 'INACTIVO']"
+                :options="['Activo', 'Inactivo']"
                 outlined
                 :rules="[val => !!val || 'Este campo es requerido']"
                 label="Estado"/>
@@ -259,7 +259,7 @@ export default {
         descripcion_pro: '',
         precio_pro: '',
         foto_pro: '',
-        estado_pro: 'ACTIVO',
+        estado_pro: 'Activo',
       };
     },
 

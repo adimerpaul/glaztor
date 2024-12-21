@@ -56,36 +56,36 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ],
         ]);
-        Zona::create(['nombre_zona' => 'SUD','descripcion_zona' => 'Zona Sud','estado' => 'ACTIVO']);
-        Zona::create(['nombre_zona' => 'ESTE','descripcion_zona' => 'Zona Este','estado' => 'ACTIVO']);
-        Zona::create(['nombre_zona' => 'NORTE','descripcion_zona' => 'Zona Norte','estado' => 'ACTIVO']);
-        Zona::create(['nombre_zona' => 'CENTRO','descripcion_zona' => 'Zona Centro','estado' => 'ACTIVO']);
+        Zona::create(['nombre_zona' => 'SUD','descripcion_zona' => 'Zona Sud','estado' => 'Activo']);
+        Zona::create(['nombre_zona' => 'ESTE','descripcion_zona' => 'Zona Este','estado' => 'Activo']);
+        Zona::create(['nombre_zona' => 'NORTE','descripcion_zona' => 'Zona Norte','estado' => 'Activo']);
+        Zona::create(['nombre_zona' => 'CENTRO','descripcion_zona' => 'Zona Centro','estado' => 'Activo']);
 
-        Region::create(['nombre_region' => 'ORURO','descripcion_region' => 'Ciudad Oruro','estado' => 'ACTIVO']);
-        Region::create(['nombre_region' => 'CHALLAPATA','descripcion_region' => 'Provincia Huari ','estado' => 'ACTIVO']);
-        Region::create(['nombre_region' => 'COLQUIRI','descripcion_region' => 'al ir a la paz ','estado' => 'ACTIVO']);
+        Region::create(['nombre_region' => 'ORURO','descripcion_region' => 'Ciudad Oruro','estado' => 'Activo']);
+        Region::create(['nombre_region' => 'CHALLAPATA','descripcion_region' => 'Provincia Huari ','estado' => 'Activo']);
+        Region::create(['nombre_region' => 'COLQUIRI','descripcion_region' => 'al ir a la paz ','estado' => 'Activo']);
 
 
         $sqlFIle = base_path('database/seeders/clientes_202411240814.sql');
         $sqlContent = file_get_contents($sqlFIle);
         DB::unprepared($sqlContent);
 
-        Cargo::create(['nombre_cargo' => 'Director Comercial','descripcion_cargo' => 'Director Comercial','estado' => 'ACTIVO']);
-        Cargo::create(['nombre_cargo' => 'Director Administrativo','descripcion_cargo' => 'Director Administrativo','estado' => 'ACTIVO']);
-        Cargo::create(['nombre_cargo' => 'Supervisor Zona Este','descripcion_cargo' => 'Supervisor Zona Este','estado' => 'ACTIVO']);
-        Cargo::create(['nombre_cargo' => 'Supervisor Zona Norte','descripcion_cargo' => 'Supervisor Zona Norte','estado' => 'ACTIVO']);
-        Cargo::create(['nombre_cargo' => 'Ejecutivo de Ventas','descripcion_cargo' => 'Ejecutivo de Ventas','estado' => 'ACTIVO']);
-        Cargo::create(['nombre_cargo' => 'Ejecutivo de Obra','descripcion_cargo' => 'Ejecutivo de Obra','estado' => 'ACTIVO']);
-        Cargo::create(['nombre_cargo' => 'Administrativo','descripcion_cargo' => 'Administracion','estado' => 'ACTIVO']);
+        Cargo::create(['nombre_cargo' => 'Director Comercial','descripcion_cargo' => 'Director Comercial','estado' => 'Activo']);
+        Cargo::create(['nombre_cargo' => 'Director Administrativo','descripcion_cargo' => 'Director Administrativo','estado' => 'Activo']);
+        Cargo::create(['nombre_cargo' => 'Supervisor Zona Este','descripcion_cargo' => 'Supervisor Zona Este','estado' => 'Activo']);
+        Cargo::create(['nombre_cargo' => 'Supervisor Zona Norte','descripcion_cargo' => 'Supervisor Zona Norte','estado' => 'Activo']);
+        Cargo::create(['nombre_cargo' => 'Ejecutivo de Ventas','descripcion_cargo' => 'Ejecutivo de Ventas','estado' => 'Activo']);
+        Cargo::create(['nombre_cargo' => 'Ejecutivo de Obra','descripcion_cargo' => 'Ejecutivo de Obra','estado' => 'Activo']);
+        Cargo::create(['nombre_cargo' => 'Administrativo','descripcion_cargo' => 'Administracion','estado' => 'Activo']);
 
-        Ejecutivo::create(['nombre_eje' => 'Zenaida Torrez Escobar','ci' => '3062291 Or','cargo' => 'Director Adminstrativo','apodo' => 'ZTORREZ','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Jiklid Gerardo Laredo Muriel','ci' => '3062291 Or','cargo' => 'Director Comercial','apodo' => 'JLAREDO','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Maria Rosa Miranda Enrriquez','ci' => '3544080 Or','cargo' => 'Ejecutivo de venta','apodo' => 'MMIRANDA','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Mayte Adriana teran Bautista','ci' => '7407409 Or.','cargo' => 'Ejecutivo de venta','apodo' => 'ATERAN','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Maria del Rosario Laredo Muriel','ci' => '4050796 Or','cargo' => 'Supervisor','apodo' => 'MLAREDO','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Valeria Isabel Lopez Torrez','ci' => '7344234-1 Or','cargo' => 'Supervisor','apodo' => 'VLOPEZ','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Susana','ci' => '0','cargo' => 'Administrativo','apodo' => 'SCONDORI','estado' => 'ACTIVO']);
-        Ejecutivo::create(['nombre_eje' => 'Jose','ci' => '0','cargo' => 'Administrativo','apodo' => 'JOQUENDO','estado' => 'ACTIVO']);
+        Ejecutivo::create(['nombre_eje' => 'Zenaida Torrez Escobar','ci' => '3062291 Or','cargo' => 'Director Adminstrativo','apodo' => 'ZTORREZ','estado' => 'Activo']);
+        Ejecutivo::create(['nombre_eje' => 'Jiklid Gerardo Laredo Muriel','ci' => '3062291 Or','cargo' => 'Director Comercial','apodo' => 'JLAREDO','estado' => 'Activo']);
+        Ejecutivo::create(['nombre_eje' => 'Maria Rosa Miranda Enrriquez','ci' => '3544080 Or','cargo' => 'Ejecutivo de venta','apodo' => 'MMIRANDA','estado' => 'Activo']);
+        Ejecutivo::create(['nombre_eje' => 'Mayte Adriana teran Bautista','ci' => '7407409 Or.','cargo' => 'Ejecutivo de venta','apodo' => 'ATERAN','estado' => 'Activo']);
+        Ejecutivo::create(['nombre_eje' => 'Maria del Rosario Laredo Muriel','ci' => '4050796 Or','cargo' => 'Supervisor','apodo' => 'MLAREDO','estado' => 'Activo']);
+        Ejecutivo::create(['nombre_eje' => 'Valeria Isabel Lopez Torrez','ci' => '7344234-1 Or','cargo' => 'Supervisor','apodo' => 'VLOPEZ','estado' => 'Activo']);
+        Ejecutivo::create(['nombre_eje' => 'Susana','ci' => '0','cargo' => 'Administrativo','apodo' => 'SCONDORI','estado' => 'Activo']);
+        Ejecutivo::create(['nombre_eje' => 'Jose','ci' => '0','cargo' => 'Administrativo','apodo' => 'JOQUENDO','estado' => 'Activo']);
        
 
         $productos = [

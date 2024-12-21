@@ -211,8 +211,8 @@
                 dense
                 v-model="cliente.estado"
                 :options="[
-                                'ACTIVO',
-                                'INACTIVO',
+                                'Activo',
+                                'Inactivo',
                             ]"
                 outlined
                 :rules="[val => !!val || 'Este campo es requerido']"
@@ -645,7 +645,7 @@ export default {
         zona: '',
         region: '',
         cumple: moment().format('YYYY-MM-DD'),
-        estado: 'ACTIVO',
+        estado: 'Activo',
       }
     },
     getClientes() {
