@@ -11,7 +11,7 @@ class Pedido extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'fecha_hora',
+        'fecha',
         'tipo',
         'cliente',
         'producto',

@@ -85,22 +85,22 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('zonas/{id}', [ZonaController::class, 'update']);
     Route::delete('zonas/{id}', [ZonaController::class, 'destroy']);
 
-Route::get('regions', [RegionController::class, 'index']);
-Route::post('regions', [RegionController::class, 'store']);
-Route::get('regions/{id}', [RegionController::class, 'show']);
-Route::put('regions/{id}', [RegionController::class, 'update']);
-Route::delete('regions/{id}', [RegionController::class, 'destroy']);
+    Route::get('regions', [RegionController::class, 'index']);
+    Route::post('regions', [RegionController::class, 'store']);
+    Route::get('regions/{id}', [RegionController::class, 'show']);
+    Route::put('regions/{id}', [RegionController::class, 'update']);
+    Route::delete('regions/{id}', [RegionController::class, 'destroy']);
 
-Route::get('servicios', [ServicioController::class, 'index']);
-Route::post('servicios', [ServicioController::class, 'store']);
-Route::get('servicios/{id}', [ServicioController::class, 'show']);
-Route::put('servicios/{id}', [ServicioController::class, 'update']);
-Route::delete('servicios/{id}', [ServicioController::class, 'destroy']);
+    Route::get('servicios', [ServicioController::class, 'index']);
+    Route::post('servicios', [ServicioController::class, 'store']);
+    Route::get('servicios/{id}', [ServicioController::class, 'show']);
+    Route::put('servicios/{id}', [ServicioController::class, 'update']);
+    Route::delete('servicios/{id}', [ServicioController::class, 'destroy']);
 
-Route::get('cajachicas', [CajachicaController::class, 'index']);
-Route::post('cajachicas', [CajachicaController::class, 'store']);
-Route::put('cajachicas/{id}', [CajachicaController::class, 'update']);
-Route::delete('cajachicas/{id}', [CajachicaController::class, 'destroy']);
+    Route::get('cajachicas', [CajachicaController::class, 'index']);
+    Route::post('cajachicas', [CajachicaController::class, 'store']);
+    Route::put('cajachicas/{id}', [CajachicaController::class, 'update']);
+    Route::delete('cajachicas/{id}', [CajachicaController::class, 'destroy']);
 
 
     Route::get('regions', [RegionController::class, 'index']);
@@ -115,4 +115,6 @@ Route::delete('cajachicas/{id}', [CajachicaController::class, 'destroy']);
     Route::get('sueldos/{id}', [SueldoController::class, 'show']);
     Route::put('sueldos/{id}', [SueldoController::class, 'update']);
     Route::delete('sueldos/{id}', [SueldoController::class, 'destroy']);
+
+    Route::post('reporteVentas', [\App\Http\Controllers\ReporteController::class, 'reporteVentas']);
 });

@@ -37,6 +37,7 @@
                       :src="$url+'..'+producto.foto_pro"
                       :alt="producto.nombre_pro"
                       class="full-width"
+                      style="height: 130px;"
                     >
                       <div class="absolute-bottom" style="padding: 0;margin: 0">
                         <div class="row items-center" style="font-size: 9px;">
