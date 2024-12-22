@@ -117,4 +117,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('sueldos/{id}', [SueldoController::class, 'destroy']);
 
     Route::post('reporteVentas', [\App\Http\Controllers\ReporteController::class, 'reporteVentas']);
+    Route::post('reporteDeudas', [\App\Http\Controllers\ReporteController::class, 'reporteDeudas']);
 });

@@ -47,6 +47,11 @@ class Pedido extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class);
+    }
+
     // Mutador para convertir tipo a mayúsculas
     public function setTipoAttribute($value)
     {
