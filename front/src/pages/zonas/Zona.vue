@@ -44,7 +44,7 @@
           </q-table>
         </q-card-section>
       </q-card>
-  
+
       <!-- Modal para agregar/editar Zona -->
       <q-dialog v-model="dialog" :maximized="true" persistent>
         <q-card style="max-width: 500px; width: 100%;">
@@ -53,7 +53,7 @@
             <q-space />
             <div class="text-h6">{{ zona.id ? 'Editar' : 'Nuevo' }} Zona</div>
           </q-card-section>
-  
+
           <q-card-section>
             <q-form @submit.prevent="confirmarGuardar">
               <q-input
@@ -82,7 +82,7 @@
                 dense
                 :rules="[val => !!val || 'Este campo es requerido']"
               />
-  
+
               <q-card-actions align="right">
                 <q-btn label="Cancelar" color="negative" @click="dialog = false" :loading="loading" />
                 <q-btn label="Guardar" color="primary" type="submit" :loading="loading" />
@@ -93,7 +93,7 @@
       </q-dialog>
     </q-page>
   </template>
-  
+
   <script>
   export default {
     name: 'zonas',
@@ -135,33 +135,25 @@
         const apiCall = this.zona.id
           ? this.$axios.put(`zonas/${this.zona.id}`, this.zona)
           : this.$axios.post('zonas', this.zona);
-  
+
         apiCall
           .then(response => {
             if (response.status === 200 || response.status === 201) {
               if (this.zona.id) {
                 const index = this.zonas.findIndex(z => z.id === this.zona.id);
                 if (index !== -1) {
-                  this.$set(this.zonas, index, response.data);
+                  this.zonas.splice(index, 1, response.data);
                 }
               } else {
                 this.zonas.push(response.data);
               }
               this.dialog = false;
-              this.$q.notify({
-                color: 'positive',
-                message: 'Zona guardada exitosamente.',
-                icon: 'check_circle'
-              });
+              this.$alert.success('Guardado con éxito.');
             }
           })
           .catch(error => {
             console.error("Error al guardar la zona:", error);
-            this.$q.notify({
-              color: 'negative',
-              message: 'Error al guardar la zona.',
-              icon: 'error'
-            });
+            this.$alert.error('Error al guardar.');
           })
           .finally(() => {
             this.loading = false;
@@ -223,7 +215,7 @@
     }
   };
   </script>
-  
+
   <style scoped>
   .styled-table {
     width: 100%;
@@ -231,18 +223,17 @@
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-  
+
   .styled-table .q-table__header {
     background-color: #3d4f9a;
     color: white;
   }
-  
+
   .styled-table .q-table__row:nth-child(even) {
     background-color: #f9f9f9;
   }
-  
+
   .styled-table .q-table__row:hover {
     background-color: #e3e3e3;
   }
   </style>
-  

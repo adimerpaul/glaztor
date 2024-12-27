@@ -49,11 +49,11 @@
           </table>
         </q-card-section>
       </q-card>
-  
+
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn fab color="primary" icon="add" @click="dialogClick" />
       </q-page-sticky>
-  
+
       <q-dialog v-model="dialog" :maximized="esMovil">
         <q-card style="width: 450px; max-width: 100vw;">
           <q-card-section class="bg-primary text-white">
@@ -63,7 +63,7 @@
               <div class="text-h6">{{ cargo.id ? "Editar" : "Nuevo" }} Cargo</div>
             </div>
           </q-card-section>
-  
+
           <q-card-section>
             <q-form @submit.prevent="confirmarGuardar">
               <q-input
@@ -101,7 +101,7 @@
       </q-dialog>
     </q-page>
   </template>
-  
+
   <script>
   export default {
     name: "cargos",
@@ -138,20 +138,18 @@
         const apiCall = this.cargo.id
           ? this.$axios.put(`cargos/${this.cargo.id}`, this.cargo)
           : this.$axios.post("cargos", this.cargo);
-  
-        apiCall
-          .then((response) => {
+        apiCall.then((response) => {
             if (this.cargo.id) {
               const index = this.cargos.findIndex((c) => c.id === this.cargo.id);
-              this.$set(this.cargos, index, response.data);
+              this.cargos.splice(index, 1, response.data);
             } else {
               this.cargos.push(response.data);
             }
             this.dialog = false;
-            this.$q.notify({ color: "positive", message: "Guardado con éxito." });
+            this.$alert.success("Guardado con éxito.");
           })
           .catch(() => {
-            this.$q.notify({ color: "negative", message: "Error al guardar." });
+            this.$alert.error("Error al guardar.");
           })
           .finally(() => {
             this.loading = false;
@@ -189,7 +187,7 @@
     },
   };
   </script>
-  
+
   <style scoped>
   .styled-table {
       width: 100%;
@@ -200,39 +198,39 @@
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
       border-radius: 8px;
   }
-  
+
   .styled-table thead tr {
       background-color: #3f51b5;
       color: #ffffff;
   }
-  
+
   .styled-table th, .styled-table td {
       padding: 12px 15px;
   }
-  
+
   .styled-table tbody tr {
       border-bottom: 1px solid #ddd;
   }
-  
+
   .styled-table tbody tr:nth-of-type(even) {
       background-color: #f9f9f9;
   }
-  
+
   .styled-table tbody tr:hover {
       background-color: #f1f1f1;
       cursor: pointer;
   }
-  
+
   .img-thumbnail {
       max-width: 100px;
       border-radius: 8px;
       border: 1px solid #ddd;
   }
-  
+
   .input-group-text {
       background-color: #fff;
   }
-  
+
   .input-group .form-control {
       border-radius: 8px;
   }

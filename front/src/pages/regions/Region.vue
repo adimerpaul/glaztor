@@ -32,7 +32,7 @@
             </template>
           </q-input>
         </template>
-  
+
         <template v-slot:body-cell-actions="props">
           <q-td :props="props">
             <q-btn-dropdown label="Opciones" no-caps size="10px" dense color="primary">
@@ -57,7 +57,7 @@
             </q-btn-dropdown>
           </q-td>
         </template>
-  
+
         <template v-slot:body-cell-estado="props">
           <q-td :props="props">
             <q-chip
@@ -70,7 +70,7 @@
           </q-td>
         </template>
       </q-table>
-  
+
       <q-dialog v-model="dialog" persistent>
         <q-card>
           <q-card-section class="q-pb-none row items-center">
@@ -78,7 +78,7 @@
             <q-space />
             <q-btn icon="close" flat round dense @click="dialog = false" />
           </q-card-section>
-  
+
           <q-card-section>
             <q-form @submit="confirmarGuardar">
               <q-input
@@ -104,7 +104,7 @@
                 :rules="[val => !!val || 'Este campo es requerido']"
                 label="Estado"
               />
-  
+
               <div class="text-right">
                 <q-btn
                   color="negative"
@@ -128,7 +128,7 @@
       </q-dialog>
     </q-page>
   </template>
-  
+
   <script>
   export default {
     name: 'regions',
@@ -170,34 +170,26 @@
         const apiCall = this.region.id
           ? this.$axios.put(`regions/${this.region.id}`, this.region)
           : this.$axios.post('regions', this.region);
-  
+
         apiCall
           .then(response => {
             if (response.status === 200 || response.status === 201) {
               if (this.region.id) {
                 const index = this.regions.findIndex(r => r.id === this.region.id);
                 if (index !== -1) {
-                  this.$set(this.regions, index, response.data);
+                  this.regions.splice(index, 1, response.data);
                 }
               } else {
                 this.regions.push(response.data);
               }
-  
+
               this.dialog = false;
-              this.$q.notify({
-                color: 'positive',
-                message: 'Región guardada exitosamente.',
-                icon: 'check_circle'
-              });
+              this.$alert.success('Guardado con éxito.');
             }
           })
           .catch(error => {
             console.error("Error al guardar la región:", error);
-            this.$q.notify({
-              color: 'negative',
-              message: 'Error al guardar la región.',
-              icon: 'error'
-            });
+            this.$alert.error('Error al guardar.');
           })
           .finally(() => {
             this.loading = false;
@@ -255,7 +247,7 @@
     },
   };
   </script>
-  
+
   <style scoped>
   .styled-table {
     width: 100%;
@@ -264,28 +256,27 @@
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-  
+
   .styled-table th,
   .styled-table td {
     padding: 12px;
     text-align: left;
   }
-  
+
   .styled-table thead {
     background-color: #3442a8;
     color: white;
   }
-  
+
   .styled-table tbody tr {
     transition: background-color 0.3s;
   }
-  
+
   .styled-table tbody tr:nth-child(even) {
     background-color: #f9f9f9;
   }
-  
+
   .styled-table tbody tr:hover {
     background-color: #e3e3e3;
   }
   </style>
-  
