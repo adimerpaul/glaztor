@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ejecutivo;
 use App\Models\Sueldo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -30,8 +31,8 @@ class SueldoController extends Controller
         $validatedData = $request->validate([
             'sueldo_correspondiente' => 'required|date',
             'tipo' => 'required|string',
-            'nombre_completo' => 'required|string',
-            'ci' => 'required|string|unique:sueldos',
+//            'nombre_completo' => 'required|string',
+            'ci' => 'required|string',
             'cargo' => 'required|string',
             'fecha_ingreso' => 'required|date',
             'haber_basico' => 'required|numeric',
@@ -50,6 +51,10 @@ class SueldoController extends Controller
             'foto' => 'nullable|string', // Imagen en formato base64
             'user_id' => 'nullable|exists:users,id',
         ]);
+        $ejecutivo = Ejecutivo::where('id', $request['ejecutivo_id'])->first();
+        $validatedData['nombre_completo'] = $ejecutivo->nombre_eje ;
+        $user = $request->user();
+        $validatedData['user_id'] = $user->id;
 
         $sueldo = new Sueldo($validatedData);
 
