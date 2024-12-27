@@ -68,6 +68,7 @@ class PedidoController extends Controller{
         $pedido->zona = $request->zona_id;
         $pedido->save();
         $tol = 0;
+        $textProducto = '';
         foreach ($request->detalles as $detalle){
             $producto = Producto::find($detalle['id']);
             $detalleSave = new Detalle();
@@ -90,8 +91,11 @@ class PedidoController extends Controller{
                 $tol += $cantidad * $detalle['precioVenta'];
             }
             $producto->save();
+            $textProducto .= $detalle['cantidadVenta'].' '.$producto->nombre_pro.' '.$producto->unidad.' ,';
         }
+        $textProducto = substr($textProducto, 0, -1);
         $pedido->total = $tol;
+        $pedido->producto = $textProducto;
         $pedido->save();
         return Pedido::with('detalles')->find($pedido->id);
     }

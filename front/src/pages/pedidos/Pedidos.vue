@@ -1,96 +1,105 @@
 <template>
-<q-page class="bg-grey-3 q-pa-xs">
-      <q-card>
-        <q-card-section class="q-pa-xs">
-          <div class="row">
-            <div class="col-6 col-md-3">
-              <q-input
-                  outlined
-                  v-model="fechaInicio"
-                  label="Fecha Inicio"
-                  type="date"
-                  color="white"
-                  dense></q-input>
-            </div>
-            <div class="col-6 col-md-3">
-              <q-input
-                  outlined
-                  v-model="fechaFin"
-                  label="Fecha Fin"
-                  type="date"
-                  color="white"
-                  dense
-            ></q-input>
-            </div>
-            <div class="col-6 col-md-3 text-left">
-              <q-btn
-                  icon="search"
-                  color="primary"
-                  label="Buscar"
-                  @click="getPedidos"
-                  :loading="loading"
-                  no-caps
-              ></q-btn>
-            </div>
-            <div class="col-6 col-md-3 text-right">
-              <q-btn
-                icon="add_circle_outline"
-                color="green"
-                label="Nuevo Pedido"
-                @click="addPedido"
-                :loading="loading"
-                no-caps
-              ></q-btn>
-            </div>
+  <q-page class="bg-grey-3 q-pa-xs">
+    <q-card>
+      <q-card-section class="q-pa-xs">
+        <div class="row">
+          <div class="col-6 col-md-3">
+            <q-input
+              outlined
+              v-model="fechaInicio"
+              label="Fecha Inicio"
+              type="date"
+              color="white"
+              dense></q-input>
           </div>
-        </q-card-section>
- </q-card>
- <q-card-section class="q-pa-none">
-        <q-list dense class="rounded-borders">
-          <template v-if="pedidos.length === 0">
-            <q-item>
-              <q-item-section>
-                <q-item-label class="text-h6 text-grey">No hay pedidos</q-item-label>
-              </q-item-section>
-            </q-item>
-          </template>
-          <q-item
-            v-for="pedido in pedidos"
-            :key="pedido.id"
-            @click="showPreventa(pedido)"
-            clickable
-            class="q-my-sm bg-white hover-bg-light-blue"
-            style="border: 1px solid #e0e0e0; border-radius: 8px;"
-          >
+          <div class="col-6 col-md-3">
+            <q-input
+              outlined
+              v-model="fechaFin"
+              label="Fecha Fin"
+              type="date"
+              color="white"
+              dense
+            ></q-input>
+          </div>
+          <div class="col-6 col-md-3 text-left">
+            <q-btn
+              icon="search"
+              color="primary"
+              label="Buscar"
+              @click="getPedidos"
+              :loading="loading"
+              no-caps
+            ></q-btn>
+          </div>
+          <div class="col-6 col-md-3 text-right">
+            <q-btn
+              icon="get_app"
+              color="green"
+              label="Excel"
+              @click="exportExcel"
+              :loading="loading"
+              no-caps
+            ></q-btn>
+            <q-btn
+              icon="add_circle_outline"
+              color="green"
+              label="Nuevo Pedido"
+              @click="addPedido"
+              :loading="loading"
+              no-caps
+            ></q-btn>
+          </div>
+        </div>
+      </q-card-section>
+    </q-card>
+    <q-card-section class="q-pa-none">
+      <q-list dense class="rounded-borders">
+        <template v-if="pedidos.length === 0">
+          <q-item>
             <q-item-section>
-              <q-item-label class="text-h6">
-                {{ pedido.fecha.substring(0,10) || 'Sin propietario' }}
-                <q-icon name="check_circle" :color="pedido.estado === 'PENDIENTE' ? 'red' : pedido.estado === 'ENTREGADO' ? 'green' : 'orange'"/>
-              </q-item-label>
-              <q-item-label class="text-subtitle1 text-grey">
-                {{ pedido.direccion }}
-                <q-chip>
-                  {{ pedido.total }}
-                </q-chip>
-<!--                <pre>{{ pedido}}</pre>-->
-              </q-item-label>
-              <q-item-label class="text-caption text-positive">
-
-                {{ pedido.cliente }} - {{ pedido.tipo_construccion }} - {{ pedido.user?.name }}
-                - {{ pedido.fecha }}
-              </q-item-label>
-            </q-item-section>
-
-            <q-item-section side>
-              <q-icon name="arrow_forward"/>
+              <q-item-label class="text-h6 text-grey">No hay pedidos</q-item-label>
             </q-item-section>
           </q-item>
-  <!--         <pre>{{pedidos}}</pre> -->
-        </q-list>
-      </q-card-section>
+        </template>
+        <q-item
+          v-for="pedido in pedidos"
+          :key="pedido.id"
+          @click="showPreventa(pedido)"
+          clickable
+          class="q-my-sm bg-white hover-bg-light-blue"
+          style="border: 1px solid #e0e0e0; border-radius: 8px;"
+        >
+          <q-item-section>
+            <q-item-label class="text-h6">
+              {{ pedido.fecha.substring(0, 10) || 'Sin propietario' }}
+              <q-icon name="check_circle"
+                      :color="pedido.estado === 'PENDIENTE' ? 'red' : pedido.estado === 'ENTREGADO' ? 'green' : 'orange'"/>
+            </q-item-label>
+            <q-item-label class="text-subtitle1 text-grey">
+              {{ pedido.direccion }}
+              <q-chip>
+                {{ pedido.total }}
+              </q-chip>
+              <!--                <pre>{{ pedido}}</pre>-->
+            </q-item-label>
+            <q-item-label class="text-caption text-positive">
 
- </q-page>
- <q-dialog v-model="dialog"
+              {{ pedido.cliente }} - {{ pedido.tipo_construccion }} - {{ pedido.user?.name }}
+              - {{ pedido.fecha }}
+            </q-item-label>
+          </q-item-section>
+
+          <q-item-section side>
+            <q-icon name="arrow_forward"/>
+          </q-item-section>
+        </q-item>
+<!--        <pre>{{pedidos}}</pre>-->
+      </q-list>
+    </q-card-section>
+
+  </q-page>
+  <q-dialog v-model="dialog"
             :position="esMovil ? undefined : 'right'"
             :maximized="true"
             transition-show="slide-left"
@@ -98,7 +107,7 @@
   >
     <q-card style="width: 450px; max-width: 100vw;">
       <q-card-section class="row items-center q-px-md bg-primary text-white q-px-none">
-        <q-btn flat round dense icon="fa-solid fa-arrow-left" v-close-popup />
+        <q-btn flat round dense icon="fa-solid fa-arrow-left" v-close-popup/>
         <q-space/>
         <div class="text-h6">{{ pedido.id ? 'Editar' : 'Nuevo' }} Pedido</div>
       </q-card-section>
@@ -182,7 +191,8 @@
             :options="[ 'PENDIENTE', 'ENTREGADO', 'ANULADO']"
           >
             <template v-slot:after>
-              <q-icon name="check_circle" :color="pedido.estado === 'PENDIENTE' ? 'red' : pedido.estado === 'ENTREGADO' ? 'green' : 'orange'"/>
+              <q-icon name="check_circle"
+                      :color="pedido.estado === 'PENDIENTE' ? 'red' : pedido.estado === 'ENTREGADO' ? 'green' : 'orange'"/>
             </template>
           </q-select>
           <div class="text-bold q-pa-xs">
@@ -201,15 +211,15 @@
             <tbody>
             <tr v-for="sale in pedido.detalles" :key="sale.id">
               <td>
-                <q-icon name="delete" @click="sales.splice(sales.indexOf(sale), 1)" class="cursor-pointer" color="red" />
+                <q-icon name="delete" @click="sales.splice(sales.indexOf(sale), 1)" class="cursor-pointer" color="red"/>
                 {{ sale.producto?.nombre_pro }}
                 {{ sale.producto?.marca_pro }}
               </td>
               <td>
-                <input v-model="sale.cantidad" type="number" style="width: 50px" step="0.01" />
+                <input v-model="sale.cantidad" type="number" style="width: 50px" step="0.01"/>
               </td>
               <td>
-                <input v-model="sale.precio" type="number" style="width: 70px" step="0.01" />
+                <input v-model="sale.precio" type="number" style="width: 70px" step="0.01"/>
               </td>
               <td>{{ (sale.cantidad * sale.precio).toFixed(2) }}</td>
             </tr>
@@ -238,113 +248,147 @@
         </q-form>
       </q-card-section>
 
-      </q-card>
-    </q-dialog>
+    </q-card>
+  </q-dialog>
 
-  </template>
+</template>
 
-  <script>
-  import moment from "moment";
-  import { Loading } from 'quasar';
+<script>
+import moment from "moment";
+import {Loading} from 'quasar';
+import {Excel} from "src/addons/Excel";
 
-  export default {
-    name: 'Pedidos',
-    data() {
-      return {
-        loading: false,
-        dialog: false,
-        clientes: [],
-        fechaInicio: moment().format('YYYY-MM-DD'),
-        fechaFin: moment().format('YYYY-MM-DD'),
-        zonas: [],
-        pedidos: [],
-        // pedido: {},
-        productos: [],
-        pedido: {
-          producto_id: null,
-        },
-      }
+export default {
+  name: 'Pedidos',
+  data() {
+    return {
+      loading: false,
+      dialog: false,
+      clientes: [],
+      fechaInicio: moment().format('YYYY-MM-DD'),
+      fechaFin: moment().format('YYYY-MM-DD'),
+      zonas: [],
+      pedidos: [],
+      // pedido: {},
+      productos: [],
+      pedido: {
+        producto_id: null,
+      },
+    }
+  },
+  mounted() {
+    this.getZonas()
+    this.getPedidos()
+    this.getClientes()
+    this.getProductos();
+  },
+  methods: {
+    exportExcel() {
+      let data = [{
+        sheet: "Pedidos",
+        columns: [
+          {label: "Fecha", value: "fecha"},
+          {label: "Cliente", value: "cliente"},
+          {label: "Producto", value: "producto"},
+          // {label: "Cantidad", value: "cantidad"},
+          // {label: "Precio", value: "precio"},
+          {label: "Factura", value: "factura"},
+          {label: "Nombre Factura", value: "nombre_factura"},
+          {label: "Nit Factura", value: "nit_factura"},
+          {label: "Direccion", value: "direccion"},
+          {label: "Contacto", value: "contacto"},
+          {label: "Telefono", value: "telefono"},
+          {label: "Telefono2", value: "telefono2"},
+          {label: "Observacion", value: "observacion"},
+          {label: "Chofer", value: "chofer"},
+          {label: "Zona", value: "zona"},
+          {label: "Total", value: "total"},
+          {label: "Estado", value: "estado"},
+          {label: "Fecha Pago", value: "fecha_pago"},
+          {label: "User", value: "user_id"},
+          {label: "Cliente", value: "cliente_id"},
+          {label: "Estado Credito", value: "estadoCredito"},
+          {label: "Total Pagado", value: "totalPagado"},
+        ],
+        content: this.pedidos
+      }]
+
+      const excel = Excel.export(data, "Reporte de Pedidos");
+
     },
-    mounted() {
-      this.getZonas()
-      this.getPedidos()
-      this.getClientes()
-      this.getProductos();
+    getZonas() {
+      this.$axios.get('zonas')
+        .then(response => {
+          this.zonas = response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
-    methods: {
-      getZonas() {
-        this.$axios.get('zonas')
-          .then(response => {
-            this.zonas = response.data
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      },
-      showPreventa(pedido) {
-        // const user = this.$store.user
-        // if (user.role === 'Administrador') {
-          this.pedido = {...pedido}
-          this.dialog = true;
-        // }
-      },
-      submit() {
-        this.loading = true;
-        this.$axios.put('pedidos/' + this.pedido.id, this.pedido)
-          .then(response => {
-            this.dialog = false;
-            this.$alert.success('Pedido actualizado correctamente');
-            this.getPedidos();
-          }).catch(error => {
-            console.log(error);
-            this.$alert.error('Error al actualizar el pedido');
-          }).finally(() => {
-            this.loading = false;
-          });
-      },
-      getProductos() {
-        this.$axios.get('productos')
-          .then(response => {
-            this.productos = response.data;
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      },
+    showPreventa(pedido) {
+      // const user = this.$store.user
+      // if (user.role === 'Administrador') {
+      this.pedido = {...pedido}
+      this.dialog = true;
+      // }
+    },
+    submit() {
+      this.loading = true;
+      this.$axios.put('pedidos/' + this.pedido.id, this.pedido)
+        .then(response => {
+          this.dialog = false;
+          this.$alert.success('Pedido actualizado correctamente');
+          this.getPedidos();
+        }).catch(error => {
+        console.log(error);
+        this.$alert.error('Error al actualizar el pedido');
+      }).finally(() => {
+        this.loading = false;
+      });
+    },
+    getProductos() {
+      this.$axios.get('productos')
+        .then(response => {
+          this.productos = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
 
-      getClientes() {
-        this.$axios.get('clientes')
-          .then(response => {
-            this.clientes = response.data
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      },
-      addPedido() {
-        this.$router.push({ name: 'pedidosPage' })
-      },
-      getPedidos() {
-        this.loading = true
-        this.$axios.get('pedidos', {
-          params: {
-            fechaInicio: this.fechaInicio,
-            fechaFin: this.fechaFin
-          }
-        }).then(response => {
-            this.pedidos = response.data
-            this.loading = false
-          })
-          .catch(error => {
-            console.log(error)
-            this.loading = false
-          })
-      },
+    getClientes() {
+      this.$axios.get('clientes')
+        .then(response => {
+          this.clientes = response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
-    computed: {
-      esMovil() {
-        return this.$q.screen.lt.md;
-      }
+    addPedido() {
+      this.$router.push({name: 'pedidosPage'})
+    },
+    getPedidos() {
+      this.loading = true
+      this.$axios.get('pedidos', {
+        params: {
+          fechaInicio: this.fechaInicio,
+          fechaFin: this.fechaFin
+        }
+      }).then(response => {
+        this.pedidos = response.data
+        this.loading = false
+      })
+        .catch(error => {
+          console.log(error)
+          this.loading = false
+        })
+    },
+  },
+  computed: {
+    esMovil() {
+      return this.$q.screen.lt.md;
     }
   }
+}
 </script>
