@@ -22,13 +22,22 @@
                   dense
             ></q-input>
             </div>
-            <div class="col-6 col-md-3 text-left">
+            <div class="col-6 col-md-2 text-left">
               <q-btn
                   icon="search"
                   color="primary"
                   label="Buscar"
                   @click="getPedidos"
                   :loading="loading"
+                  no-caps
+              ></q-btn>
+            </div>
+            <div class="col-6 col-md-4 text-right">
+              <q-btn
+                  icon="download"
+                  color="green"
+                  label="Exportar"
+                  @click="exportExcel"
                   no-caps
               ></q-btn>
             </div>
@@ -230,6 +239,7 @@
   <script>
   import moment from "moment";
   import { Loading } from 'quasar';
+  import {Excel} from "src/addons/Excel";
 
   export default {
     name: 'Pedidos',
@@ -263,6 +273,40 @@
       this.getProductos();
     },
     methods: {
+      exportExcel() {
+        let data = [{
+          sheet: "Pedidos",
+          columns: [
+            {label: "Fecha", value: "fecha"},
+            {label: "Cliente", value: "cliente"},
+            {label: "Producto", value: "producto"},
+            // {label: "Cantidad", value: "cantidad"},
+            // {label: "Precio", value: "precio"},
+            {label: "Factura", value: "factura"},
+            {label: "Nombre Factura", value: "nombre_factura"},
+            {label: "Nit Factura", value: "nit_factura"},
+            {label: "Direccion", value: "direccion"},
+            {label: "Contacto", value: "contacto"},
+            {label: "Telefono", value: "telefono"},
+            {label: "Telefono2", value: "telefono2"},
+            {label: "Observacion", value: "observacion"},
+            {label: "Chofer", value: "chofer"},
+            {label: "Zona", value: "zona"},
+            {label: "Total", value: "total"},
+            {label: "Estado", value: "estado"},
+            {label: "Fecha Pago", value: "fecha_pago"},
+            {label: "User", value: "user_id"},
+            {label: "Cliente", value: "cliente_id"},
+            {label: "Estado Credito", value: "estadoCredito"},
+            {label: "Total Pagado", value: "totalPagado"},
+            {label: "Pagos", value: "pagosRealizados"},
+          ],
+          content: this.pedidos
+        }]
+
+        const excel = Excel.export(data, "Reporte de Pedidos");
+
+      },
       showPago(pago) {
         const user = this.$store.user;
         if (user.role !== 'Cobranza') {

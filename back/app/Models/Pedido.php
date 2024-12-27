@@ -96,7 +96,7 @@ class Pedido extends Model
     public function pagos(){
         return $this->hasMany(Pago::class)->with('user');
     }
-    protected $appends = ['estadoCredito', 'totalPagado'];
+    protected $appends = ['estadoCredito', 'totalPagado','pagosRealizados'];
 
     public function getEstadoCreditoAttribute(){
         $pagos = $this->pagos;
@@ -113,5 +113,13 @@ class Pedido extends Model
             $totalPagos += $pago->monto;
         }
         return $totalPagos;
+    }
+    public function getPagosRealizadosAttribute(){
+        $pagos = $this->pagos;
+        $textPagos = '';
+        foreach ($pagos as $pago){
+            $textPagos .= $pago->monto.' '.$pago->fecha_pago;
+        }
+        return substr($textPagos, 0, -1);
     }
 }
