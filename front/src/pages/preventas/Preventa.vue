@@ -165,7 +165,10 @@
             <div class="col-12">
               <!-- <q-input dense v-model="preventa.marca" outlined label="Marca" /> -->
               <q-select dense v-model="preventa.marca" outlined label="Marca"
-                        :options="['Ecebol', 'Coboce','Camba', 'Emisa IP-30', 'Emisa IP-40','Viacha IP30', 'Viacha IP40','Viacha P30', 'Ninguna']"/>
+              use-input
+              :options="['ACERBOL 1/4', 'ACERBOL 5/16', 'ACERBOL 3/8', 'ACERBOL 1/2', 'ACERBOL 5/8', 'ACERBOL 3/4', 'ACERBOL 1',
+           'AREQUIPA 1/4', 'AREQUIPA 5/16', 'AREQUIPA 3/8', 'AREQUIPA 1/2', 'AREQUIPA 5/8', 'AREQUIPA 3/4', 'AREQUIPA 1',
+           'LAS LOMAS 1/4', 'LAS LOMAS 5/16', 'LAS LOMAS 3/8', 'LAS LOMAS 1/2', 'LAS LOMAS 5/8', 'LAS LOMAS 3/4', 'LAS LOMAS 1', 'NINGUNO']" />
             </div>
             <div class="col-12">
               <q-input dense v-model="preventa.observacion" outlined label="Observacion"/>

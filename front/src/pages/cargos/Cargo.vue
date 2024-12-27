@@ -2,7 +2,7 @@
     <q-page class="bg-grey-2 q-pa-lg">
       <q-card>
         <q-card-section class="q-pa-sm">
-          <table class="styled-table">
+          <q-markup-table dense wrap-cells>
             <thead>
               <tr>
                 <th>ID</th>
@@ -46,7 +46,7 @@
                 </td>
               </tr>
             </tbody>
-          </table>
+          </q-markup-table>
         </q-card-section>
       </q-card>
 
