@@ -170,7 +170,7 @@
       <q-card-section class="q-mt-none">
         <q-form @submit="submit">
           <div class="row">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6">  
               <q-select
                 v-model="pedido.cliente_id"
                 @filter="filterClientes"

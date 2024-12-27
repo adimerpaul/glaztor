@@ -66,13 +66,25 @@
                   />
                 </div>
                 <div class="col-12">
-                  <q-input
+                  <q-select
+                    v-model="sueldo.ejecutivo_id"
+                    @filter="filterEjecutivos"
+                    @update:modelValue="changeDirecionTelefono"
+                    :rules="[val => !!val || 'Seleccione un cliente']"
+                    filled
+                    emit-value
+                    map-options
+                    standout
+                    use-input
+                    label="Nombre"
+                    :options="ejecutivos"
+                    option-value="id"
+                    option-label="nombre"
                     dense
-                    v-model="sueldo.nombre_completo"
-                    outlined
-                    label="Nombre Completo"
-                    style="text-transform: uppercase"
+                    clearable
                   />
+
+                 
                 </div>
                 <div class="col-6">
                   <q-input dense v-model="sueldo.ci" outlined label="C.I." />
@@ -255,11 +267,14 @@
     return {
       sueldos: [],
       sueldo: {},
+      ejecutivos: [],
+      ejecutivosAll: [],
       dialog: false,
     };
   },
   mounted() {
     this.getSueldos();
+    this.getEjecutivos();
   },
   computed: {
     montoAcumulado() {
@@ -346,6 +361,26 @@
         descuento_anticipo: 0,
         liquido_pagable: 0,
       };
+    },
+    filterEjecutivos(val, update) {
+      if (val === '') {
+        update(() => {
+          this.ejecutivos = this.ejecutivosAll
+        })
+        return
+      }
+      const needle = val.toLowerCase()
+      update(() => {
+        this.ejecutivos = this.ejecutivosAll.filter(v => v.nombre_eje.toLowerCase().indexOf(needle) > -1)
+      })
+    },
+    getEjecutivos() {
+      this.$axios.get('ejecutivos').then(response => {
+        this.ejecutivos = response.data
+        this.ejecutivosAll = response.data
+      }).catch(error => {
+        console.log(error)
+      })
     },
     editSueldo(sueldo) {
       this.sueldo = { ...sueldo };

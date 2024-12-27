@@ -323,25 +323,6 @@
       },
       addPedido() {
         this.$router.push({ name: 'pedidosPage' })
-        // this.dialog = true
-        // this.pedido = {
-        //   fecha_hora: moment().format('YYYY-MM-DD HH:mm:ss'),
-        //   cliente: '',
-        //   tipo: '',
-        //   producto: '',
-        //   cantidad: 0,
-        //   precio: 0,
-        //   factura: '',
-        //   nombre_factura: '',
-        //   nit_factura: '',
-        //   direccion: '',
-        //   contacto: '',
-        //   telefono: '',
-        //   telefono2: '',
-        //   observacion: '',
-        //   chofer: '',
-        //   fecha_pago: moment().format('YYYY-MM-DD'),
-        // }
       },
       getPedidos() {
         this.loading = true
