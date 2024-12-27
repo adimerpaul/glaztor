@@ -11,8 +11,10 @@ class ClienteController extends Controller
     function index(){
         return Cliente::orderBy('id', 'desc')->get();
     }
-   
+
     function store(Request $request){
+        $user = $request->user();
+        $request->merge(['user_id' => $user->id]);
         if (isset($request->foto)) {
             $fotoData = explode(',', $request->foto);
             $fotoBase64 = $fotoData[1]; // La parte base64

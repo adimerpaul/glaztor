@@ -67,7 +67,7 @@
       </q-card-section>
 
       <q-card-section>
-        <q-form @submit="submit" v-if="!cliente.id">
+        <q-form @submit="submit">
           <div class="row">
             <div class="col-12">
               <q-select
@@ -152,11 +152,13 @@
             <div class="col-12">
               <q-select
                 dense
-                v-model="zonass.zona_id"
+                v-model="cliente.zona"
                 :options="zonas"
                 option-label="nombre_zona"
-                option-value="id"
+                option-value="nombre_zona"
                 outlined
+                emit-value
+                map-options
                 :rules="[val => !!val || 'Este campo es requerido']"
                 label="Seleccionar Zona"
               />
@@ -181,26 +183,29 @@
             <div class="col-12">
               <q-select
                 dense
-                v-model="ejecutivoss.ejecutivo_id"
+                v-model="cliente.ejecutivo"
                 :options="ejecutivos"
                 option-label="apodo"
-                option-value="id"
+                option-value="apodo"
                 outlined
                 label="Seleccionar Ejecutivo"
                 :rules="[val => !!val || 'Este campo es requerido']"
-
+                emit-value
+                map-options
               />
             </div>
 
             <div class="col-12">
               <q-select
                 dense
-                v-model="cliente.region_id"
+                v-model="cliente.region"
                 :options="regions"
-                option-value="id"
+                option-value="nombre_region"
                 option-label="nombre_region"
                 outlined
                 label="Región"
+                map-options
+                emit-value
                 :rules="[val => !!val || 'Seleccione una región']"
               />
             </div>
@@ -221,165 +226,6 @@
                 label="Estado"/>
             </div>
 
-            <q-card-actions align="right">
-              <q-btn label="Cancelar" color="negative" @click="dialog = false" :loading="loading"/>
-              <q-btn label="Guardar" color="primary" type="submit" :loading="loading"/>
-            </q-card-actions>
-          </div>
-        </q-form>
-        <q-form @submit="submit" v-if="cliente.id">
-
-          <div class="row">
-            <div class="col-12">
-              <q-select
-                dense
-                v-model="cliente.tipo_cliente"
-                :options="[
-                                'FERRETERIA',
-                                'OBRA',
-                                'EMPRESA CONSTRUCTORA',
-                            ]"
-                outlined
-                :rules="[val => !!val || 'Este campo es requerido']"
-                label="Tipo"/>
-            </div>
-            <div class="col-12">
-              <q-input
-                dense
-                v-model="cliente.nombre_cliente"
-                outlined
-                label="Cliente"
-                :rules="[val => !!val || 'Este campo es requerido']"
-                @input="cliente.nombre_cliente = cliente.nombre_cliente.toUpperCase()"
-                style="text-transform: uppercase;"
-              />
-            </div>
-            <div class="col-12">
-              <q-input dense v-model="cliente.telefono_1" outlined label="Telefono cliente"
-                       :rules="[val => !!val || 'Este campo es requerido']"/>
-            </div>
-            <div class="col-12">
-              <q-input dense v-model="cliente.telefono_2" outlined label="Telefono cliente 2"/>
-            </div>
-            <div class="col-12">
-              <q-input
-                dense
-                v-model="cliente.direccion"
-                outlined
-                label="Dirección"
-                :rules="[val => !!val || 'Este campo es requerido']"
-                @input="cliente.direccion = cliente.direccion.toUpperCase()"
-                style="text-transform: uppercase;"
-              />
-            </div>
-            <div class="col-12">
-              <q-input
-                dense
-                v-model="cliente.complemento"
-                outlined
-                label="Complemento"
-                @input="cliente.complemento = cliente.complemento.toUpperCase()"
-                style="text-transform: uppercase;"
-              />
-            </div>
-            <div class="col-12">
-              <q-input dense v-model="cliente.ubicacion" outlined label="Ubicacion">
-                <template v-slot:append>
-                  <q-btn flat icon="fa-solid fa-map-marker-alt" @click="myLocation"/>
-                </template>
-              </q-input>
-            </div>
-            <div class="col-12">
-              <div style="height:250px; width:100%">
-                <l-map ref="map" v-model:zoom="zoom" :use-global-leaflet="false" :center="location">
-                  <l-tile-layer
-                    v-for="tileProvider in tileProviders"
-                    :key="tileProvider.name"
-                    :name="tileProvider.name"
-                    :visible="tileProvider.visible"
-                    :url="tileProvider.url"
-                    :attribution="tileProvider.attribution"
-                    layer-type="base"
-                  />
-                  <l-marker
-                    :lat-lng="location"
-                    @moveend="onMarkerMoveEnd"
-                    ref="marker"
-                    :draggable="true"
-                  />
-                </l-map>
-              </div>
-            </div>
-            <div class="col-12">
-              <q-select
-                dense
-                v-model="zonass.zona_id"
-                :options="zonas"
-                option-label="nombre_zona"
-                option-value="id"
-                outlined
-                :rules="[val => !!val || 'Este campo es requerido']"
-                label="Seleccionar Zona"
-              />
-            </div>
-
-            <div class="d-grid col-6 mx-auto mb-3">
-              <img v-if="cliente.foto"
-                   :src="cliente.foto.includes('data') ? cliente.foto : $url + '..' + cliente.foto"
-                   alt="Imagen del producto" class="img-thumbnail" height="100">
-              <img v-else height="100" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-256.png"
-                   class="img-thumbnail" id="fotoimg" alt="">
-            </div>
-
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-gift"></i></span>
-              <input v-on:change="previsualizarFoto" type="file" accept="image/png, image/jpg, image/gif"
-                     class="form-control">
-            </div>
-
-
-            <div class="col-12">
-              <q-select
-                dense
-                v-model="ejecutivoss.ejecutivo_id"
-                :options="ejecutivos"
-                option-label="apodo"
-                option-value="id"
-                outlined
-                label="Seleccionar Ejecutivo"
-                :rules="[val => !!val || 'Este campo es requerido']"
-
-              />
-            </div>
-
-            <div class="col-12">
-              <q-select
-                dense
-                v-model="cliente.region_id"
-                :options="regions"
-                option-value="id"
-                option-label="nombre_region"
-                outlined
-                label="Región"
-                :rules="[val => !!val || 'Seleccione una región']"
-              />
-            </div>
-            <div class="col-12">
-              <q-input dense v-model="cliente.cumple" outlined label="Cumpleaños" type="date"/>
-            </div>
-            <div class="col-12">
-              <!-- <q-input dense v-model="cliente.zona" outlined label="Zona" /> -->
-              <q-select
-                dense
-                v-model="cliente.estado"
-                :options="[
-                                'ACTIVO',
-                                'INACTIVO',
-                            ]"
-                outlined
-                :rules="[val => !!val || 'Este campo es requerido']"
-                label="Estado"/>
-            </div>
             <q-card-actions align="right">
               <q-btn label="Cancelar" color="negative" @click="dialog = false" :loading="loading"/>
               <q-btn label="Guardar" color="primary" type="submit" :loading="loading"/>
