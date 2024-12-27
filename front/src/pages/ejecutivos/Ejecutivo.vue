@@ -118,14 +118,19 @@
                       <div class="col-12">
                           <q-select
                               dense
-                              v-model="ejecutivo.cargo_id"
+                              v-model="ejecutivo.cargo"
                               :options="cargos"
                               outlined
                               :rules="[val => !!val || 'Este campo es requerido']"
                               label="Cargo"
                               option-label="nombre_cargo"
                               option-value="id"
+                              emit-value
+                              map-options
                           />
+                        <pre>
+                          {{cargos}}
+                        </pre>
                        </div>
                        <div class="col-12">
                       <q-input
@@ -191,11 +196,13 @@
                   <div class="col-12">
                       <q-select
                           dense
-                          v-model="nuevoEjecutivo.zona"
+                          v-model="ejecutivo.zona"
                           :options="zonas"
                           option-label="nombre_zona"
                           option-value="nombre_zona"
                           outlined
+                          emit-value
+                          map-options
                           :rules="[val => !!val || 'Este campo es requerido']"
                           label="Seleccionar Zona"
                       />
@@ -241,7 +248,7 @@
                   </q-card-actions>
               </div>
           </q-form>
-         
+
   </q-card-section>
 </q-card>
 </q-dialog>
@@ -472,7 +479,7 @@ this.$axios({
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = () => {
       this.foto = reader.result;
-      this.ejecutivo.foto = this.foto; 
+      this.ejecutivo.foto = this.foto;
     };
   }
 
