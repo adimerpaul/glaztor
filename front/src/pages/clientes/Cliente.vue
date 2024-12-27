@@ -14,10 +14,10 @@
           :filter="filter"
         >
           <template v-slot:top-right>
-            <q-btn color="primary" label="Mapa" @click="showGlobal" outline no-caps icon="public" :loading="loading" />
+            <q-btn color="primary" label="Mapa" @click="showGlobal" outline no-caps icon="public" :loading="loading"/>
             <q-input v-model="filter" label="Buscar" dense outlined>
               <template v-slot:append>
-                <q-icon name="search" />
+                <q-icon name="search"/>
               </template>
             </q-input>
           </template>
@@ -27,25 +27,28 @@
                 <q-list>
                   <q-item clickable @click="modificar(props.row)" v-close-popup>
                     <q-item-section avatar>
-                      <q-icon name="edit" />
+                      <q-icon name="edit"/>
                     </q-item-section>
                     <q-item-section>
                       <q-item-label>Editar</q-item-label>
                     </q-item-section>
                   </q-item>
                   <q-item clickable @click="userDelete(props.row.id)" v-close-popup>
-                  <q-item-section avatar>
-                    <q-icon name="delete" />
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>Eliminar</q-item-label>
-                  </q-item-section>
-                </q-item>
+                    <q-item-section avatar>
+                      <q-icon name="delete"/>
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Eliminar</q-item-label>
+                    </q-item-section>
+                  </q-item>
                 </q-list>
               </q-btn-dropdown>
             </q-td>
           </template>
-     </q-table>
+        </q-table>
+        <pre>
+          {{ clientes }}
+        </pre>
 
       </q-card-section>
     </q-card>
@@ -54,13 +57,14 @@
     <q-btn fab icon="add" color="primary" @click="dialogClick"/>
   </q-page-sticky>
 
-    <q-dialog v-model="dialog" :position="esMovil ? undefined : 'right'" :maximized="true" transition-show="slide-left" transition-hide="slide-right">
-        <q-card style="width: 450px; max-width: 100vw;">
-          <q-card-section class="row items-center q-px-md bg-primary text-white q-px-none">
-            <q-btn flat round dense icon="fa-solid fa-arrow-left" v-close-popup/>
-            <q-space/>
-            <div class="text-h6">{{ cliente.id ? 'Editar' : 'Nuevo' }} cliente</div>
-          </q-card-section>
+  <q-dialog v-model="dialog" :position="esMovil ? undefined : 'right'" :maximized="true" transition-show="slide-left"
+            transition-hide="slide-right">
+    <q-card style="width: 450px; max-width: 100vw;">
+      <q-card-section class="row items-center q-px-md bg-primary text-white q-px-none">
+        <q-btn flat round dense icon="fa-solid fa-arrow-left" v-close-popup/>
+        <q-space/>
+        <div class="text-h6">{{ cliente.id ? 'Editar' : 'Nuevo' }} cliente</div>
+      </q-card-section>
 
       <q-card-section>
         <q-form @submit="submit" v-if="!cliente.id">
@@ -159,36 +163,34 @@
             </div>
 
 
-            
             <div class="d-grid col-6 mx-auto mb-3">
-                    <img v-if="cliente.foto"
-                        :src="cliente.foto.includes('data') ? cliente.foto : $url + '..' + cliente.foto"
-                        alt="Imagen del producto" class="img-thumbnail" height="100">
-                    <img v-else height="100" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-256.png"
-                        class="img-thumbnail" id="fotoimg" alt="">
-                    </div>
+              <img v-if="cliente.foto"
+                   :src="cliente.foto.includes('data') ? cliente.foto : $url + '..' + cliente.foto"
+                   alt="Imagen del producto" class="img-thumbnail" height="100">
+              <img v-else height="100" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-256.png"
+                   class="img-thumbnail" id="fotoimg" alt="">
+            </div>
 
-                    <div class="input-group mb-3">
-                    <span class="input-group-text"><i class="fa-solid fa-gift"></i></span>
-                    <input v-on:change="previsualizarFoto" type="file" accept="image/png, image/jpg, image/gif"
-                            class="form-control">
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="fa-solid fa-gift"></i></span>
+              <input v-on:change="previsualizarFoto" type="file" accept="image/png, image/jpg, image/gif"
+                     class="form-control">
             </div>
 
 
-
             <div class="col-12">
-            <q-select
-              dense
-              v-model="ejecutivoss.ejecutivo_id"
-              :options="ejecutivos"
-              option-label="apodo"
-              option-value="id"
-              outlined
-              label="Seleccionar Ejecutivo"
-              :rules="[val => !!val || 'Este campo es requerido']"
-              
-            />
-          </div>
+              <q-select
+                dense
+                v-model="ejecutivoss.ejecutivo_id"
+                :options="ejecutivos"
+                option-label="apodo"
+                option-value="id"
+                outlined
+                label="Seleccionar Ejecutivo"
+                :rules="[val => !!val || 'Este campo es requerido']"
+
+              />
+            </div>
 
             <div class="col-12">
               <q-select
@@ -254,10 +256,10 @@
             </div>
             <div class="col-12">
               <q-input dense v-model="cliente.telefono_1" outlined label="Telefono cliente"
-                       :rules="[val => !!val || 'Este campo es requerido']" />
+                       :rules="[val => !!val || 'Este campo es requerido']"/>
             </div>
             <div class="col-12">
-              <q-input dense v-model="cliente.telefono_2" outlined label="Telefono cliente 2" />
+              <q-input dense v-model="cliente.telefono_2" outlined label="Telefono cliente 2"/>
             </div>
             <div class="col-12">
               <q-input
@@ -322,34 +324,33 @@
             </div>
 
             <div class="d-grid col-6 mx-auto mb-3">
-                    <img v-if="cliente.foto"
-                        :src="cliente.foto.includes('data') ? cliente.foto : $url + '..' + cliente.foto"
-                        alt="Imagen del producto" class="img-thumbnail" height="100">
-                    <img v-else height="100" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-256.png"
-                        class="img-thumbnail" id="fotoimg" alt="">
-                    </div>
+              <img v-if="cliente.foto"
+                   :src="cliente.foto.includes('data') ? cliente.foto : $url + '..' + cliente.foto"
+                   alt="Imagen del producto" class="img-thumbnail" height="100">
+              <img v-else height="100" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-256.png"
+                   class="img-thumbnail" id="fotoimg" alt="">
+            </div>
 
-                    <div class="input-group mb-3">
-                    <span class="input-group-text"><i class="fa-solid fa-gift"></i></span>
-                    <input v-on:change="previsualizarFoto" type="file" accept="image/png, image/jpg, image/gif"
-                            class="form-control">
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="fa-solid fa-gift"></i></span>
+              <input v-on:change="previsualizarFoto" type="file" accept="image/png, image/jpg, image/gif"
+                     class="form-control">
             </div>
 
 
-                
             <div class="col-12">
-            <q-select
-              dense
-              v-model="ejecutivoss.ejecutivo_id"
-              :options="ejecutivos"
-              option-label="apodo"
-              option-value="id"
-              outlined
-              label="Seleccionar Ejecutivo"
-              :rules="[val => !!val || 'Este campo es requerido']"
-              
-            />
-          </div>
+              <q-select
+                dense
+                v-model="ejecutivoss.ejecutivo_id"
+                :options="ejecutivos"
+                option-label="apodo"
+                option-value="id"
+                outlined
+                label="Seleccionar Ejecutivo"
+                :rules="[val => !!val || 'Este campo es requerido']"
+
+              />
+            </div>
 
             <div class="col-12">
               <q-select
@@ -412,7 +413,7 @@
             <l-marker
               v-for="cliente in clientes"
               :key="cliente.id"
-              :lat-lng="[parseFloat(cliente.lat), parseFloat(cliente.lng)]"
+              :lat-lng="[methonumber(cliente.lat), methonumber(cliente.lng)]"
               @click="showCliente(cliente)"
             />
           </l-map>
@@ -475,25 +476,25 @@ export default {
       encargadoBtnBool: true,
       clientes: [],
       cliente: {
-            id: null,
-            tipo_cliente: '',
-            nombre_cliente: '',
-            telefono_1: '',
-            telefono_2: '',
-            direccion: '',
-            complemento: '',
-            ubicacion: '',
-            lat: null,
-            lng: null,
-            foto: '',
-            zona_id: null,  // Keep 'zona_id' here
-            ejecutivo_id: null,
-            region_id: null, // Keep 'region_id' here
-            cumple: '',
-            estado: ''
-          },
-    zonass: {zona_id: null},
-    ejecutivoss: {ejecutivo_id: null}, 
+        id: null,
+        tipo_cliente: '',
+        nombre_cliente: '',
+        telefono_1: '',
+        telefono_2: '',
+        direccion: '',
+        complemento: '',
+        ubicacion: '',
+        lat: null,
+        lng: null,
+        foto: '',
+        zona_id: null,  // Keep 'zona_id' here
+        ejecutivo_id: null,
+        region_id: null, // Keep 'region_id' here
+        cumple: '',
+        estado: ''
+      },
+      zonass: {zona_id: null},
+      ejecutivoss: {ejecutivo_id: null},
       regions: [],
       dialog: false,
       loading: false
@@ -508,12 +509,15 @@ export default {
 
   },
   methods: {
-
+    methonumber(value) {
+      if (!value) return 0;
+      return parseFloat(value);
+    },
     modificar(cliente) {
-  // Cargar datos del cliente seleccionado
-  this.cliente = { ...cliente }; // Clona el objeto seleccionado
-  this.dialog = true; // Abre el diálogo para edición
-},
+      // Cargar datos del cliente seleccionado
+      this.cliente = {...cliente}; // Clona el objeto seleccionado
+      this.dialog = true; // Abre el diálogo para edición
+    },
 
     showGlobal() {
       this.dialogGlobal = true
@@ -597,40 +601,42 @@ export default {
       }
     },
     submit() {
-  this.loading = true;
+      this.loading = true;
 
-  // Verifica si el cliente tiene un ID (si existe, significa que es una actualización)
-  if (this.cliente.id) {
-    this.$axios.put(`clientes/${this.cliente.id}`, this.cliente) // Actualización con PUT
-      .then(response => {
-        // Encuentra el cliente en la lista y lo actualiza
-        const index = this.clientes.findIndex(cliente => cliente.id === this.cliente.id);
-        if (index !== -1) {
-          this.clientes[index] = response.data;
-        }
-        this.dialog = false; // Cierra el diálogo
-      })
-      .catch(error => {
-        console.log(error);
-      })
-      .finally(() => {
-        this.loading = false;
-      });
-  } else {
-    // Si no tiene ID, es un nuevo cliente y hacemos un POST
-    this.$axios.post('clientes', this.cliente)
-      .then(response => {
-        this.clientes.unshift(response.data); // Agrega el nuevo cliente al inicio
-        this.dialog = false; // Cierra el diálogo
-      })
-      .catch(error => {
-        console.log(error);
-      })
-      .finally(() => {
-        this.loading = false;
-      });
-  }
-},
+      // Verifica si el cliente tiene un ID (si existe, significa que es una actualización)
+      if (this.cliente.id) {
+        this.$axios.put(`clientes/${this.cliente.id}`, this.cliente) // Actualización con PUT
+          .then(response => {
+            // Encuentra el cliente en la lista y lo actualiza
+            const index = this.clientes.findIndex(cliente => cliente.id === this.cliente.id);
+            if (index !== -1) {
+              this.clientes[index] = response.data;
+            }
+            this.dialog = false; // Cierra el diálogo
+          })
+          .catch(error => {
+            console.log(error);
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      } else {
+        // Si no tiene ID, es un nuevo cliente y hacemos un POST
+        this.cliente.lat = this.location[0];
+        this.cliente.lng = this.location[1];
+        this.$axios.post('clientes', this.cliente)
+          .then(response => {
+            this.clientes.unshift(response.data); // Agrega el nuevo cliente al inicio
+            this.dialog = false; // Cierra el diálogo
+          })
+          .catch(error => {
+            console.log(error);
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      }
+    },
     dialogClick() {
       this.dialog = true
       this.cliente = {
@@ -657,53 +663,52 @@ export default {
           console.log(error)
         })
     },
-   async userDelete(clienteId) {
-  try {
-    // Confirmación antes de eliminar
-    const confirmDelete = confirm("¿Estás seguro de que deseas eliminar este cliente?");
-    if (confirmDelete) {
-      // Realiza una petición HTTP para eliminar el cliente
-      const response = await this.$axios.delete(`clientes/${clienteId}`); // Asegúrate de que la URL sea correcta
+    async userDelete(clienteId) {
+      try {
+        // Confirmación antes de eliminar
+        const confirmDelete = confirm("¿Estás seguro de que deseas eliminar este cliente?");
+        if (confirmDelete) {
+          // Realiza una petición HTTP para eliminar el cliente
+          const response = await this.$axios.delete(`clientes/${clienteId}`); // Asegúrate de que la URL sea correcta
 
-      if (response.status === 200) {
-        // Filtra el cliente eliminado de la lista local
-        this.clientes = this.clientes.filter(cliente => cliente.id !== clienteId);
+          if (response.status === 200) {
+            // Filtra el cliente eliminado de la lista local
+            this.clientes = this.clientes.filter(cliente => cliente.id !== clienteId);
 
-        // Muestra notificación de éxito
-        this.$q.notify({
-          color: 'green',
-          message: 'Cliente eliminado correctamente.',
-          icon: 'check'
-        });
-      } else {
-        // Si la respuesta no es 200, muestra un mensaje de error
+            // Muestra notificación de éxito
+            this.$q.notify({
+              color: 'green',
+              message: 'Cliente eliminado correctamente.',
+              icon: 'check'
+            });
+          } else {
+            // Si la respuesta no es 200, muestra un mensaje de error
+            this.$q.notify({
+              color: 'red',
+              message: 'Error al eliminar el cliente.',
+              icon: 'error'
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Error al eliminar el cliente", error);
         this.$q.notify({
           color: 'red',
-          message: 'Error al eliminar el cliente.',
+          message: 'Ocurrió un error al eliminar el cliente.',
           icon: 'error'
         });
       }
-    }
-  } catch (error) {
-    console.error("Error al eliminar el cliente", error);
-    this.$q.notify({
-      color: 'red',
-      message: 'Ocurrió un error al eliminar el cliente.',
-      icon: 'error'
-    });
-  }
-},
+    },
 
 
-previsualizarFoto(event) {
+    previsualizarFoto(event) {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = () => {
         this.foto = reader.result;
-        this.cliente.foto = this.foto; 
+        this.cliente.foto = this.foto;
       };
     }
-
 
 
   },
