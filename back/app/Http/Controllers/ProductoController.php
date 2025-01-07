@@ -30,6 +30,9 @@ class ProductoController extends Controller
             'precio_pro' => 'nullable|integer',
             'foto_pro' => 'nullable|string', // Espera una cadena base64
             'estado_pro' => 'required|string',
+            'precio_compra' => 'nullable|integer',
+            'cantidad_pro' => 'nullable|integer',
+            'tonelada' => 'nullable|string',
         ]);
 
         $producto = new Producto($validatedData);

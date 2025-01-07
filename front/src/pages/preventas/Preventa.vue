@@ -157,6 +157,7 @@
             <div class="col-12">
               <!-- <q-input dense v-model="preventa.tipo_construccion" outlined label="Tipo Construccion" /> -->
               <q-select dense v-model="preventa.tipo_construccion" outlined label="Estado de la Obra"
+                        use-input
                         :options="['Inicio Obra','Columnas', 'Muralla', 'Zapata', 'Sobrecimiento', 'Losa', 'Paralizada', 'Concluida']"/>
             </div>
             <div class="col-12">
@@ -165,10 +166,18 @@
             <div class="col-12">
               <!-- <q-input dense v-model="preventa.marca" outlined label="Marca" /> -->
               <q-select dense v-model="preventa.marca" outlined label="Marca"
-              use-input
-              :options="['ACERBOL 1/4', 'ACERBOL 5/16', 'ACERBOL 3/8', 'ACERBOL 1/2', 'ACERBOL 5/8', 'ACERBOL 3/4', 'ACERBOL 1',
-           'AREQUIPA 1/4', 'AREQUIPA 5/16', 'AREQUIPA 3/8', 'AREQUIPA 1/2', 'AREQUIPA 5/8', 'AREQUIPA 3/4', 'AREQUIPA 1',
-           'LAS LOMAS 1/4', 'LAS LOMAS 5/16', 'LAS LOMAS 3/8', 'LAS LOMAS 1/2', 'LAS LOMAS 5/8', 'LAS LOMAS 3/4', 'LAS LOMAS 1', 'NINGUNO']" />
+              use-input @update:modelValue="filterProducts"
+              :options="marcas"/>
+            </div>
+            <div class="col-12">
+              <!-- <q-input dense v-model="preventa.marca" outlined label="Marca" /> -->
+              <q-select dense v-model="preventa.producto" outlined label="Producto"
+                        use-input
+                        option-label="nombre_pro"
+                        option-value="nombre_pro"
+                        emit-value
+                        map-options
+                        :options="products"/>
             </div>
             <div class="col-12">
               <q-input dense v-model="preventa.observacion" outlined label="Observacion"/>
@@ -312,13 +321,39 @@ export default {
       preventas: [],
       preventa: {},
       dialog: false,
-      loading: false
+      loading: false,
+      productosAll: [],
+      products: [],
+      marcas: []
     }
   },
   mounted() {
     this.getPreventas()
+    this.getProductos()
   },
   methods: {
+    filterProducts(val) {
+      console.log(val)
+      if (val === null) {
+        return
+      }
+      this.products = this.productosAll.filter(product => product?.marca_pro === val)
+    },
+    getProductos() {
+      this.$axios.get('productos')
+        .then(response => {
+          this.productosAll = response.data
+          this.products = this.productosAll
+          this.products.forEach(product => {
+            if (!this.marcas.includes(product.marca_pro)) {
+              this.marcas.push(product.marca_pro)
+            }
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     onMapClick(event) {
       this.location = [event.latlng.lat, event.latlng.lng]
       this.preventa.ubicacion = `${event.latlng.lat.toFixed(7)}, ${event.latlng.lng.toFixed(7)}`
