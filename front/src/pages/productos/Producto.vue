@@ -123,12 +123,12 @@
               />
             </div>
             <div class="col-12">
-              <q-input dense v-model="producto.cantidad_pro" outlined label="Cantidad" type="number"
+              <q-input dense v-model="producto.cantidad_pro" outlined label="Cantidad en stok" type="number"
                        hint=""
               />
             </div>
             <div class="col-12">
-              <q-input dense v-model="producto.tonelada" outlined label="Cantidad tonelada" type="number"
+              <q-input dense v-model="producto.tonelada" outlined label="Cantidad Mayor general en ventas" type="number"
                        hint=""
               />
             </div>

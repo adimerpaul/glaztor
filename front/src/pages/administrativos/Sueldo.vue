@@ -232,22 +232,7 @@
               </div>
 
 
-              <div class="d-grid col-6 mx-auto mb-3">
-                <img v-if="sueldo.foto"
-                     :src="sueldo.foto.includes('data') ? sueldo.foto : $url + '..' + sueldo.foto"
-                     alt="Imagen del sueldo" class="img-thumbnail" height="100">
-                <img v-else height="100" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-256.png"
-                     class="img-thumbnail" id="fotoimg" alt="">
-              </div>
-
-              <div class="input-group mb-3">
-                <span class="input-group-text"><i class="fa-solid fa-gift"></i></span>
-                <input v-on:change="previsualizarFoto" type="file" accept="image/png, image/jpg, image/gif"
-                       class="form-control">
-              </div>
-
-
-            </div>
+                          </div>
             <q-card-actions align="right">
               <q-btn label="Cancelar" flat color="negative" @click="dialog = false" :loading="loading"/>
               <q-btn label="Guardar" flat color="primary" type="submit" :loading="loading"/>
