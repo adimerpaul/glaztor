@@ -71,7 +71,7 @@
                 <q-chip>
                   {{ pedido.total }}
                 </q-chip>
-                <q-chip :color="pedido.totalPagado >= pedido.total ? 'positive' : 'negative'">
+                <q-chip :color="pedido.totalPagado >= pedido.total ? 'positive' : 'negative'" class="text-white">
                   {{ pedido.totalPagado }}
                 </q-chip>
               </q-item-label>
@@ -115,7 +115,7 @@
               label="Agregar Pago"
               @click="clickDialogPago"
               no-caps
-              v-if="$store.user.role === 'Cobranza'"
+              v-if="$store.user.role === 'Cobranza' || $store.user.role === 'Admin'"
             ></q-btn>
           </div>
           <div class="text-bold q-pa-xs">
@@ -309,7 +309,7 @@
       },
       showPago(pago) {
         const user = this.$store.user;
-        if (user.role !== 'Cobranza') {
+        if (user.role === 'Administrador' || user.role === 'Ventas' || user.role === 'Cobranza' || user.role === 'Director' || user.role === 'Supervisor') {
           return;
         }
         this.dialogPagos = true;

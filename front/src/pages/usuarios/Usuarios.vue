@@ -45,7 +45,7 @@
       <template v-slot:body-cell-role="props">
         <q-td :props="props">
           <q-chip :label="props.row.role"
-                  :color="props.row.role === 'Administrador' ? 'primary' : props.row.role === 'Gerente' ? 'info' : 'positive'"
+                  :color="colorGet(props.row.role)"
                   text-color="white" dense  size="14px"/>
         </q-td>
       </template>
@@ -98,13 +98,27 @@ export default {
         { name: 'email', label: 'Email', align: 'left', field: 'email' },
         // { name: 'area', label: 'Area', align: 'left', field: row => row.area?.nombre },
       ],
-      roles: ['Administrador', 'Gerente', 'Ventas','Cobranza'],
+      roles: ['Administrador', 'Director', 'Ventas','Cobranza','Supervisor'],
     }
   },
   mounted() {
     this.usersGet()
   },
   methods: {
+    colorGet(role) {
+      switch (role) {
+        case 'Administrador':
+          return 'red'
+        case 'Director':
+          return 'blue'
+        case 'Ventas':
+          return 'green'
+        case 'Cobranza':
+          return 'orange'
+        case 'Supervisor':
+          return 'purple'
+      }
+    },
     areasGet() {
       this.loading = true
       this.$axios.get('areas').then(res => {
