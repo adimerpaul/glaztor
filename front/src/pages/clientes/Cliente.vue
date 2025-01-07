@@ -33,7 +33,7 @@
                       <q-item-label>Editar</q-item-label>
                     </q-item-section>
                   </q-item>
-                  <q-item clickable @click="userDelete(props.row.id)" v-close-popup>
+                  <q-item clickable @click="userDelete(props.row.id)" v-close-popup v-if="$store.user.role === 'Admin' || $store.user.role === 'Director'">
                     <q-item-section avatar>
                       <q-icon name="delete"/>
                     </q-item-section>

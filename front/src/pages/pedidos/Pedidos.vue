@@ -112,11 +112,11 @@
         <div class="text-h6">{{ pedido.id ? 'Editar' : 'Nuevo' }} Pedido</div>
       </q-card-section>
       <q-card-section>
-        <q-form @submit="submit" :disable="$store.user.role !== 'Administrador'">
+        <q-form @submit="submit" :disable="$store.user.role == 'Ventas' || $store.user.role == 'Cobranza' || $store.user.role == 'Director' || $store.user.role == 'Supervisor'">
           <q-input v-model="pedido.fecha"
                    label="Fecha"
                    outlined
-                   :disable="$store.user.role !== 'Administrador'"
+                   :disable="$store.user.role == 'Ventas' || $store.user.role == 'Cobranza' || $store.user.role == 'Director' || $store.user.role == 'Supervisor'"
                    dense
                    type="date"
           ></q-input>
@@ -174,7 +174,7 @@
             v-model="pedido.zona"
             label="zonas"
             outlined
-            :disable="$store.user.role !== 'Administrador'"
+            :disable="$store.user.role == 'Ventas' || $store.user.role == 'Cobranza' || $store.user.role == 'Director' || $store.user.role == 'Supervisor'"
             dense
             :options="zonas"
             emit-value
@@ -186,7 +186,7 @@
             v-model="pedido.estado"
             label="Estado"
             outlined
-            :disable="$store.user.role !== 'Administrador'"
+            :disable="$store.user.role == 'Ventas' || $store.user.role == 'Cobranza' || $store.user.role == 'Director' || $store.user.role == 'Supervisor'"
             dense
             :options="[ 'PENDIENTE', 'ENTREGADO', 'ANULADO']"
           >
@@ -231,7 +231,7 @@
                 {{ (pedido.detalles.reduce((acc, sale) => acc + sale.cantidad * sale.precio, 0)).toFixed(2) }}
               </td>
             </tr>
-            <tr v-if="$store.user.role === 'Administrador'">
+            <tr v-if="$store.user.role === 'Administrador' || $store.user.role === 'Admin'">
               <td colspan="4">
                 <q-btn
                   no-caps
@@ -239,7 +239,7 @@
                   color="blue"
                   :loading="loading"
                   type="submit"
-                  label="Actulizar pedido"
+                  label="Actualizar pedido"
                 />
               </td>
             </tr>

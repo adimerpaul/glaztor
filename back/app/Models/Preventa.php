@@ -22,6 +22,7 @@ class Preventa extends Model
         'tipo_construccion',
         'volumen',
         'marca',
+        'producto',
         'user_id',
         'direccion'
     ];
