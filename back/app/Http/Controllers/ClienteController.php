@@ -34,6 +34,17 @@ class ClienteController extends Controller
     }
     function update(Request $request, $id){
         $cliente = Cliente::findOrFail($id);
+        $fotoPro = $request->foto;
+        unset($request['foto']);
+        if (strpos($fotoPro, 'fotos') === false) {
+            $fotoData = explode(',', $request->foto);
+            $fotoBase64 = $fotoData[1]; // La parte base64
+            $fotoExtension = explode(';', explode('/', $fotoData[0])[1])[0]; // Obtener la extensión
+
+            $fotoPath = 'public/fotos/' . uniqid() . '.' . $fotoExtension;
+            Storage::put($fotoPath, base64_decode($fotoBase64));
+            $request->merge(['foto' => Storage::url($fotoPath)]);
+        }
         $cliente->update($request->all());
         return $cliente;
     }
