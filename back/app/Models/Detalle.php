@@ -23,7 +23,8 @@ class Detalle extends Model{
         'producto_id',
         'producto',
         'cantidad',
-        'precio'
+        'precio',
+        'precio_compra'
     ];
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];

@@ -75,7 +75,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('cotizacions/{id}', [CotizacionController::class, 'update']);
     Route::delete('cotizacions/{id}', [CotizacionController::class, 'destroy']);
 
-    
+
 
     Route::get('productos', [ProductoController::class, 'index']);
     Route::post('productos', [ProductoController::class, 'store']);
@@ -129,4 +129,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('reporteVentas', [\App\Http\Controllers\ReporteController::class, 'reporteVentas']);
     Route::post('reporteDeudas', [\App\Http\Controllers\ReporteController::class, 'reporteDeudas']);
+
+    Route::post('ingresoVentas', [\App\Http\Controllers\ResumenController::class, 'ingresoVentas']);
 });

@@ -11,7 +11,7 @@ const routes = [
       { path: 'pedidotrailers', component: () => import('src/pages/pedidotrailers/Pedidotrailer.vue'), meta: { requiresAuth: true } },
       { path: 'preventas', component: () => import('pages/preventas/Preventa.vue'), meta: { requiresAuth: true } },
       { path: 'cotizacions', component: () => import('pages/cotizacions/Cotizacion.vue'), meta: { requiresAuth: true } },
-   
+
       { path: 'clientes', component: () => import('pages/clientes/Cliente.vue'), meta: { requiresAuth: true } },
       { path: 'ejecutivos', component: () => import('pages/ejecutivos/Ejecutivo.vue'), meta: { requiresAuth: true } },
       { path: 'productos', component: () => import('pages/productos/Producto.vue'), meta: { requiresAuth: true } },
@@ -22,6 +22,7 @@ const routes = [
       { path: 'servicios', component: () => import('pages/administrativos/Servicio.vue'), meta: { requiresAuth: true }  },
       { path: 'cajachicas', component: () => import('pages/administrativos/Cajachica.vue'), meta: { requiresAuth: true }  },
       { path: 'sueldos', component: () => import('pages/administrativos/Sueldo.vue'), meta: { requiresAuth: true }  },
+      { path: 'resumen', component: () => import('pages/resumen/Resumen.vue'), meta: { requiresAuth: true }  },
     ]
   },
   {
