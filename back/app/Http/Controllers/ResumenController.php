@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Pedido;
 use App\Models\Producto;
+use App\Models\Servicio;
+use App\Models\Sueldo;
 use Illuminate\Http\Request;
 
 class ResumenController extends Controller{
@@ -22,17 +24,6 @@ class ResumenController extends Controller{
         foreach ($pedidos as $pedido) {
             $detalle = $pedido->detalles;
             foreach ($detalle as $item) {
-//                $find = array_search($item->producto, array_column($productos, 'producto'));
-//                if ($find !== false) {
-//                    $productos[$find]['cantidad'] += $item->cantidad;
-//                } else {
-//                    $productoFind = Producto::find($item->producto_id);
-//                    $productos[] = [
-//                        'producto' => $item->producto,
-//                        'cantidad' => $item->cantidad,
-//                        'precio' => $productoFind->precio_pro
-//                    ];
-//                }
                 $productos[] = [
                     'producto' => $item->producto,
                     'cantidad' => $item->cantidad,
@@ -40,27 +31,39 @@ class ResumenController extends Controller{
                 ];
             }
         }
-
         $productosCosto = [];
-//        foreach ($pedidos as $pedido) {
-//            $detalle = $pedido->detalle;
-//            foreach ($detalle as $item) {
-//                $producto = $item->producto;
-//                $precio = $item->precio_compra;
-//                $cantidad = $item->cantidad;
-//                if (array_key_exists($producto->nombre, $productosCosto)) {
-//                    $productosCosto[$producto->nombre]['cantidad'] += $cantidad;
-//                } else {
-//                    $productosCosto[$producto->nombre] = [
-//                        'cantidad' => $cantidad,
-//                        'precio' => $precio
-//                    ];
-//                }
-//            }
-//        }
+        foreach ($pedidos as $pedido) {
+            $detalle = $pedido->detalles;
+            foreach ($detalle as $item) {
+                $productosCosto[] = [
+                    'producto' => $item->producto,
+                    'cantidad' => $item->cantidad,
+                    'precio' => $item->precio_compra
+                ];
+            }
+        }
+
+        $servicios = Servicio::whereBetween('fecha_pago', [$fechaInicio, $fechaFin])->get();
+        $sueldos = Sueldo::whereBetween('sueldo_correspondiente', [$fechaInicio, $fechaFin])->get();
+
+        $servicosSueldos = [];
+        for ($i=0; $i < count($servicios); $i++) {
+            $servicosSueldos[] = [
+                'servicio' => $servicios[$i]->nombre_servicio,
+                'monto' => $servicios[$i]->monto_cancelado
+            ];
+        }
+        for ($i=0; $i < count($sueldos); $i++) {
+            $servicosSueldos[] = [
+                'servicio' => $sueldos[$i]->nombre_completo,
+                'monto' => $sueldos[$i]->liquido_pagable
+            ];
+        }
+
         return [
             'resumenVentas' => $productos,
-            'resumenCostos' => $productosCosto
+            'resumenCostos' => $productosCosto,
+            'resumenServicios' => $servicosSueldos
         ];
     }
 }
