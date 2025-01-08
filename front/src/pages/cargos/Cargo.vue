@@ -19,7 +19,7 @@
                 <td>{{ cargo.descripcion_cargo }}</td>
                 <td>
                   <q-chip
-                    :color="cargo.estado === 'ACTIVO' ? 'green' : 'red'"
+                    :color="cargo.estado === 'Activo' ? 'green' : 'red'"
                     text-color="white"
                     dense
                   >
@@ -166,13 +166,13 @@
           .onOk(() => {
             this.$axios.delete(`cargos/${id}`).then(() => {
               this.cargos = this.cargos.filter((c) => c.id !== id);
-              this.$q.notify({ color: "positive", message: "Eliminado con éxito." });
+              this.$q.notify({ color: "positive", message: "Eliminado con éxito" });
             });
           });
       },
       dialogClick() {
         this.dialog = true;
-        this.cargo = { nombre_cargo: "", descripcion_cargo: "", estado: "ACTIVO" };
+        this.cargo = { nombre_cargo: "", descripcion_cargo: "", estado: "Activo" };
       },
       getCargos() {
         this.$axios.get("cargos").then((response) => {

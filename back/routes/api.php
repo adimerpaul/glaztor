@@ -3,6 +3,7 @@
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\PreventaController;
+use App\Http\Controllers\CotizacionController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EjecutivoController;
 use App\Http\Controllers\ProductoController;
@@ -65,6 +66,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('preventas/{id}', [PreventaController::class, 'show']);
     Route::put('preventas/{id}', [PreventaController::class, 'update']);
     Route::delete('preventas/{id}', [PreventaController::class, 'destroy']);
+
+
+
+    Route::get('cotizacions', [CotizacionController::class, 'index']);
+    Route::post('cotizacions', [CotizacionController::class, 'store']);
+    Route::get('cotizacions/{id}', [CotizacionController::class, 'show']);
+    Route::put('cotizacions/{id}', [CotizacionController::class, 'update']);
+    Route::delete('cotizacions/{id}', [CotizacionController::class, 'destroy']);
+
+    
 
     Route::get('productos', [ProductoController::class, 'index']);
     Route::post('productos', [ProductoController::class, 'store']);

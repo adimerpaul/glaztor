@@ -10,6 +10,8 @@ const routes = [
       { path: 'pedidosPage', component: () => import('src/pages/pedidos/PedidosPage.vue'), name:'pedidosPage', meta: { requiresAuth: true } },
       { path: 'pedidotrailers', component: () => import('src/pages/pedidotrailers/Pedidotrailer.vue'), meta: { requiresAuth: true } },
       { path: 'preventas', component: () => import('pages/preventas/Preventa.vue'), meta: { requiresAuth: true } },
+      { path: 'cotizacions', component: () => import('pages/cotizacions/Cotizacion.vue'), meta: { requiresAuth: true } },
+   
       { path: 'clientes', component: () => import('pages/clientes/Cliente.vue'), meta: { requiresAuth: true } },
       { path: 'ejecutivos', component: () => import('pages/ejecutivos/Ejecutivo.vue'), meta: { requiresAuth: true } },
       { path: 'productos', component: () => import('pages/productos/Producto.vue'), meta: { requiresAuth: true } },

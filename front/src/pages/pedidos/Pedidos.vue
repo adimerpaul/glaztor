@@ -124,36 +124,42 @@
             v-model="pedido.cliente"
             label="Cliente"
             outlined
+            :disable="$store.user.role == 'Ventas' || $store.user.role == 'Cobranza' || $store.user.role == 'Director' || $store.user.role == 'Supervisor'"
             dense
           ></q-input>
           <q-input
             v-model="pedido.nombre_factura"
             label="Nombre Factura"
             outlined
+            :disable="$store.user.role == 'Ventas' || $store.user.role == 'Cobranza' || $store.user.role == 'Director' || $store.user.role == 'Supervisor'"
             dense
           ></q-input>
           <q-input
             v-model="pedido.nit_factura"
             label="Nit Factura"
             outlined
+            :disable="$store.user.role == 'Ventas' || $store.user.role == 'Cobranza' || $store.user.role == 'Director' || $store.user.role == 'Supervisor'"
             dense
           ></q-input>
           <q-input
             v-model="pedido.direccion"
             label="Direccion"
             outlined
+            :disable="$store.user.role == 'Ventas' || $store.user.role == 'Cobranza' || $store.user.role == 'Director' || $store.user.role == 'Supervisor'"
             dense
           ></q-input>
           <q-input
             v-model="pedido.contacto"
             label="Contacto"
             outlined
+            :disable="$store.user.role == 'Ventas' || $store.user.role == 'Cobranza' || $store.user.role == 'Director' || $store.user.role == 'Supervisor'"
             dense
           ></q-input>
           <q-input
             v-model="pedido.telefono"
             label="Telefono"
             outlined
+            :disable="$store.user.role == 'Ventas' || $store.user.role == 'Cobranza' || $store.user.role == 'Director' || $store.user.role == 'Supervisor'"
             dense
           ></q-input>
           <q-input
@@ -161,12 +167,14 @@
             v-model="pedido.observacion"
             label="Observacion"
             outlined
+            :disable="$store.user.role == 'Ventas' || $store.user.role == 'Cobranza' || $store.user.role == 'Director' || $store.user.role == 'Supervisor'"
             dense
           ></q-input>
           <q-input
             v-model="pedido.chofer"
             label="chofer"
             outlined
+            :disable="$store.user.role == 'Ventas' || $store.user.role == 'Cobranza' || $store.user.role == 'Director' || $store.user.role == 'Supervisor'"
             dense
           ></q-input>
 

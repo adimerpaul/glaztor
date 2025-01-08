@@ -25,8 +25,6 @@
                           <td>{{ servicio.monto_cancelado }}</td>
                           <td>{{ servicio.numero_recibo }}</td>
                           <td>{{ servicio.observacion }}</td>
-
-
                           <td>{{ servicio.estado }}</td>
                           <td>
                               <q-btn @click="eliminar(servicio.id)" color="negative" size="xs" icon="delete" />
@@ -38,10 +36,6 @@
           </q-card-section>
       </q-card>
   </q-page>
-
-
-
-
   <q-page-sticky position="bottom-right" class="text-bold" :offset="[18, 18]">
       <q-btn fab icon="add" color="primary" @click="dialogClick" />
   </q-page-sticky>
@@ -59,12 +53,11 @@
           <q-card-section>
               <q-form @submit.prevent="confirmarGuardar">
                   <div class="row">
-
                       <div class="col-12">
                           <q-select
                               dense
                               v-model="servicio.nombre_servicio"
-                              :options="['LUZ', 'AGUA', 'ALQUILER', 'INTERNET', 'TELEFONIA', 'IMPUESTOS']"
+                              :options="['LUZ', 'AGUA', 'ALQUILER', 'INTERNET', 'TELEFONIA', 'IMPUESTOS', 'CAJA CHICA']"
                               outlined
                               :rules="[val => !!val || 'Este campo es requerido']"
                               label="Nombre servicio" />
@@ -94,7 +87,6 @@
                               @input="servicio.numero_recibo = servicio.numero_recibo.toUpperCase()"
                               style="text-transform: uppercase;" />
                       </div>
-
                       <div class="col-12">
                           <q-input
                               dense
@@ -104,10 +96,6 @@
                               @input="servicio.observacion = servicio.observacion.toUpperCase()"
                               style="text-transform: uppercase;" />
                       </div>
-
-
-
-
                       <div class="col-12">
                           <q-select
                               dense
@@ -128,7 +116,6 @@
   </q-dialog>
 
 </template>
-
 <script>
 import moment from "moment";
 import "moment/locale/es"; // Importar español
