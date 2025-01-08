@@ -87,126 +87,126 @@
         <div class="text-h6">{{ ejecutivo.id ? 'Editar' : 'Nuevo' }} Ejecutivo</div>
       </q-card-section>
       <q-card-section>
-          <q-form @submit.prevent="confirmarGuardar">
-              <div class="row">
-                  <div class="col-12">
-                      <q-input
-                          dense
-                          v-model="ejecutivo.nombre_eje"
-                          outlined
-                          label="Nombre"
-                          :rules="[val => !!val || 'Este campo es requerido']"
-                          @input="ejecutivo.nombre_eje = ejecutivo.nombre_eje.toUpperCase()"
-                          style="text-transform: uppercase;"
-                      />
-                       </div>
-                      <div class="col-12">
-                      <q-input
-                          dense
-                          v-model="ejecutivo.ci"
-                          outlined
-                          label="ci"
-                          :rules="[val => !!val || 'Este campo es requerido']"
-                          @input="ejecutivo.ci = ejecutivo.ci.toUpperCase()"
-                          style="text-transform: uppercase;"
-                      />
-                       </div>
-                      <div class="col-12">
-                      <q-input dense v-model="ejecutivo.telefono_1" outlined label="Telefono ejecutivo" type="number"  />
-                      </div>
-                      <div class="col-12">
-                      <q-input dense v-model="ejecutivo.telefono_2" outlined label="Telefono ejecutivo 2" type="number" />
-                      </div>
-                      <div class="col-12">
-                          <q-select
-                              dense
-                              v-model="ejecutivo.cargo_id"
-                              filled
-                              standout
-                              :options="cargos"
-                              outlined
-                              label="Cargo"
-                              option-label="nombre_cargo"
-                              option-value="id"
-                              emit-value
-                             map-options
-                          />
-                       </div>
+        <q-form @submit.prevent="confirmarGuardar">
+          <div class="row">
+            <div class="col-12">
+              <q-input
+                dense
+                v-model="ejecutivo.nombre_eje"
+                outlined
+                label="Nombre"
+                :rules="[val => !!val || 'Este campo es requerido']"
+                @input="ejecutivo.nombre_eje = ejecutivo.nombre_eje.toUpperCase()"
+                style="text-transform: uppercase;"
+              />
+            </div>
+            <div class="col-12">
+              <q-input
+                dense
+                v-model="ejecutivo.ci"
+                outlined
+                label="ci"
+                :rules="[val => !!val || 'Este campo es requerido']"
+                @input="ejecutivo.ci = ejecutivo.ci.toUpperCase()"
+                style="text-transform: uppercase;"
+              />
+            </div>
+            <div class="col-12">
+              <q-input dense v-model="ejecutivo.telefono_1" outlined label="Telefono ejecutivo" type="number"/>
+            </div>
+            <div class="col-12">
+              <q-input dense v-model="ejecutivo.telefono_2" outlined label="Telefono ejecutivo 2" type="number"/>
+            </div>
+            <div class="col-12">
+              <q-select
+                dense
+                v-model="ejecutivo.cargo"
+                filled
+                standout
+                :options="cargos"
+                outlined
+                label="Cargo"
+                option-label="nombre_cargo"
+                option-value="nombre_cargo"
+                emit-value
+                map-options
+              />
+              <!--                        <pre>{{ejecutivo}}</pre>-->
+            </div>
 
-         
-
-
-                       <div class="col-12">
-                      <q-input
-                          dense
-                          v-model="ejecutivo.apodo"
-                          outlined
-                          label="seudónimo"
-                          :rules="[val => !!val || 'Este campo es requerido']"
-                          @input="ejecutivo.apodo = ejecutivo.apodo.toUpperCase()"
-                          style="text-transform: uppercase;"
-                      />
-                       </div>
-                       <div class="col-12">
-                      <q-input
-                          dense
-                          v-model="ejecutivo.correo"
-                          outlined
-                          label="Correo"
-                          @input="ejecutivo.correo = ejecutivo.correo.toUpperCase()"
-                          style="text-transform: uppercase;"
-                      />
-                       </div>
-                      <div class="col-12">
-                          <q-input
-                              dense
-                              v-model="ejecutivo.direccion"
-                              outlined
-                              label="Dirección"
-                              @input="ejecutivo.direccion = ejecutivo.direccion.toUpperCase()"
-                              style="text-transform: uppercase;"
-                          />
-                      </div>
-                  <div class="col-12">
-                      <q-input dense v-model="ejecutivo.ubicacion" outlined label="Ubicacion" >
-                          <template v-slot:append>
-                              <q-btn flat icon="fa-solid fa-map-marker-alt" @click="myLocation" />
-                          </template>
-                      </q-input>
-                  </div>
-                  <div class="col-12">
-                      <div style="height:250px; width:100%">
-                          <l-map ref="map" v-model:zoom="zoom" :use-global-leaflet="false" :center="location">
-                              <l-tile-layer
-                                  v-for="tileProvider in tileProviders"
-                                  :key="tileProvider.name"
-                                  :name="tileProvider.name"
-                                  :visible="tileProvider.visible"
-                                  :url="tileProvider.url"
-                                  :attribution="tileProvider.attribution"
-                                  layer-type="base"
-                              />
-                          <l-marker
-                              :lat-lng="location"
-                              @moveend="onMarkerMoveEnd"
-                              ref="marker"
-                              :draggable="true"
-                          />
-                          </l-map>
-                      </div>
-                  </div>
-                  <div class="col-12">
-                      <q-select
-                          dense
-                          v-model="nuevoEjecutivo.zona"
-                          :options="zonas"
-                          option-label="nombre_zona"
-                          option-value="nombre_zona"
-                          outlined
-                          :rules="[val => !!val || 'Este campo es requerido']"
-                          label="Seleccionar Zona"
-                      />
-                  </div>
+            <div class="col-12">
+              <q-input
+                dense
+                v-model="ejecutivo.apodo"
+                outlined
+                label="seudónimo"
+                :rules="[val => !!val || 'Este campo es requerido']"
+                @input="ejecutivo.apodo = ejecutivo.apodo.toUpperCase()"
+                style="text-transform: uppercase;"
+              />
+            </div>
+            <div class="col-12">
+              <q-input
+                dense
+                v-model="ejecutivo.correo"
+                outlined
+                label="Correo"
+                @input="ejecutivo.correo = ejecutivo.correo.toUpperCase()"
+                style="text-transform: uppercase;"
+              />
+            </div>
+            <div class="col-12">
+              <q-input
+                dense
+                v-model="ejecutivo.direccion"
+                outlined
+                label="Dirección"
+                @input="ejecutivo.direccion = ejecutivo.direccion.toUpperCase()"
+                style="text-transform: uppercase;"
+              />
+            </div>
+            <div class="col-12">
+              <q-input dense v-model="ejecutivo.ubicacion" outlined label="Ubicacion">
+                <template v-slot:append>
+                  <q-btn flat icon="fa-solid fa-map-marker-alt" @click="myLocation"/>
+                </template>
+              </q-input>
+            </div>
+            <div class="col-12">
+              <div style="height:250px; width:100%">
+                <l-map ref="map" v-model:zoom="zoom" :use-global-leaflet="false" :center="location">
+                  <l-tile-layer
+                    v-for="tileProvider in tileProviders"
+                    :key="tileProvider.name"
+                    :name="tileProvider.name"
+                    :visible="tileProvider.visible"
+                    :url="tileProvider.url"
+                    :attribution="tileProvider.attribution"
+                    layer-type="base"
+                  />
+                  <l-marker
+                    :lat-lng="location"
+                    @moveend="onMarkerMoveEnd"
+                    ref="marker"
+                    :draggable="true"
+                  />
+                </l-map>
+              </div>
+            </div>
+            <div class="col-12">
+              <q-select
+                dense
+                v-model="ejecutivo.zona"
+                :options="zonas"
+                option-label="nombre_zona"
+                option-value="nombre_zona"
+                outlined
+                :rules="[val => !!val || 'Este campo es requerido']"
+                emit-value
+                map-options
+                label="Seleccionar Zona"
+              />
+            </div>
 
             <div class="d-grid col-6 mx-auto mb-3">
               <img v-if="ejecutivo.foto"
