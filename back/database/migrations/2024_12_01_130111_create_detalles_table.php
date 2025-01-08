@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('producto')->nullable();
             $table->integer('cantidad')->nullable();
             $table->decimal('precio', 8, 2)->nullable();
+            $table->decimal('precio_compra', 8, 2)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -49,24 +49,26 @@
 
           <q-form @submit="cotizacion.id ? cotizacionPut() : cotizacionPost()">
             <q-input v-model="cotizacion.fecha" label="Fecha" dense outlined type="date" :rules="[val => !!val || 'Campo requerido']" />
-           
-                  
-           
-              <q-select v-model="cotizacion.cliente_id"
+
+
+
+              <q-select v-model="cotizacion.cliente"
                 @filter="filterClientes"
                 :options="clientes"
-                option-value="id"
+                option-value="nombre_cliente"
                 option-label="nombre_cliente"
+                emit-value
+                map-options
                 label="Cliente"
                 filled
                 dense
                 clearable
                 use-chips
               />
-                  
 
-            <q-select v-model="cotizacion.marca" label="Marca" dense outlined 
-             use-input @update:modelValue="filterProducts" 
+
+            <q-select v-model="cotizacion.marca" label="Marca" dense outlined
+             use-input @update:modelValue="filterProducts"
              :options="marcas"/>
 
 
@@ -78,24 +80,24 @@
                         :options="products"/>
 
             <q-input v-model="cotizacion.cantidad" label="Cantidad" type="number" dense outlined :rules="[val => !!val || 'Campo requerido']" />
-               
+
               <q-select
-              v-model="cotizacion.zona_id"
+              v-model="cotizacion.zona"
               filled
               standout
               label="Zona"
               dense
               outlined
               :options="zonas"
-              option-value="id" 
+              option-value="nombre_zona"
               option-label="nombre_zona"
               emit-value
               map-options
 
             />
-                    
-           
-            
+
+
+
 
             <q-input v-model="cotizacion.precio_compra_cf" label="Precio Compra CF" type="number" dense outlined />
             <q-input v-model="cotizacion.precio_compra_sf" label="Precio Compra SF" type="number" dense outlined />

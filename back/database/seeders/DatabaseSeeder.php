@@ -151,7 +151,7 @@ class DatabaseSeeder extends Seeder
         Ejecutivo::create(['nombre_eje' => 'Valeria Isabel Lopez Torrez','ci' => '7344234-1 Or','cargo' => 'Supervisor','apodo' => 'VLOPEZ','estado' => 'Activo']);
         Ejecutivo::create(['nombre_eje' => 'Susana','ci' => '0','cargo' => 'Administrativo','apodo' => 'SCONDORI','estado' => 'Activo']);
         Ejecutivo::create(['nombre_eje' => 'Jose','ci' => '0','cargo' => 'Administrativo','apodo' => 'JOQUENDO','estado' => 'Activo']);
-       
+
 
         $productos = [
             [
@@ -193,7 +193,7 @@ class DatabaseSeeder extends Seeder
                 'nombre_pro' => 'Tubo 1/2"',
                 'descripcion_pro' => 'Tubo de medida 1/2" (12 mm)',
                 'precio_pro' => 114,
-                'precio_compra' => 0.45,
+                'precio_compra' => 100.45,
                 'cantidad_pro' => 1552,
                 'foto_pro' => '/storage/fotos/6765eda3dd407.png',
                 'tonelada' => 97,

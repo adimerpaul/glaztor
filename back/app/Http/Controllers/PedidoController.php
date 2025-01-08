@@ -74,22 +74,25 @@ class PedidoController extends Controller{
             $detalleSave = new Detalle();
             $detalleSave['pedido_id'] = $pedido->id;
             $detalleSave['user_id'] = $user->id;
-            $detalleSave['producto'] = $producto->nombre;
+            $detalleSave['producto'] = $producto->nombre_pro;
             $detalleSave['producto_id'] = $producto->id;
-            $detalleSave['cantidad'] = $detalle['cantidadVenta'];
+//            $detalleSave['cantidad'] = $detalle['cantidadVenta'];
             $detalleSave['precio'] = $detalle['precioVenta'];
-            $detalleSave->save();
-//            $tol += $detalleSave['cantidad'] * $detalleSave['precio'];
+            $detalleSave['precio_compra'] = $producto->precio_compra;
+
 
             if ($detalle['tipo_pro'] == 'BA'){
                 $producto->cantidad_pro -= $detalle['cantidadVenta'];
                 $tol += $detalle['cantidadVenta'] * $detalle['precioVenta'];
+                $detalleSave['cantidad'] = $detalle['cantidadVenta'];
             }
             if ($detalle['tipo_pro'] == 'TN'){
                 $cantidad = $detalle['cantidadVenta'] * $producto->tonelada;
                 $producto->cantidad_pro -= $cantidad;
                 $tol += $cantidad * $detalle['precioVenta'];
+                $detalleSave['cantidad'] = $cantidad;
             }
+            $detalleSave->save();
             $producto->save();
             $textProducto .= $detalle['cantidadVenta'].' '.$producto->nombre_pro.' '.$producto->unidad.' ,';
         }
