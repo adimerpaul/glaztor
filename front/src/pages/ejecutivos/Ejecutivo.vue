@@ -112,7 +112,7 @@
                       />
                        </div>
                       <div class="col-12">
-                      <q-input dense v-model="ejecutivo.telefono_1" outlined label="Telefono ejecutivo" type="number" :rules="[val => !!val || 'Este campo es requerido']" />
+                      <q-input dense v-model="ejecutivo.telefono_1" outlined label="Telefono ejecutivo" type="number"  />
                       </div>
                       <div class="col-12">
                       <q-input dense v-model="ejecutivo.telefono_2" outlined label="Telefono ejecutivo 2" type="number" />
@@ -121,14 +121,21 @@
                           <q-select
                               dense
                               v-model="ejecutivo.cargo_id"
+                              filled
+                              standout
                               :options="cargos"
                               outlined
-                              :rules="[val => !!val || 'Este campo es requerido']"
                               label="Cargo"
                               option-label="nombre_cargo"
                               option-value="id"
+                              emit-value
+                             map-options
                           />
                        </div>
+
+         
+
+
                        <div class="col-12">
                       <q-input
                           dense
@@ -146,7 +153,6 @@
                           v-model="ejecutivo.correo"
                           outlined
                           label="Correo"
-                          :rules="[val => !!val || 'Este campo es requerido']"
                           @input="ejecutivo.correo = ejecutivo.correo.toUpperCase()"
                           style="text-transform: uppercase;"
                       />
@@ -157,7 +163,6 @@
                               v-model="ejecutivo.direccion"
                               outlined
                               label="Dirección"
-                              :rules="[val => !!val || 'Este campo es requerido']"
                               @input="ejecutivo.direccion = ejecutivo.direccion.toUpperCase()"
                               style="text-transform: uppercase;"
                           />

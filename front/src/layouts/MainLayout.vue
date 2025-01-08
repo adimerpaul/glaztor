@@ -127,7 +127,7 @@ export default {
         {title: 'Principal', icon: 'home', link: '/', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
         {title: 'Reportes', icon: 'bar_chart', link: '/reportes', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
         {title: 'Prospección', icon: 'local_offer', link: '/preventas', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
-        {title: 'Cotizacion', icon: 'local_offer', link: '/cotizacions', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
+        {title: 'Cotizacion', icon: 'insert_drive_file', link: '/cotizacions', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
         {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
         {title: 'Pagos', icon: 'attach_money', link: '/pagos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
         {title: 'Clientes', icon: 'groups', link: '/clientes', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
