@@ -2,6 +2,15 @@
   <q-page class="bg-grey-2">
     <q-card flat bordered>
       <q-card-section class="q-pa-xs">
+       
+            <q-btn
+                  icon="download"
+                  color="green"
+                  label="Exportar"
+                  @click="exportExcel"
+                  no-caps
+              ></q-btn>
+        
         <q-markup-table dense class="styled-table">
           <thead>
           <tr>
@@ -169,6 +178,7 @@
 </template>
 
 <script>
+import {Excel} from "src/addons/Excel";
 export default {
   name: 'productos',
 
@@ -184,6 +194,28 @@ export default {
     this.getProductos();
   },
   methods: {
+    exportExcel() {
+        let data = [{
+          sheet: "Productos",
+          columns: [
+            {label: "Categoria Producto", value: "categoria_pro"},
+            {label: "Marca Producto", value: "marca_pro"},
+            {label: "Nombre Producto", value: "nombre_pro"},
+            {label: "Descripcion Producto", value: "descripcion_pro"},
+            {label: "Precio Producto", value: "precio_pro"},
+            {label: "Precio compra", value: "precio_compra"},
+            {label: "Cantidad en Stok", value: "cantidad_pro"},
+           //solo sale en text direccion  {label: "Foto Producto", value: "foto_pro"},
+            {label: "Tonelada por Producto", value: "tonelada"},
+            {label: "Estado Producto", value: "estado_pro"},
+          ],
+          content: this.productos
+        }]
+
+        const excel = Excel.export(data, "Reporte de Productos");
+
+      },
+
     showProducto(producto) {
       this.producto = {...producto}; // Esto es importante para asegurarse de que los datos del producto se copien correctamente
       this.dialog = true; // Muestra el diálogo de edición

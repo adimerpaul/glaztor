@@ -14,12 +14,20 @@
           :filter="filter"
         >
           <template v-slot:top-right>
+            <q-btn
+                  icon="download"
+                  color="green"
+                  label="Exportar"
+                  @click="exportExcel"
+                  no-caps
+              ></q-btn>
             <q-btn color="primary" label="Mapa" @click="showGlobal" outline no-caps icon="public" :loading="loading"/>
             <q-input v-model="filter" label="Buscar" dense outlined>
               <template v-slot:append>
                 <q-icon name="search"/>
               </template>
             </q-input>
+
           </template>
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
@@ -275,6 +283,7 @@ import {Loading} from 'quasar';
 import {Icon} from 'leaflet';
 import "leaflet/dist/leaflet.css";
 import {LMap, LTileLayer, LMarker} from "@vue-leaflet/vue-leaflet";
+import {Excel} from "src/addons/Excel";
 
 export default {
   name: 'clientes',
@@ -355,6 +364,32 @@ export default {
 
   },
   methods: {
+    exportExcel() {
+        let data = [{
+          sheet: "Clientes",
+          columns: [
+            {label: "Tipo de cliente", value: "tipo_cliente"},
+            {label: "Nombre del cliente", value: "nombre_cliente"},
+            {label: "Telefono 1", value: "telefono_1"},
+            {label: "Telefono 2 ", value: "telefono_2"},
+            {label: "Direccion", value: "direccion"},
+            {label: "Complemento", value: "complemento"},
+            {label: "lat", value: "lat"},
+            {label: "lng", value: "lng"},
+            {label: "Zona", value: "zona"},
+            {label: "Region", value: "region"},
+            {label: "Cumpleaños", value: "cumple"},
+            {label: "Eejecutivo", value: "ejecutivo"},
+            {label: "sap", value: "sap"},
+            {label: "Estado", value: "estado"},
+          ],
+          content: this.clientes
+        }]
+
+        const excel = Excel.export(data, "Reporte de Clientes");
+
+      },
+
     methonumber(value) {
       if (!value) return 0;
       return parseFloat(value);

@@ -3,7 +3,14 @@
     <q-table :rows="cotizacions" :columns="columns" dense wrap-cells flat bordered :rows-per-page-options="[0]"
               title="Cotizacions" :filter="filter">
       <template v-slot:top-right>
-          <q-btn color="primary" label="Nuevo" @click="cotizacionNew" outline no-caps  icon="add_circle_outline" :loading="loading" />
+        <q-btn
+                  icon="download"
+                  color="green"
+                  label="Exportar"
+                  @click="exportExcel"
+                  no-caps
+              ></q-btn>
+        <q-btn color="primary" label="Nuevo" @click="cotizacionNew" outline no-caps  icon="add_circle_outline" :loading="loading" />
           <q-input v-model="filter" label="Buscar" dense outlined >
             <template v-slot:append>
               <q-icon name="search" />
@@ -116,6 +123,8 @@
 </template>
 <script>
 import moment from 'moment'
+import {Excel} from "src/addons/Excel";
+
 export default {
   name: 'CotizacionsPage',
   data() {
@@ -158,6 +167,30 @@ export default {
 
   },
   methods: {
+
+    exportExcel() {
+        let data = [{
+          sheet: "Cotizacions",
+          columns: [
+            {label: "Fecha", value: "fecha"},
+            {label: "Nombre del cliente", value: "cliente"},
+            {label: "Marca", value: "marca"},
+            {label: "Producto", value: "producto"},
+            {label: "Cantidad", value: "cantidad"},
+            {label: "Zona", value: "zona"},
+            {label: "Precio_compra_cf", value: "precio_compra_cf"},
+            {label: "Precio_compra_sf", value: "precio_compra_sf"},
+            {label: "Precio_venta_cf", value: "precio_venta_cf"},
+            {label: "Precio_venta_sf", value: "precio_venta_sf"},
+            {label: "Observacion", value: "observacion"},
+          ],
+          content: this.cotizacions
+        }]
+
+        const excel = Excel.export(data, "Reporte de Cotizaciones");
+
+      },
+
 
     getZonas() {
       this.$axios.get('zonas').then(response => {

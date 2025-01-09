@@ -27,7 +27,7 @@ return new class extends Migration
 //            $table->string('lng')->nullable()->default('-67.114749');
             $table->string('zona')->nullable();
             $table->date('cumple')->nullable();
-            $table->string('estado')->nullable()->default('ACTIVO');
+            $table->string('estado')->nullable()->default('Activo');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->softDeletes();

@@ -2,6 +2,15 @@
   <q-page class="bg-grey-3 q-pa-xs">
       <q-card>
           <q-card-section class="q-pa-xs">
+            <div class="col-6 col-md-4 text-right">
+            <q-btn
+                  icon="download"
+                  color="green"
+                  label="Exportar"
+                  @click="exportExcel"
+                  no-caps
+              ></q-btn>
+            </div>
             <q-markup-table dense wrap-cells>
                   <thead>
                       <tr>
@@ -118,8 +127,9 @@
 </template>
 <script>
 import moment from "moment";
-import "moment/locale/es"; // Importar español
-moment.locale("es"); // Configurar idioma por defect
+import "moment/locale/es";
+import {Excel} from "src/addons/Excel";
+moment.locale("es"); 
 
 export default {
 
@@ -139,6 +149,24 @@ export default {
   this.getServicios();
   },
   methods: {
+    exportExcel() {
+        let data = [{
+          sheet: "Servicios",
+          columns: [
+            {label: "Nombre del Servicio", value: "nombre_servicio"},
+            {label: "Fecha de Pago", value: "fecha_pago"},
+            {label: "Monto Total", value: "monto"},
+            {label: "Monto cancelado", value: "monto_cancelado"},
+            {label: "Numero recibo", value: "numero_recibo"},
+            {label: "Observacion", value: "observacion"},
+            {label: "Estado", value: "estado"},
+          ],
+          content: this.servicios
+        }]
+
+        const excel = Excel.export(data, "Reporte de Servicios");
+
+      },
       modificar(servicio) {
           this.servicio = { ...servicio }; // Clonamos el objeto region
           this.dialog = true; // Abrimos el diálogo

@@ -2,6 +2,14 @@
   <q-page class="bg-grey-2 q-pa-lg">
     <q-card>
       <q-card-section class="q-pa-sm">
+        <q-btn
+                  icon="download"
+                  color="green"
+                  label="Exportar"
+                  @click="exportExcel"
+                  no-caps
+              ></q-btn>
+        
         <q-markup-table dense wrap-cells>
           <thead>
           <tr>
@@ -259,6 +267,7 @@ import {Loading} from 'quasar';
 import {Icon} from 'leaflet';
 import "leaflet/dist/leaflet.css";
 import {LMap, LTileLayer, LMarker} from "@vue-leaflet/vue-leaflet";
+import {Excel} from "src/addons/Excel";
 
 export default {
   name: 'ejecutivos',
@@ -307,6 +316,33 @@ export default {
     this.getCargos(); // Llamar al método para obtener los cargos
   },
   methods: {
+
+    exportExcel() {
+        let data = [{
+          sheet: "Ejecutivos",
+          columns: [
+            {label: "Nombre", value: "nombre_eje"},
+            {label: "ci", value: "ci"},
+            {label: "Telefono 1", value: "telefono_1"},
+            {label: "Telefono 2 ", value: "telefono_2"},
+            {label: "Cargo", value: "cargo"},
+            {label: "Seudonimo", value: "apodo"},
+            {label: "Correo", value: "correo"},
+           //solo sale en text direccion  {label: "Foto Producto", value: "foto_pro"},
+            {label: "Direccion", value: "direccion"},
+            {label: "Zona", value: "zona"},
+            {label: "Cumpleaños", value: "cumple"},
+            {label: "Estado", value: "estado"},
+
+
+          ],
+          content: this.ejecutivos
+        }]
+
+        const excel = Excel.export(data, "Reporte de Personal");
+
+      },
+
     showLocation(ejecutivo) {
       // console.log(ejecutivo);
       const lat = ejecutivo.ubicacion.split(',')[0];
@@ -469,7 +505,7 @@ export default {
         ubicacion: '-17.969753, -67.114749',
         zona: '',
         cumple: moment().format('YYYY-MM-DD'),
-        estado: 'ACTIVO',
+        estado: 'Activo',
       }
     },
 

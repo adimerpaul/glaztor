@@ -1,5 +1,6 @@
 <template>
-<q-page class="bg-grey-3 q-pa-xs">
+  <q-page class="bg-grey-3 q-pa-xs">
+  
       <q-card>
         <q-card-section class="q-pa-xs">
           <div class="row">

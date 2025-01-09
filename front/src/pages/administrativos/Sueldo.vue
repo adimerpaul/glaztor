@@ -14,6 +14,15 @@
         >
           <template v-slot:top-right>
             <q-btn icon="add" label="Nuevo Sueldo" color="primary" @click="openDialog"/>
+            <div class="col-6 col-md-4 text-right">
+            <q-btn
+                  icon="download"
+                  color="green"
+                  label="Exportar"
+                  @click="exportExcel"
+                  no-caps
+              ></q-btn>
+            </div>
           </template>
           <template v-slot:body-cell-acciones="props">
             <q-btn-dropdown flat dense color="primary" no-caps label="Opciones">
@@ -262,6 +271,7 @@
 <script>
 import moment from 'moment'
 import {Loading} from 'quasar';
+import {Excel} from "src/addons/Excel";
 
 export default {
   name: 'sueldos',
@@ -345,6 +355,38 @@ export default {
     },
   },
   methods: {
+    exportExcel() {
+        let data = [{
+          sheet: "Sueldos",
+          columns: [
+            {label: "sueldo correspondiente al mes", value: "sueldo_correspondiente"},
+            {label: "tipo de Contrato", value: "tipo"},
+            {label: "Nombre Completo", value: "nombre_completo"},
+            {label: "Ci", value: "ci"},
+            {label: "Cargo", value: "cargo"},
+            {label: "Fecha de Ingreso", value: "fecha_ingreso"},
+            {label: "Haber Basico", value: "haber_basico"},
+            {label: "Bono Antiguedad", value: "bono_antiguedad"},
+            {label: "Monto Acumulado", value: "monto_acumulado"},
+            {label: "Descuento afp", value: "descuento_afp"},
+            {label: "Descuento Seguro", value: "descuento_seguro"},
+            {label: "Descuento Solidario", value: "descuento_solidario"},
+            {label: "Descuento Otros", value: "descuento_otros"},
+            {label: "Total descuentos lab", value: "total_descuentos_lab"},
+            {label: "Total liquido", value: "total_liquido"},
+            {label: "Descuento rc iva", value: "descuento_rc_iva"},
+            {label: "Descuento Anticipogo", value: "descuento_anticipo"},
+            {label: "Total descuentos", value: "total_descuentos"},
+            {label: "Liquido Pagable", value: "liquido_pagable"},
+          ],
+          content: this.sueldos
+        }]
+
+        const excel = Excel.export(data, "Reporte de Sueldos");
+
+      },
+
+
     changeDirecionTelefono(value) {
       const ejecutivoFind = this.ejecutivos.find((item) => item.id === value);
       this.sueldo.ci = ejecutivoFind.ci;
