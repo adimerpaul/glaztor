@@ -283,22 +283,15 @@
     methods: {
       exportExcel() {
         let data = [{
-          sheet: "Pedidos",
+          sheet: "Cobranza",
           columns: [
             {label: "Fecha", value: "fecha"},
             {label: "Cliente", value: "cliente"},
             {label: "Producto", value: "producto"},
-            // {label: "Cantidad", value: "cantidad"},
-            // {label: "Precio", value: "precio"},
-            {label: "Factura", value: "factura"},
-            {label: "Nombre Factura", value: "nombre_factura"},
-            {label: "Nit Factura", value: "nit_factura"},
+            {label: "Cantidad", value: "cantidad"},
+            {label: "Precio", value: "precio"},
             {label: "Direccion", value: "direccion"},
-            {label: "Contacto", value: "contacto"},
-            {label: "Telefono", value: "telefono"},
-            {label: "Telefono2", value: "telefono2"},
             {label: "Observacion", value: "observacion"},
-            {label: "Chofer", value: "chofer"},
             {label: "Zona", value: "zona"},
             {label: "Total", value: "total"},
             {label: "Estado", value: "estado"},
@@ -312,7 +305,7 @@
           content: this.pedidos
         }]
 
-        const excel = Excel.export(data, "Reporte de Pedidos");
+        const excel = Excel.export(data, "Reporte de Cobranzas");
 
       },
       showPago(pago) {
