@@ -264,7 +264,7 @@
 <script>
 import moment from "moment";
 import {Loading} from 'quasar';
-import {Excel} from "src/addons/Excel";
+import {Excel} from "src/addons/Excel"; 
 
 export default {
   name: 'Pedidos',
@@ -314,9 +314,6 @@ export default {
           {label: "Estado", value: "estado"},
           {label: "Fecha Pago", value: "fecha_pago"},
           {label: "User", value: "user_id"},
-          {label: "Cliente", value: "cliente_id"},
-          {label: "Estado Credito", value: "estadoCredito"},
-          {label: "Total Pagado", value: "totalPagado"},
         ],
         content: this.pedidos
       }]

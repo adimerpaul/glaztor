@@ -72,9 +72,16 @@
                 <q-chip>
                   {{ pedido.total }}
                 </q-chip>
+                <!--          <pre>{{pedidos}}</pre>
                 <q-chip :color="pedido.totalPagado >= pedido.total ? 'positive' : 'negative'" class="text-white">
                   {{ pedido.totalPagado }}
-                </q-chip>
+                </q-chip>-->
+
+                <q-chip :color="pedido.totalPagado >= pedido.total ? 'positive' : 'negative'" class="text-white">
+                    {{ (pedido.total - pedido.pagos.reduce((acc, pago) => acc + parseFloat(pago.monto), 0)).toFixed(2) }}
+               </q-chip>
+
+
               </q-item-label>
               <q-item-label class="text-caption text-positive">
                 {{ pedido.cliente }} - {{ pedido.tipo_construccion }} - {{ pedido.user?.name }}
@@ -153,10 +160,10 @@
             <tfoot>
             <tr>
               <td colspan="2" >
-                Deuda
-                <span class="text-bold text-red">
-                  {{ (pedido.total - pedido.pagos.reduce((acc, pago) => acc + parseFloat(pago.monto), 0)).toFixed(2) }}
-                </span>
+                  Deuda
+                  <span class="text-bold text-red">
+                    {{ (pedido.total - pedido.pagos.reduce((acc, pago) => acc + parseFloat(pago.monto), 0)).toFixed(2) }}
+                  </span>
               </td>
               <td class="text-right">Total</td>
               <td class="text-bold text-right">

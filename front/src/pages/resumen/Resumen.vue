@@ -2,6 +2,7 @@
   <q-page class="bg-grey-3 q-pa-xs">
     <q-card flat bordered>
       <q-card-section>
+       
         <div class="row">
           <div class="col-12 col-md-2">
             <q-input v-model="fechaInicio" outlined dense type="date" label="Fecha inicio"/>
@@ -166,6 +167,7 @@
 </template>
 <script>
 import moment from "moment";
+import {Excel} from "src/addons/Excel";
 
 export default {
   name: 'Resumen',
@@ -181,6 +183,7 @@ export default {
     this.productosGet()
   },
   methods: {
+   
     productosGet(){
       this.loading = true
       this.$axios.post('ingresoVentas',{
