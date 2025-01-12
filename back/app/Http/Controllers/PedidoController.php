@@ -22,7 +22,7 @@ class PedidoController extends Controller{
     function index(Request $request){
         $fechaInicio = $request->fechaInicio;
         $fechaFin = $request->fechaFin;
-        return Pedido::with('detalles.producto')
+        return Pedido::with('detalles.producto','user')
             ->whereBetween('fecha', [$fechaInicio, $fechaFin])
             ->orderBy('id', 'desc')
             ->get();

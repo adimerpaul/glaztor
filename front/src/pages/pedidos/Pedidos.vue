@@ -264,7 +264,7 @@
 <script>
 import moment from "moment";
 import {Loading} from 'quasar';
-import {Excel} from "src/addons/Excel"; 
+import {Excel} from "src/addons/Excel";
 
 export default {
   name: 'Pedidos',
@@ -292,14 +292,42 @@ export default {
   },
   methods: {
     exportExcel() {
+      let pedidosProductos = []
+      this.pedidos.forEach(pedido => {
+        pedido.detalles.forEach(detalle => {
+          pedidosProductos.push({
+            fecha: pedido.fecha,
+            cliente: pedido.cliente,
+            producto: detalle.producto.nombre_pro,
+            cantidad: detalle.cantidad,
+            precio: detalle.precio,
+            subtotal: detalle.cantidad * detalle.precio,
+            factura: pedido.factura,
+            nombre_factura: pedido.nombre_factura,
+            nit_factura: pedido.nit_factura,
+            direccion: pedido.direccion,
+            contacto: pedido.contacto,
+            telefono: pedido.telefono,
+            telefono2: pedido.telefono2,
+            observacion: pedido.observacion,
+            chofer: pedido.chofer,
+            zona: pedido.zona,
+            total: pedido.total,
+            estado: pedido.estado,
+            fecha_pago: pedido.fecha_pago,
+            user: pedido.user?.name,
+          })
+        })
+      })
       let data = [{
         sheet: "Pedidos",
         columns: [
           {label: "Fecha", value: "fecha"},
           {label: "Cliente", value: "cliente"},
           {label: "Producto", value: "producto"},
-          // {label: "Cantidad", value: "cantidad"},
-          // {label: "Precio", value: "precio"},
+          {label: "Cantidad", value: "cantidad"},
+          {label: "Precio", value: "precio"},
+          {label: "Subtotal", value: "subtotal"},
           {label: "Factura", value: "factura"},
           {label: "Nombre Factura", value: "nombre_factura"},
           {label: "Nit Factura", value: "nit_factura"},
@@ -313,9 +341,9 @@ export default {
           {label: "Total", value: "total"},
           {label: "Estado", value: "estado"},
           {label: "Fecha Pago", value: "fecha_pago"},
-          {label: "User", value: "user_id"},
+          {label: "User", value: "user"},
         ],
-        content: this.pedidos
+        content: pedidosProductos
       }]
 
       const excel = Excel.export(data, "Reporte de Pedidos");
