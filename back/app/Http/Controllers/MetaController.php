@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Detalle;
 use App\Models\Meta;
 use App\Models\MetaUser;
+use App\Models\Pedido;
+use App\Models\Producto;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MetaController extends Controller{
@@ -40,5 +44,24 @@ class MetaController extends Controller{
             $meta->save();
         }
         return $meta;
+    }
+    function show($id){
+        $user = Meta::with('users')->find($id);
+        $mes = $user->mes;
+        $anio = $user->anio;
+        $mesNumber = $this->getMesNumber($mes);
+        $fechaInicio = Carbon::createFromDate($anio, $mesNumber, 1)->toDateString();
+        $fechaFin = Carbon::createFromDate($anio, $mesNumber, 1)->endOfMonth()->toDateString();
+        $productosAll = Producto::all();
+        foreach ($user->users as $metaUser) {
+            $cantidadToneladas=0;
+            $detalles = Detalle::where('user_id', $metaUser->user_id)->whereBetween('created_at', [$fechaInicio, $fechaFin])->get();
+
+        }
+        return $user;
+    }
+    function getMesNumber($mes){
+        $meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        return array_search($mes, $meses)+1;
     }
 }

@@ -133,5 +133,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('ingresoVentas', [\App\Http\Controllers\ResumenController::class, 'ingresoVentas']);
 
     Route::get('metas', [\App\Http\Controllers\MetaController::class, 'index']);
+    Route::get('metas/{id}', [\App\Http\Controllers\MetaController::class, 'show']);
     Route::post('metas', [\App\Http\Controllers\MetaController::class, 'store']);
 });

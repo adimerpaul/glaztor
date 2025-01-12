@@ -11,14 +11,72 @@
             />
           </div>
           <div class="col-6 col-md-3 text-center">
-            <q-btn color="primary" label="Consultar" @click="getMetas" no-caps icon="search" />
+            <q-btn color="primary" label="Consultar" @click="getMetasUser" no-caps icon="search" />
           </div>
           <div class="col-6 col-md-6 text-right">
             <q-btn color="green" label="Agregar" @click="addMeta" no-caps icon="add" />
           </div>
           <div class="col-12">
-            <pre>{{metas}}</pre>
-            <pre>{{users}}</pre>
+            <q-markup-table dense wrap-cells>
+              <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Meta</th>
+                <th>Logrado</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="userMeta in usersMeta" :key="userMeta.id">
+                <td>{{userMeta.name}}</td>
+                <td class="text-right">
+                  <q-input v-model="userMeta.pivot.meta" outlined dense type="number" style="width: 100px" />
+                </td>
+              </tr>
+              </tbody>
+              <tfoot>
+              <tr>
+                <td class="text-right">Total</td>
+                <td>
+                  {{usersMeta.reduce((acc, userMeta) => acc + parseInt(userMeta.pivot.meta), 0)}}
+                </td>
+              </tr>
+              </tfoot>
+            </q-markup-table>
+          </div>
+          <div class="col-12">
+<!--            <pre>{{metas}}</pre>-->
+<!--            <pre>{{users}}</pre>-->
+            <pre>{{usersMeta}}</pre>
+<!--            [-->
+<!--            {-->
+<!--            "id": 7,-->
+<!--            "name": "adriana",-->
+<!--            "username": "adriana",-->
+<!--            "role": "Ventas",-->
+<!--            "cargo": null,-->
+<!--            "email": "adriana@gmail.com",-->
+<!--            "email_verified_at": "2025-01-08T19:40:09.000000Z",-->
+<!--            "pivot": {-->
+<!--            "meta_id": 1,-->
+<!--            "user_id": 7,-->
+<!--            "meta": "0"-->
+<!--            }-->
+<!--            },-->
+<!--            {-->
+<!--            "id": 6,-->
+<!--            "name": "zenaida",-->
+<!--            "username": "zenaida",-->
+<!--            "role": "Director",-->
+<!--            "cargo": null,-->
+<!--            "email": "zenaida@gmail.com",-->
+<!--            "email_verified_at": "2025-01-08T19:40:09.000000Z",-->
+<!--            "pivot": {-->
+<!--            "meta_id": 1,-->
+<!--            "user_id": 6,-->
+<!--            "meta": "0"-->
+<!--            }-->
+<!--            }-->
+<!--            ]-->
           </div>
         </div>
       </q-card-section>
@@ -66,7 +124,8 @@ export default {
       mes: '',
       anios: [],
       anio: moment().format('YYYY'),
-      loading: false
+      loading: false,
+      usersMeta: []
     }
   },
   mounted () {
@@ -106,6 +165,25 @@ export default {
       this.anio = moment().format('YYYY')
       this.user = ''
       this.dialogMeta = true
+    },
+    getMetasUser () {
+      if (this.meta === '') {
+        this.$alert.error('Seleccione una gestión')
+        return false
+      }
+      // let findMeta = this.metas.find(meta => meta.id === this.meta)
+      // this.usersMeta = findMeta.users
+      this.loading = true
+      this.$axios.get(`metas/${this.meta}`)
+        .then(response => {
+          // this.usersMeta = response.data
+          console.log(response.data)
+        })
+        .catch(error => {
+          this.$alert.error(error.response.data.message)
+        }).finally(() => {
+          this.loading = false
+        })
     },
     getUsers () {
       this.$axios.get('users')
