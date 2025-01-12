@@ -1,6 +1,6 @@
 <template>
   <q-page class="bg-grey-3 q-pa-xs">
-  
+
       <q-card>
         <q-card-section class="q-pa-xs">
           <div class="row">
@@ -93,7 +93,7 @@
               <q-icon name="arrow_forward"/>
             </q-item-section>
           </q-item>
-<!--          <pre>{{pedidos}}</pre>-->
+          <pre>{{pedidos}}</pre>
         </q-list>
       </q-card-section>
 
@@ -282,6 +282,34 @@
     },
     methods: {
       exportExcel() {
+        let pedidosProductos = []
+        this.pedidos.forEach(pedido => {
+          pedido.detalles.forEach(detalle => {
+            pedidosProductos.push({
+              fecha: pedido.fecha,
+              cliente: pedido.cliente,
+              producto: detalle.producto.nombre_pro,
+              cantidad: detalle.cantidad,
+              precio: detalle.precio,
+              subtotal: detalle.cantidad * detalle.precio,
+              factura: pedido.factura,
+              nombre_factura: pedido.nombre_factura,
+              nit_factura: pedido.nit_factura,
+              direccion: pedido.direccion,
+              contacto: pedido.contacto,
+              telefono: pedido.telefono,
+              telefono2: pedido.telefono2,
+              observacion: pedido.observacion,
+              chofer: pedido.chofer,
+              zona: pedido.zona,
+              total: pedido.total,
+              estado: pedido.estado,
+              fecha_pago: pedido.fecha_pago,
+              user: pedido.user?.name,
+            })
+          })
+        })
+        // console.log(pedidosProductos)
         let data = [{
           sheet: "Cobranza",
           columns: [
@@ -296,13 +324,12 @@
             {label: "Total", value: "total"},
             {label: "Estado", value: "estado"},
             {label: "Fecha Pago", value: "fecha_pago"},
-            {label: "User", value: "user_id"},
-            {label: "Cliente", value: "cliente_id"},
+            {label: "User", value: "user"},
             {label: "Estado Credito", value: "estadoCredito"},
             {label: "Total Pagado", value: "totalPagado"},
             {label: "Pagos", value: "pagosRealizados"},
           ],
-          content: this.pedidos
+          content: pedidosProductos
         }]
 
         const excel = Excel.export(data, "Reporte de Cobranzas");
