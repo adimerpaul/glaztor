@@ -131,4 +131,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('reporteDeudas', [\App\Http\Controllers\ReporteController::class, 'reporteDeudas']);
 
     Route::post('ingresoVentas', [\App\Http\Controllers\ResumenController::class, 'ingresoVentas']);
+
+    Route::get('metas', [\App\Http\Controllers\MetaController::class, 'index']);
+    Route::post('metas', [\App\Http\Controllers\MetaController::class, 'store']);
 });
