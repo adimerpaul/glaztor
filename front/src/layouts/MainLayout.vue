@@ -141,6 +141,7 @@ export default {
         {title: 'Resumen', icon: 'description', link: '/resumen', can: ['Admin', 'Director']},
        // {title: 'Caja Chica', icon: 'account_balance_wallet', link: '/Cajachicas', can: ['Administrador', 'Director']},
         {title: 'Usuarios', icon: 'people', link: '/users', can: ['Admin','Administrador', 'Director']},
+        {title: 'Metas', icon: 'trending_up', link: '/metas', can: ['Admin','Administrador', 'Director','Supervisor']},
       ]
     }
   },

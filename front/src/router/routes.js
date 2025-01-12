@@ -23,6 +23,7 @@ const routes = [
       { path: 'cajachicas', component: () => import('pages/administrativos/Cajachica.vue'), meta: { requiresAuth: true }  },
       { path: 'sueldos', component: () => import('pages/administrativos/Sueldo.vue'), meta: { requiresAuth: true }  },
       { path: 'resumen', component: () => import('pages/resumen/Resumen.vue'), meta: { requiresAuth: true }  },
+      { path: 'metas', component: () => import('pages/metas/Metas.vue'), meta: { requiresAuth: true }  },
     ]
   },
   {
