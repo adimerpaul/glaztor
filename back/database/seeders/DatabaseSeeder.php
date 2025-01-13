@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Cargo;
+use App\Models\Newservicio;
 use App\Models\Ejecutivo;
 use App\Models\Producto;
 use App\Models\User;
@@ -143,6 +144,16 @@ class DatabaseSeeder extends Seeder
         Cargo::create(['nombre_cargo' => 'Ejecutivo de Obra','descripcion_cargo' => 'Ejecutivo de Obra','estado' => 'Activo']);
         Cargo::create(['nombre_cargo' => 'Administrativo','descripcion_cargo' => 'Administracion','estado' => 'Activo']);
 
+
+
+        newservicio::create(['nombre' => 'Luz', 'descripcion' => 'pago de luz a la mitad con cemento', 'estado' => 'Activo']);
+        newservicio::create(['nombre' => 'Agua', 'descripcion' => 'Servicio de agua potable', 'estado' => 'Activo']);
+        newservicio::create(['nombre' => 'Alquiler', 'descripcion' => 'Pago mensual por espacio alquilado', 'estado' => 'Activo']);
+        newservicio::create(['nombre' => 'Internet', 'descripcion' => 'Servicio de conexión a internet', 'estado' => 'Activo']);
+        newservicio::create(['nombre' => 'Telefonía', 'descripcion' => 'Pago de servicio de telefonía', 'estado' => 'Activo']);
+        newservicio::create(['nombre' => 'Impuestos', 'descripcion' => 'Pago de impuestos fiscales', 'estado' => 'Activo']);
+        newservicio::create(['nombre' => 'Caja Chica', 'descripcion' => 'Fondo para gastos menores', 'estado' => 'Activo']);
+        
         Ejecutivo::create(['nombre_eje' => 'Zenaida Torrez Escobar','ci' => '3062291 Or','cargo' => 'Director Adminstrativo','apodo' => 'ZTORREZ','estado' => 'Activo']);
         Ejecutivo::create(['nombre_eje' => 'Jiklid Gerardo Laredo Muriel','ci' => '3062291 Or','cargo' => 'Director Comercial','apodo' => 'JLAREDO','estado' => 'Activo']);
         Ejecutivo::create(['nombre_eje' => 'Maria Rosa Miranda Enrriquez','ci' => '3544080 Or','cargo' => 'Ejecutivo de venta','apodo' => 'MMIRANDA','estado' => 'Activo']);

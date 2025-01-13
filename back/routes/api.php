@@ -13,6 +13,8 @@ use App\Http\Controllers\RegionController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\CajaChicaController;
 use App\Http\Controllers\SueldoController;
+use App\Http\Controllers\NewservicioController;
+
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -107,6 +109,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('servicios/{id}', [ServicioController::class, 'show']);
     Route::put('servicios/{id}', [ServicioController::class, 'update']);
     Route::delete('servicios/{id}', [ServicioController::class, 'destroy']);
+
+    Route::get('newservicios', [NewservicioController::class, 'index']);
+    Route::post('newservicios', [NewservicioController::class, 'store']);
+    Route::get('newservicios/{id}', [NewservicioController::class, 'show']);
+    Route::put('newservicios/{id}', [NewservicioController::class, 'update']);
+    Route::delete('newservicios/{id}', [NewservicioController::class, 'destroy']);
 
     Route::get('cajachicas', [CajachicaController::class, 'index']);
     Route::post('cajachicas', [CajachicaController::class, 'store']);
