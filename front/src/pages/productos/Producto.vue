@@ -14,12 +14,13 @@
         <q-markup-table dense class="styled-table">
           <thead>
           <tr>
-            <th>acciones</th>
-            <th>nombre</th>
-            <th>precio venta</th>
-            <th>precio compra</th>
+            <th>Acciones</th>
+            <th>Nombre</th>
+            <th>Precio venta</th>
+            <th>Precio compra</th>
             <th>Cantidad</th>
-            <th>descripcion</th>
+            <th>Descripcion</th>
+            <th>Cant por Mayor</th>
             <th>foto</th>
             <th>estado</th>
             <th>id</th>
@@ -48,6 +49,7 @@
             <td>{{ producto.precio_compra }}</td>
             <td>{{ producto.cantidad_pro }}</td>
             <td>{{ producto.descripcion_pro }}</td>
+            <td>{{ producto.tonelada }}</td>
             <td>
               <a v-if="producto.foto_pro" :href="$url+'..'+producto.foto_pro" target="_blank">
                 <!--                                  ver foto-->
@@ -296,13 +298,41 @@ export default {
     },
 
     getProductos() {
-      this.$axios.get('productos')
-        .then(response => {
-          this.productos = response.data;
-        })
-        .catch(error => {
-          console.log(error);
+  this.$axios.get('productos')
+    .then(response => {
+      this.productos = response.data;
+      
+      // Verificar si algún producto tiene cantidad_pro / tonelada < 2
+      const sinInventario = this.productos.some(producto => {
+        return producto.tonelada > 0 && producto.cantidad_pro / producto.tonelada < 2;
+      });
+      const productosAgotados = this.productos.filter(
+  (producto) =>
+    producto.cantidad_pro &&
+    producto.tonelada &&
+    producto.cantidad_pro / producto.tonelada < 2
+);
+    if (productosAgotados.length > 0) {
+      const nombres = productosAgotados.map((producto) => producto.nombre_pro).join(", ");
+      this.$q.dialog({
+        title: "Inventario bajo",
+        message: `Los siguientes productos están agotados: ${nombres}`,
+        ok: "Entendido",
+      });
+    }
+      if (sinInventario) {
+        this.$q.notify({
+          color: 'negative',
+          icon: 'warning',
+          message: 'Ya no hay inventario para algunos productos',
+          position: 'top',
+          timeout: 5000,
         });
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    });
     },
 
     previsualizarFoto(event) {
