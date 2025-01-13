@@ -28,8 +28,13 @@
               <tbody>
               <tr v-for="userMeta in usersMeta" :key="userMeta.id">
                 <td>{{userMeta.name}}</td>
+                <td >
+                  <div>
+                    <q-input v-model="userMeta.pivot.meta" outlined dense type="number" style="width: 100px" />
+                  </div>
+                </td>
                 <td class="text-right">
-                  <q-input v-model="userMeta.pivot.meta" outlined dense type="number" style="width: 100px" />
+                  {{userMeta.sumaToneladas}}
                 </td>
               </tr>
               </tbody>
@@ -176,8 +181,8 @@ export default {
       this.loading = true
       this.$axios.get(`metas/${this.meta}`)
         .then(response => {
-          // this.usersMeta = response.data
-          console.log(response.data)
+          this.usersMeta = response.data?.users
+          // console.log(response.data)
         })
         .catch(error => {
           this.$alert.error(error.response.data.message)
