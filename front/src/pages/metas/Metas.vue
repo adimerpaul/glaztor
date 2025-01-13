@@ -60,10 +60,13 @@
               </tfoot>
             </q-markup-table>
           </div>
+          <div class="col-12 q-pa-xs">
+            <apexchart type="bar" height="350" :options="chartOptions" :series="series"></apexchart>
+          </div>
           <div class="col-12">
 <!--            <pre>{{metas}}</pre>-->
 <!--            <pre>{{users}}</pre>-->
-            <pre>{{usersMeta}}</pre>
+<!--            <pre>{{usersMeta}}</pre>-->
           </div>
         </div>
       </q-card-section>
@@ -97,11 +100,44 @@
 </template>
 <script>
 import moment from "moment";
+import VueApexCharts from "vue3-apexcharts";
 moment.locale('es')
 export default {
   name: 'Metas',
+  components: {
+    apexchart: VueApexCharts,
+  },
   data () {
     return {
+      series: [
+      //   {
+      //   name: 'Inflation',
+      //   data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
+      // }
+      ],
+      chartOptions: {
+        chart: {
+          type: "bar",
+          height: 350,
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: "55%",
+            endingShape: "rounded",
+          },
+        },
+        dataLabels: {
+          enabled: true,
+        },
+        xaxis: {
+          categories: [], // Nombres de los usuarios
+        },
+        title: {
+          text: "Metas y Toneladas por Usuario",
+          align: "center",
+        },
+      },
       metas: [],
       meta: '',
       users: [],
@@ -125,6 +161,30 @@ export default {
     this.getUsers()
   },
   methods: {
+    updateChart() {
+      // Actualizar series y categorías del gráfico
+      const categories = this.usersMeta.map((userMeta) => userMeta.name); // Extrae los nombres correctamente
+      const metas = this.usersMeta.map((userMeta) =>
+        parseInt(userMeta.pivot.meta || 0)
+      );
+      const toneladas = this.usersMeta.map(
+        (userMeta) => parseInt(userMeta.sumaToneladas || 0)
+      );
+
+      this.series = [
+        { name: "Meta", data: metas },
+        { name: "Toneladas", data: toneladas },
+      ];
+
+      // Asegúrate de que `categories` esté bien asignado al gráfico
+      this.chartOptions = {
+        ...this.chartOptions, // Mantén el resto de las opciones existentes
+        xaxis: {
+          ...this.chartOptions.xaxis,
+          categories, // Actualiza solo las categorías
+        },
+      };
+    },
     updateMeta (meta, user_id, meta_id) {
       console.log(meta, user_id, meta_id)
       this.$axios.put(`metas/${meta_id}`, {
@@ -176,6 +236,7 @@ export default {
       this.$axios.get(`metas/${this.meta}`)
         .then(response => {
           this.usersMeta = response.data?.users
+          this.updateChart()
           // console.log(response.data)
         })
         .catch(error => {
