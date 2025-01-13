@@ -54,9 +54,7 @@
             </q-td>
           </template>
         </q-table>
-        <pre>
-          {{ clientes }}
-        </pre>
+       
 
       </q-card-section>
     </q-card>
