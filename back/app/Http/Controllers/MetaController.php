@@ -78,4 +78,17 @@ class MetaController extends Controller{
         $meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
         return array_search($mes, $meses)+1;
     }
+    function update(Request $request, $id){
+        $userMeta = MetaUser::where('user_id', $request->user_id)->where('meta_id', $id)->first();
+        $userMeta->meta = $request->meta;
+        $userMeta->save();
+
+        $sumaMetas= MetaUser::where('meta_id', $id)->sum('meta');
+
+        $meta = Meta::find($id);
+        $meta->meta = $sumaMetas;
+        $meta->save();
+
+        return $userMeta;
+    }
 }

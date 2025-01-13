@@ -11,10 +11,10 @@
             />
           </div>
           <div class="col-6 col-md-3 text-center">
-            <q-btn color="primary" label="Consultar" @click="getMetasUser" no-caps icon="search" />
+            <q-btn color="primary" label="Consultar" @click="getMetasUser" no-caps icon="search" :loading="loading" />
           </div>
           <div class="col-6 col-md-6 text-right">
-            <q-btn color="green" label="Agregar" @click="addMeta" no-caps icon="add" />
+            <q-btn color="green" label="Agregar" @click="addMeta" no-caps icon="add" :loading="loading" />
           </div>
           <div class="col-12">
             <q-markup-table dense wrap-cells>
@@ -23,25 +23,37 @@
                 <th>Usuario</th>
                 <th>Meta</th>
                 <th>Logrado</th>
+                <th>Faltante</th>
               </tr>
               </thead>
               <tbody>
               <tr v-for="userMeta in usersMeta" :key="userMeta.id">
                 <td>{{userMeta.name}}</td>
-                <td >
+                <td style="width: 120px">
                   <div>
-                    <q-input v-model="userMeta.pivot.meta" outlined dense type="number" style="width: 100px" />
+                    <q-input v-model="userMeta.pivot.meta" outlined dense type="number"
+                             @update:modelValue="updateMeta(userMeta.pivot.meta, userMeta.pivot.user_id, userMeta.pivot.meta_id)"
+                             debounce="500"
+                    />
+<!--                    <pre>{{userMeta.pivot}}</pre>-->
                   </div>
                 </td>
                 <td class="text-right">
+                  <q-chip color="primary" class="text-white bg-green-8">
                   {{userMeta.sumaToneladas}}
+                  </q-chip>
+                </td>
+                <td class="text-right">
+                  <q-chip color="primary" class="text-white bg-red-8">
+                  {{userMeta.pivot.meta - userMeta.sumaToneladas}}
+                  </q-chip>
                 </td>
               </tr>
               </tbody>
               <tfoot>
               <tr>
-                <td class="text-right">Total</td>
-                <td>
+                <td class="text-bold text-right">Total</td>
+                <td class="text-bold">
                   {{usersMeta.reduce((acc, userMeta) => acc + parseInt(userMeta.pivot.meta), 0)}}
                 </td>
               </tr>
@@ -52,36 +64,6 @@
 <!--            <pre>{{metas}}</pre>-->
 <!--            <pre>{{users}}</pre>-->
             <pre>{{usersMeta}}</pre>
-<!--            [-->
-<!--            {-->
-<!--            "id": 7,-->
-<!--            "name": "adriana",-->
-<!--            "username": "adriana",-->
-<!--            "role": "Ventas",-->
-<!--            "cargo": null,-->
-<!--            "email": "adriana@gmail.com",-->
-<!--            "email_verified_at": "2025-01-08T19:40:09.000000Z",-->
-<!--            "pivot": {-->
-<!--            "meta_id": 1,-->
-<!--            "user_id": 7,-->
-<!--            "meta": "0"-->
-<!--            }-->
-<!--            },-->
-<!--            {-->
-<!--            "id": 6,-->
-<!--            "name": "zenaida",-->
-<!--            "username": "zenaida",-->
-<!--            "role": "Director",-->
-<!--            "cargo": null,-->
-<!--            "email": "zenaida@gmail.com",-->
-<!--            "email_verified_at": "2025-01-08T19:40:09.000000Z",-->
-<!--            "pivot": {-->
-<!--            "meta_id": 1,-->
-<!--            "user_id": 6,-->
-<!--            "meta": "0"-->
-<!--            }-->
-<!--            }-->
-<!--            ]-->
           </div>
         </div>
       </q-card-section>
@@ -143,8 +125,20 @@ export default {
     this.getUsers()
   },
   methods: {
+    updateMeta (meta, user_id, meta_id) {
+      console.log(meta, user_id, meta_id)
+      this.$axios.put(`metas/${meta_id}`, {
+        meta,
+        user_id
+      })
+        .then(response => {
+          this.$alert.success('Meta actualizada')
+        })
+        .catch(error => {
+          this.$alert.error(error.response.data.message)
+        })
+    },
     saveMeta () {
-      // if si user es vacio error
       if (this.user === '') {
         this.$alert.error('Seleccione un usuario')
         return false
@@ -201,6 +195,7 @@ export default {
     },
     getMetas () {
       this.metas = []
+      this.loading = true
       this.$axios.get('metas')
         .then(response => {
           response.data.forEach(meta => {
@@ -209,10 +204,16 @@ export default {
               name: `${meta.mes} ${meta.anio}`,
               ...meta
             })
+            if (this.meta.length === 0) {
+              this.meta = this.metas[this.metas.length - 1].id
+              this.getMetasUser()
+            }
           })
         })
         .catch(error => {
           console.log(error)
+        }).finally(() => {
+          this.loading = false
         })
     }
   },
