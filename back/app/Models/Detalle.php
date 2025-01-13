@@ -8,15 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Detalle extends Model{
     use HasFactory, SoftDeletes;
-//$table->unsignedBigInteger('pedido_id')->nullable();
-//$table->foreign('pedido_id')->references('id')->on('pedidos');
-//$table->unsignedBigInteger('user_id')->nullable();
-//$table->foreign('user_id')->references('id')->on('users');
-//$table->string('producto')->nullable();
-//$table->integer('cantidad')->nullable();
-//$table->decimal('precio', 8, 2)->nullable();
-//$table->softDeletes();
-//$table->timestamps();
+
     protected $fillable = [
         'pedido_id',
         'user_id',

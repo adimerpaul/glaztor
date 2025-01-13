@@ -9,6 +9,7 @@ use App\Models\Pedido;
 use App\Models\Producto;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MetaController extends Controller{
     function index(){
@@ -54,14 +55,40 @@ class MetaController extends Controller{
         $fechaFin = Carbon::createFromDate($anio, $mesNumber, 1)->endOfMonth()->toDateString();
         $productosAll = Producto::all();
         foreach ($user->users as $metaUser) {
-            $cantidadToneladas=0;
-            $detalles = Detalle::where('user_id', $metaUser->user_id)->whereBetween('created_at', [$fechaInicio, $fechaFin])->get();
+            error_log($metaUser->id);
+            $detalles = Detalle::where('user_id', $metaUser->id)
+                ->whereBetween('created_at', [$fechaInicio, $fechaFin])
+                ->select('producto_id', DB::raw('SUM(cantidad) as total_cantidad'))
+                ->groupBy('producto_id')
+                ->get();
+            error_log($detalles);
+            $sumaToneladas = 0;
+            foreach ($detalles as $detalle) {
+                $producto = $productosAll->where('id', $detalle->producto_id)->first();
+                $totalCantidad = $detalle->total_cantidad;
+                $tonelada = $producto->tonelada;
 
+                $sumaToneladas += $totalCantidad / $tonelada;
+            }
+            $metaUser->sumaToneladas = $sumaToneladas;
         }
         return $user;
     }
     function getMesNumber($mes){
         $meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
         return array_search($mes, $meses)+1;
+    }
+    function update(Request $request, $id){
+        $userMeta = MetaUser::where('user_id', $request->user_id)->where('meta_id', $id)->first();
+        $userMeta->meta = $request->meta;
+        $userMeta->save();
+
+        $sumaMetas= MetaUser::where('meta_id', $id)->sum('meta');
+
+        $meta = Meta::find($id);
+        $meta->meta = $sumaMetas;
+        $meta->save();
+
+        return $userMeta;
     }
 }
