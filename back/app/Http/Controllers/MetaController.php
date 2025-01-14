@@ -70,7 +70,7 @@ class MetaController extends Controller{
 
                 $sumaToneladas += $totalCantidad / $tonelada;
             }
-            $metaUser->sumaToneladas = $sumaToneladas;
+            $metaUser->sumaToneladas = number_format($sumaToneladas, 2, '.', '');
         }
         return $user;
     }

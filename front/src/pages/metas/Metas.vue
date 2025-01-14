@@ -164,8 +164,8 @@ export default {
   methods: {
     updateChart() {
     // Calcular el total
-    const totalMeta = this.usersMeta.reduce((acc, userMeta) => acc + parseInt(userMeta.pivot.meta || 0), 0);
-    const totalToneladas = this.usersMeta.reduce((acc, userMeta) => acc + parseInt(userMeta.sumaToneladas || 0), 0);
+    // const totalMeta = this.usersMeta.reduce((acc, userMeta) => acc + parseInt(userMeta.pivot.meta || 0), 0);
+    // const totalToneladas = this.usersMeta.reduce((acc, userMeta) => acc + parseInt(userMeta.sumaToneladas || 0), 0);
 
     // Obtener categorías, metas y toneladas
     const categories = this.usersMeta.map((userMeta) => userMeta.name);
@@ -174,7 +174,11 @@ export default {
 
     // Calcular los porcentajes
     const metasPercentage = metas.map(meta => (100).toFixed(1)); // Porcentaje de metas
-    const toneladasPercentage = toneladas.map(toneladas => ((toneladas * 100) / metas).toFixed(1)); // Porcentaje de metas
+    const toneladasPercentage = this.usersMeta.map(user => {
+      const totalMeta = user.pivot.meta
+      const totalToneladas = user.sumaToneladas
+      return (((totalToneladas * 100) / totalMeta).toFixed(1))
+    }); // Porcentaje de metas
 
     //const metasPercentage = metas.map(meta => ((meta / totalMeta) * 100).toFixed(1)); // Porcentaje de metas
     //const toneladasPercentage = toneladas.map(tonelada => (((totalToneladas *metasPercentage ) / 10).toFixed(1))); // Porcentaje de toneladas
