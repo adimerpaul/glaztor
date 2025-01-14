@@ -53,6 +53,7 @@
               <tfoot>
               <tr>
                 <td class="text-bold text-right">Total</td>
+
                 <td class="text-bold">
                   {{usersMeta.reduce((acc, userMeta) => acc + parseInt(userMeta.pivot.meta), 0)}}
                 </td>
@@ -85,9 +86,9 @@
                         option-value="id" option-label="name"
                         emit-value map-options
               />
-          <pre>{{mes}}</pre>
+ <!--          <pre>{{mes}}</pre>
           <pre>{{anio}}</pre>
-          <pre>{{user}}</pre>
+          <pre>{{user}}</pre>-->
         </q-card-section>
         <q-card-actions align="right">
           <q-btn label="Cancelar" color="primary" flat @click="dialogMeta = false" :loading="loading" />

@@ -286,6 +286,7 @@
         this.pedidos.forEach(pedido => {
           pedido.detalles.forEach(detalle => {
             pedidosProductos.push({
+              created_at: moment(pedido.created_at).format("YYYY-MM-DD HH:mm:ss"),
               fecha: pedido.fecha,
               cliente: pedido.cliente,
               producto: detalle.producto.nombre_pro,
@@ -313,7 +314,8 @@
         let data = [{
           sheet: "Cobranza",
           columns: [
-            {label: "Fecha", value: "fecha"},
+            {label: "Fecha del pedido", value: "created_at" },
+            {label: "Fecha de Entrega", value: "fecha"},
             {label: "Cliente", value: "cliente"},
             {label: "Producto", value: "producto"},
             {label: "Cantidad", value: "cantidad"},

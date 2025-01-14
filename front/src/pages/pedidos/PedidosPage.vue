@@ -225,7 +225,7 @@
                 v-model="pedido.fecha_hora"
                 filled
                 standout
-                label="Fecha Pedido"
+                label="Fecha de Entrega"
                 type="date"
                 dense
               />
