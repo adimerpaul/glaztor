@@ -123,6 +123,7 @@
                   <template v-else>
                     {{ (sale.cantidadVenta * sale.precioVenta * sale.producto.tonelada).toFixed(2) }}
                   </template>
+                  <q-icon name="calculate" @click="openCalculate(sale)" class="cursor-pointer" color="primary" />
 <!--                  {{ (sale.cantidadVenta * sale.precioVenta).toFixed(2) }}-->
                 </td>
               </tr>
@@ -363,6 +364,62 @@ export default {
     this.getZonas()
   },
   methods: {
+    openCalculate(sale) {
+      console.log(sale)
+    //   < template
+    //   v -
+    //   if= "sale.tipo_pro == 'BA'" >
+    //     {{
+    //     (sale.cantidadVenta * sale.precioVenta).toFixed(2)
+    //   }
+    // }
+    // </template>
+    //   <template v-else>
+    //     {{(sale.cantidadVenta * sale.precioVenta * sale.producto.tonelada).toFixed(2)}}
+    //   </template>
+
+      let total = 0
+      if (sale.tipo_pro === 'BA') {
+        total = sale.cantidadVenta * sale.precioVenta
+      }else{
+        total = sale.cantidadVenta * sale.precioVenta * sale.producto.tonelada
+      }
+      this.$q.dialog({
+        title: 'Calcular',
+        message: 'Ingrese el total de toneladas',
+        prompt: {
+          model: total,
+          type: 'text' // optional
+        },
+        cancel: true,
+        persistent: true
+    }).
+      onOk(data => {
+        let cantidadReal = 0
+
+      //     < template
+      //   v -
+      //   if= "sale.tipo_pro == 'BA'" >
+      //     {{
+      //     sale.cantidadVenta
+      //   }
+      // }
+      // </template>
+      //   <template v-else>
+      //     {{sale.cantidadVenta * sale.producto.tonelada}}
+      //   </template>
+        if (sale.tipo_pro === 'BA') {
+          cantidadReal = sale.cantidadVenta
+        } else {
+          cantidadReal = sale.cantidadVenta * sale.producto.tonelada
+        }
+        sale.precioVenta = data / cantidadReal
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    },
     getZonas() {
       this.$axios.get('zonas').then(response => {
         this.zonas = response.data
@@ -439,17 +496,17 @@ export default {
         return false
       }
 
-      const index = this.sales.findIndex(sale => sale.producto.id === producto.id)
-      if (index !== -1) {
-        this.sales[index].cantidadVenta += 1
-      } else {
+      // const index = this.sales.findIndex(sale => sale.producto.id === producto.id)
+      // if (index !== -1) {
+      //   this.sales[index].cantidadVenta += 1
+      // } else {
         this.sales.push({
           producto,
           cantidadVenta: 1,
           precioVenta: producto.precio_pro,
           tipo_pro: 'BA'
         })
-      }
+      // }
     },
     filterProductos() {
       this.productos = this.productosAll.filter(producto => {
