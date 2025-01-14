@@ -57,21 +57,26 @@
           <q-form @submit="cotizacion.id ? cotizacionPut() : cotizacionPost()">
             <q-input v-model="cotizacion.fecha" label="Fecha" dense outlined type="date" :rules="[val => !!val || 'Campo requerido']" />
 
-
-
-              <q-select v-model="cotizacion.cliente"
+              <q-select
+                v-model="cotizacion.cliente"
                 @filter="filterClientes"
-                :options="clientes"
-                option-value="nombre_cliente"
-                option-label="nombre_cliente"
+                @update:modelValue="changeDirecionTelefono"
+                :rules="[val => !!val || 'Seleccione un cliente']"
+                filled
                 emit-value
                 map-options
+                standout
+                use-input
                 label="Cliente"
-                filled
+                :options="clientes"
+                option-value="id"
+                option-label="nombre_cliente"
                 dense
                 clearable
-                use-chips
+              
               />
+
+            
 
 
             <q-select v-model="cotizacion.marca" label="Marca" dense outlined
@@ -87,7 +92,25 @@
                         :options="products"/>
 
             <q-input v-model="cotizacion.cantidad" label="Cantidad" type="number" dense outlined :rules="[val => !!val || 'Campo requerido']" />
-
+              
+              <q-select
+              v-model="cotizacion.medida"
+              filled
+              standout
+              label="Medida"
+              dense
+              outlined
+              :options="[
+                { label: 'Bar', value: 'bar' },
+                { label: 'Ton', value: 'ton' },
+                { label: 'Kg', value: 'kg' }
+              ]"
+              option-value="value"
+              option-label="label"
+              emit-value
+              map-options
+            />
+              
               <q-select
               v-model="cotizacion.zona"
               filled
@@ -103,7 +126,7 @@
 
             />
 
-
+           
 
 
             <q-input v-model="cotizacion.precio_compra_cf" label="Precio Compra CF" type="number" dense outlined />
@@ -150,6 +173,7 @@ export default {
         { name: 'marca', label: 'Marca', align: 'left', field: 'marca' },
         { name: 'producto', label: 'Producto', align: 'left', field: 'producto' },
         { name: 'cantidad', label: 'Cantidad', align: 'left', field: 'cantidad' },
+        { name: 'medida', label: 'medida', align: 'left', field: 'medida' },
         { name: 'zona', label: 'Zona', align: 'left', field: 'zona' },
         { name: 'precio_compra_cf', label: 'Precio Compra CF', align: 'left', field: 'precio_compra_cf' },
         { name: 'precio_compra_sf', label: 'Precio Compra SF', align: 'left', field: 'precio_compra_sf' },
@@ -177,6 +201,8 @@ export default {
             {label: "Marca", value: "marca"},
             {label: "Producto", value: "producto"},
             {label: "Cantidad", value: "cantidad"},
+            {label: "medida", value: "medida"},
+            
             {label: "Zona", value: "zona"},
             {label: "Precio_compra_cf", value: "precio_compra_cf"},
             {label: "Precio_compra_sf", value: "precio_compra_sf"},
@@ -250,6 +276,7 @@ export default {
         marca: '',
         producto: '',
         cantidad: 0,
+        medida: 'Bar',
         zona: '',
         precio_compra_cf: 0,
         precio_compra_sf: 0,

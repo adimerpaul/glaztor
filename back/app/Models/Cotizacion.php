@@ -16,6 +16,7 @@ class Cotizacion extends Model
         'marca',
         'producto',
         'cantidad',
+        'medida',
         'zona',
         'precio_compra_cf',
         'precio_compra_sf',

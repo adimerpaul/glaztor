@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('marca')->nullable();
             $table->string('producto')->nullable();
             $table->string('cantidad')->nullable();
+            $table->string('medida')->nullable();
             $table->string('zona')->nullable();
             $table->decimal('precio_compra_cf', 10, 2)->nullable();
             $table->decimal('precio_compra_sf', 10, 2)->nullable();
