@@ -163,29 +163,45 @@ export default {
   },
   methods: {
     updateChart() {
-      // Actualizar series y categorías del gráfico
-      const categories = this.usersMeta.map((userMeta) => userMeta.name); // Extrae los nombres correctamente
-      const metas = this.usersMeta.map((userMeta) =>
-        parseInt(userMeta.pivot.meta || 0)
-      );
-      const toneladas = this.usersMeta.map(
-        (userMeta) => parseInt(userMeta.sumaToneladas || 0)
-      );
+    // Calcular el total
+    const totalMeta = this.usersMeta.reduce((acc, userMeta) => acc + parseInt(userMeta.pivot.meta || 0), 0);
+    const totalToneladas = this.usersMeta.reduce((acc, userMeta) => acc + parseInt(userMeta.sumaToneladas || 0), 0);
 
-      this.series = [
-        { name: "Meta", data: metas },
-        { name: "Toneladas", data: toneladas },
-      ];
+    // Obtener categorías, metas y toneladas
+    const categories = this.usersMeta.map((userMeta) => userMeta.name);
+    const metas = this.usersMeta.map((userMeta) => parseInt(userMeta.pivot.meta || 0));
+    const toneladas = this.usersMeta.map((userMeta) => parseInt(userMeta.sumaToneladas || 0));
 
-      // Asegúrate de que `categories` esté bien asignado al gráfico
-      this.chartOptions = {
-        ...this.chartOptions, // Mantén el resto de las opciones existentes
-        xaxis: {
-          ...this.chartOptions.xaxis,
-          categories, // Actualiza solo las categorías
+    // Calcular los porcentajes
+    const metasPercentage = metas.map(meta => (100).toFixed(1)); // Porcentaje de metas
+    const toneladasPercentage = toneladas.map(toneladas => ((toneladas * 100) / metas).toFixed(1)); // Porcentaje de metas
+
+    //const metasPercentage = metas.map(meta => ((meta / totalMeta) * 100).toFixed(1)); // Porcentaje de metas
+    //const toneladasPercentage = toneladas.map(tonelada => (((totalToneladas *metasPercentage ) / 10).toFixed(1))); // Porcentaje de toneladas
+
+    // Actualizar las series del gráfico
+    this.series = [
+      { name: "Meta", data: metas, percentages: metasPercentage },
+      { name: "Toneladas", data: toneladas, percentages: toneladasPercentage },
+    ];
+
+    // Configurar las categorías y títulos de las barras
+    this.chartOptions = {
+      ...this.chartOptions,
+      xaxis: {
+        ...this.chartOptions.xaxis,
+        categories,
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function(val, opts) {
+          const seriesIndex = opts.seriesIndex;
+          const percentages = seriesIndex === 0 ? metasPercentage : toneladasPercentage;
+          return `${val} (${percentages[opts.dataPointIndex]}%)`; // Mostrar el valor con el porcentaje
         },
-      };
-    },
+      },
+    };
+  },
     updateMeta (meta, user_id, meta_id) {
       console.log(meta, user_id, meta_id)
       this.$axios.put(`metas/${meta_id}`, {
