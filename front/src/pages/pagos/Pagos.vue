@@ -23,17 +23,24 @@
                   dense
             ></q-input>
             </div>
+            <div class="col-6 col-md-2 text-right">
+              <q-input v-model="filter" outlined label="Buscar" dense>
+                <template v-slot:prepend>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
+            </div>
             <div class="col-6 col-md-2 text-left">
               <q-btn
-                  icon="search"
-                  color="primary"
-                  label="Buscar"
-                  @click="getPedidos"
-                  :loading="loading"
-                  no-caps
+                icon="search"
+                color="primary"
+                label="Buscar"
+                @click="getPedidos"
+                :loading="loading"
+                no-caps
               ></q-btn>
             </div>
-            <div class="col-6 col-md-4 text-right">
+            <div class="col-6 col-md-2 text-right">
               <q-btn
                   icon="download"
                   color="green"
@@ -93,7 +100,8 @@
               <q-icon name="arrow_forward"/>
             </q-item-section>
           </q-item>
-      
+<!--          <pre>{{pedidos}}</pre>-->
+
         </q-list>
       </q-card-section>
 
@@ -260,8 +268,10 @@
         fechaFin: moment().endOf('month').format('YYYY-MM-DD'),
         zonas: [],
         pedidos: [],
+        pedidosAll: [],
         // pedido: {},
         productos: [],
+        filter: '',
         pedido: {
           producto_id: null,
         },
@@ -303,10 +313,36 @@
               observacion: pedido.observacion,
               chofer: pedido.chofer,
               zona: pedido.zona,
-              total: pedido.total,
+              totalPagado: pedido.totalPagado,
+              pagos: pedido.pagos.length,
               estado: pedido.estado,
               fecha_pago: pedido.fecha_pago,
               user: pedido.user?.name,
+              total: pedido.total,
+              pago1: pedido.pagos[0]?.monto,
+              pago2: pedido.pagos[1]?.monto,
+              pago3: pedido.pagos[2]?.monto,
+              pago4: pedido.pagos[3]?.monto,
+              pago5: pedido.pagos[4]?.monto,
+              pago6: pedido.pagos[5]?.monto,
+              pago7: pedido.pagos[6]?.monto,
+              pago8: pedido.pagos[7]?.monto,
+              numero_recibo1: pedido.pagos[0]?.numero_recibo,
+              numero_recibo2: pedido.pagos[1]?.numero_recibo,
+              numero_recibo3: pedido.pagos[2]?.numero_recibo,
+              numero_recibo4: pedido.pagos[3]?.numero_recibo,
+              numero_recibo5: pedido.pagos[4]?.numero_recibo,
+              numero_recibo6: pedido.pagos[5]?.numero_recibo,
+              numero_recibo7: pedido.pagos[6]?.numero_recibo,
+              numero_recibo8: pedido.pagos[7]?.numero_recibo,
+              fecha_pago1: pedido.pagos[0]?.fecha_pago,
+              fecha_pago2: pedido.pagos[1]?.fecha_pago,
+              fecha_pago3: pedido.pagos[2]?.fecha_pago,
+              fecha_pago4: pedido.pagos[3]?.fecha_pago,
+              fecha_pago5: pedido.pagos[4]?.fecha_pago,
+              fecha_pago6: pedido.pagos[5]?.fecha_pago,
+              fecha_pago7: pedido.pagos[6]?.fecha_pago,
+              fecha_pago8: pedido.pagos[7]?.fecha_pago,
             })
           })
         })
@@ -327,9 +363,32 @@
             {label: "Estado", value: "estado"},
             {label: "Fecha Pago", value: "fecha_pago"},
             {label: "User", value: "user"},
-            {label: "Estado Credito", value: "estadoCredito"},
+            {label: "Pago 1", value: "pago1"},
+            {label: "Numero Recibo 1", value: "numero_recibo1"},
+            {label: "Fecha Pago 1", value: "fecha_pago1"},
+            {label: "Pago 2", value: "pago2"},
+            {label: "Numero Recibo 2", value: "numero_recibo2"},
+            {label: "Fecha Pago 2", value: "fecha_pago2"},
+            {label: "Pago 3", value: "pago3"},
+            {label: "Numero Recibo 3", value: "numero_recibo3"},
+            {label: "Fecha Pago 3", value: "fecha_pago3"},
+            {label: "Pago 4", value: "pago4"},
+            {label: "Numero Recibo 4", value: "numero_recibo4"},
+            {label: "Fecha Pago 4", value: "fecha_pago4"},
+            {label: "Pago 5", value: "pago5"},
+            {label: "Numero Recibo 5", value: "numero_recibo5"},
+            {label: "Fecha Pago 5", value: "fecha_pago5"},
+            {label: "Pago 6", value: "pago6"},
+            {label: "Numero Recibo 6", value: "numero_recibo6"},
+            {label: "Fecha Pago 6", value: "fecha_pago6"},
+            {label: "Pago 7", value: "pago7"},
+            {label: "Numero Recibo 7", value: "numero_recibo7"},
+            {label: "Fecha Pago 7", value: "fecha_pago7"},
+            {label: "Pago 8", value: "pago8"},
+            {label: "Numero Recibo 8", value: "numero_recibo8"},
+            {label: "Fecha Pago 8", value: "fecha_pago8"},
             {label: "Total Pagado", value: "totalPagado"},
-            {label: "Pagos", value: "pagosRealizados"},
+            {label: "Pagos", value: "pagos"},
           ],
           content: pedidosProductos
         }]
@@ -466,10 +525,12 @@
         this.$axios.get('pedidosEntregados', {
           params: {
             fechaInicio: this.fechaInicio,
-            fechaFin: this.fechaFin
+            fechaFin: this.fechaFin,
+            filter: this.filter
           }
         }).then(response => {
             this.pedidos = response.data
+            this.pedidosAll = response.data
             this.loading = false
           })
           .catch(error => {

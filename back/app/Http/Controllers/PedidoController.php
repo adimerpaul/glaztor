@@ -12,9 +12,11 @@ class PedidoController extends Controller{
     function pedidosEntregados(Request $request){
         $fechaInicio = $request->fechaInicio;
         $fechaFin = $request->fechaFin;
+        $search = $request->filter;
         return Pedido::with('detalles.producto','user')
             ->with('pagos.user')
             ->whereBetween('fecha', [$fechaInicio, $fechaFin])
+            ->where('cliente', 'like', '%'.$search.'%')
             ->where('estado', 'ENTREGADO')
             ->orderBy('id', 'desc')
             ->get();
