@@ -36,8 +36,8 @@ class ClienteController extends Controller
         $cliente = Cliente::findOrFail($id);
         $fotoPro = $request->foto;
         unset($request['foto']);
-        if (strpos($fotoPro, 'fotos') === false) {
-            $fotoData = explode(',', $request->foto);
+        if ( $fotoPro!=null &&  strpos($fotoPro, 'fotos') === false) {
+            $fotoData = explode(',', $fotoPro);
             $fotoBase64 = $fotoData[1]; // La parte base64
             $fotoExtension = explode(';', explode('/', $fotoData[0])[1])[0]; // Obtener la extensión
 
