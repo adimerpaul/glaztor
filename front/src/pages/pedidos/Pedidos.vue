@@ -3,7 +3,7 @@
     <q-card>
       <q-card-section class="q-pa-xs">
         <div class="row">
-          <div class="col-6 col-md-3">
+          <div class="col-6 col-md-2">
             <q-input
               outlined
               v-model="fechaInicio"
@@ -12,7 +12,7 @@
               color="white"
               dense></q-input>
           </div>
-          <div class="col-6 col-md-3">
+          <div class="col-6 col-md-2">
             <q-input
               outlined
               v-model="fechaFin"
@@ -22,7 +22,7 @@
               dense
             ></q-input>
           </div>
-          <div class="col-6 col-md-3 text-left">
+          <div class="col-6 col-md-2 text-left">
             <q-btn
               icon="search"
               color="primary"
@@ -32,7 +32,15 @@
               no-caps
             ></q-btn>
           </div>
-          <div class="col-6 col-md-3 text-right">
+          <div class="col-6 col-md-2 text-left">
+            <q-select v-model="estado" label="Estado" outlined dense :options="estados" @update:modelValue="getPedidosFilter">
+              <template v-slot:after>
+                <q-icon name="check_circle"
+                        :color="estado === 'PENDIENTE' ? 'red' : estado === 'ENTREGADO' ? 'green' : estado === 'REZAGO' ? 'blue': 'orange'"/>
+              </template>
+            </q-select>
+          </div>
+          <div class="col-6 col-md-2 text-right">
             <q-btn
               icon="get_app"
               color="green"
@@ -41,6 +49,9 @@
               :loading="loading"
               no-caps
             ></q-btn>
+          </div>
+          <div class="col-6 col-md-2 text-right">
+
             <q-btn
               icon="add_circle_outline"
               color="green"
@@ -277,6 +288,9 @@ export default {
       fechaFin: moment().format('YYYY-MM-DD'),
       zonas: [],
       pedidos: [],
+      pedidosAll: [],
+      estados: ['PENDIENTE', 'ENTREGADO', 'ANULADO', 'REZAGO','TODOS'],
+      estado : 'TODOS',
       // pedido: {},
       productos: [],
       pedido: {
@@ -403,6 +417,14 @@ export default {
     addPedido() {
       this.$router.push({name: 'pedidosPage'})
     },
+    getPedidosFilter() {
+      console.log(this.estado)
+      if (this.estado === 'TODOS') {
+        this.pedidos = this.pedidosAll
+      } else {
+        this.pedidos = this.pedidosAll.filter(pedido => pedido.estado === this.estado)
+      }
+    },
     getPedidos() {
       this.loading = true
       this.$axios.get('pedidos', {
@@ -412,6 +434,7 @@ export default {
         }
       }).then(response => {
         this.pedidos = response.data
+        this.pedidosAll = response.data
         this.loading = false
       })
         .catch(error => {
