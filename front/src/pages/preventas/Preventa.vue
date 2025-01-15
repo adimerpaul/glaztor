@@ -66,40 +66,54 @@
         <div class="text-h6">{{ preventa.id ? 'Editar' : 'Nueva' }} preventa</div>
       </q-card-section>
       <q-card-section>
-        <q-form @submit="submit" v-if="!preventa.id">
+        <q-form @submit="submit">
           <div class="row">
             <div class="col-12">
-              <q-input dense v-model="preventa.fecha" outlined label="Fecha" type="date" :disable="true"/>
+              <q-input dense v-model="preventa.fecha" outlined label="Fecha" type="date"
+                       :disable="$store.user.role !== 'Admin' && $store.user.role !== 'Administrador'"/>
             </div>
             <div class="col-6 q-pa-xs">
               <q-btn label="Propietario" :outline="propietarioBtnBool" class="full-width" no-caps color="primary"
-                     @click="propietarioBtnBool = !propietarioBtnBool"/>
+                     @click="propietarioBtnBool = !propietarioBtnBool"
+                     :disable="$store.user.role !== 'Admin' && $store.user.role !== 'Administrador'"
+              />
             </div>
             <div class="col-6 q-pa-xs">
               <q-btn label="Encargado" :outline="encargadoBtnBool" class="full-width" no-caps color="primary"
-                     @click="encargadoBtnBool = !encargadoBtnBool"/>
+                     @click="encargadoBtnBool = !encargadoBtnBool"
+                      :disable="$store.user.role !== 'Admin' && $store.user.role !== 'Administrador'"
+              />
             </div>
             <template v-if="!propietarioBtnBool">
               <div class="col-12">
                 <q-input dense v-model="preventa.propietario" outlined label="Propietario"
-                         :rules="[val => !!val || 'Este campo es requerido']"/>
+                         :rules="[val => !!val || 'Este campo es requerido']"
+                         :disable="$store.user.role !== 'Admin' && $store.user.role !== 'Administrador'"
+                />
               </div>
               <div class="col-12">
                 <q-input dense v-model="preventa.telefono_propietario" outlined label="Telefono Propietario"
-                         type="number"/>
+                         type="number"
+                          :disable="$store.user.role !== 'Admin' && $store.user.role !== 'Administrador'"
+                />
               </div>
             </template>
             <template v-if="!encargadoBtnBool">
               <div class="col-12">
-                <q-input dense v-model="preventa.contratista" outlined label="Encargado"/>
+                <q-input dense v-model="preventa.contratista" outlined label="Encargado"
+                          :disable="$store.user.role !== 'Admin' && $store.user.role !== 'Administrador'"
+                />
               </div>
               <div class="col-12">
                 <q-input dense v-model="preventa.telefono_contratista" outlined label="Telefono Encargado"
+                          :disable="$store.user.role !== 'Admin' && $store.user.role !== 'Administrador'"
                          type="number"/>
               </div>
             </template>
             <div class="col-12">
-              <q-input dense v-model="preventa.ubicacion" outlined label="Ubicacion">
+              <q-input dense v-model="preventa.ubicacion" outlined label="Ubicacion"
+                        :disable="$store.user.role !== 'Admin' && $store.user.role !== 'Administrador'"
+              >
                 <template v-slot:append>
                   <q-btn flat icon="fa-solid fa-map-marker-alt" @click="myLocation"/>
                 </template>
@@ -107,6 +121,9 @@
             </div>
             <div class="col-12">
               <div style="height:250px; width:100%">
+                            <div class="div">
+                              <q-btn icon="my_location" color="primary" @click="openGoogleMaps" dense flat/>
+                            </div>
                 <l-map
                   ref="map"
                   v-model:zoom="zoom"
@@ -134,7 +151,9 @@
             </div>
             <div class="col-12">
               <q-input dense v-model="preventa.direccion" outlined label="Direccion"
-                       :rules="[val => !!val || 'Este campo es requerido']"/>
+                       :rules="[val => !!val || 'Este campo es requerido']"
+                       :disable="$store.user.role !== 'Admin' && $store.user.role !== 'Administrador'"
+              />
             </div>
             <div class="col-12">
               <!-- <q-input dense v-model="preventa.zona" outlined label="Zona" /> -->
@@ -150,28 +169,36 @@
                         ]"
                 outlined
                 :rules="[val => !!val || 'Este campo es requerido']"
+                :disable="$store.user.role !== 'Admin' && $store.user.role !== 'Administrador'"
                 label="Zona"/>
             </div>
             <div class="col-12">
               <!-- <q-input dense v-model="preventa.tipo_construccion" outlined label="Tipo Construccion" /> -->
               <q-select dense v-model="preventa.tipo_construccion" outlined label="Estado de la Obra"
                         use-input
-                        :options="['Inicio Obra','Columnas', 'Muralla', 'Zapata', 'Sobrecimiento', 'Losa', 'Paralizada', 'Concluida']"/>
+                        :options="['Inicio Obra','Columnas', 'Muralla', 'Zapata', 'Sobrecimiento', 'Losa', 'Paralizada', 'Concluida']"
+                        :disable="$store.user.role !== 'Admin' && $store.user.role !== 'Administrador'"
+              />
             </div>
             <div class="col-12">
-              <q-input dense v-model="preventa.volumen" outlined label="Cantidad" type="number"/>
+              <q-input dense v-model="preventa.volumen" outlined label="Cantidad" type="number"
+                       :disable="$store.user.role !== 'Admin' && $store.user.role !== 'Administrador'"
+              />
             </div>
             <div class="col-12">
               <!-- <q-input dense v-model="preventa.tipo_construccion" outlined label="Tipo Construccion" /> -->
               <q-select dense v-model="preventa.medida" outlined label="Medida"
                         use-input
-                        :options="['Bar','Ton', 'Kg']"/>
+                        :options="['Bar','Ton', 'Kg']"
+                        :disable="$store.user.role !== 'Admin' && $store.user.role !== 'Administrador'"
+              />
             </div>
-            
+
             <div class="col-12">
               <!-- <q-input dense v-model="preventa.marca" outlined label="Marca" /> -->
               <q-select dense v-model="preventa.marca" outlined label="Marca"
               use-input @update:modelValue="filterProducts"
+                        :disable="$store.user.role !== 'Admin' && $store.user.role !== 'Administrador'"
               :options="marcas"/>
             </div>
             <div class="col-12">
@@ -182,111 +209,116 @@
                         option-value="nombre_pro"
                         emit-value
                         map-options
+                        :disable="$store.user.role !== 'Admin' && $store.user.role !== 'Administrador'"
                         :options="products"/>
             </div>
             <div class="col-12">
-              <q-input dense v-model="preventa.observacion" outlined label="Observacion"/>
+              <q-input dense v-model="preventa.observacion" outlined label="Observacion"
+                        :disable="$store.user.role !== 'Admin' && $store.user.role !== 'Administrador'"
+              />
             </div>
-            <q-card-actions align="right">
+            <q-card-actions align="right" v-if="$store.user.role === 'Admin' || $store.user.role === 'Administrador'">
               <q-btn label="Cancelar" color="negative" @click="dialog = false" :loading="loading"/>
               <q-btn label="Guardar" color="primary" type="submit" :loading="loading"/>
             </q-card-actions>
           </div>
         </q-form>
-        <div class="row" v-else>
-          <div class="col-12 row items-center">
-            <div>
-              <label class="text-grey text-caption">Fecha:</label>
-              <div class="text-bold">{{ preventa.fecha }}</div>
-            </div>
-            <q-space/>
-            <div class="div">
-              <q-btn icon="delete" color="negative" @click="deletePreventa(preventa)" dense flat/>
-            </div>
-          </div>
-          <div class="col-6">
-            <label class="text-grey text-caption">Propietario:</label>
-            <div class="text-bold">{{ preventa.propietario }}</div>
-          </div>
-          <div class="col-6">
-            <label class="text-grey text-caption">Contratista:</label>
-            <div class="text-bold">{{ preventa.contratista }}</div>
-          </div>
-          <div class="col-6">
-            <label class="text-grey text-caption">Teléfono Propietario:</label>
-            <div class="text-bold">{{ preventa.telefono_propietario }}</div>
-          </div>
-          <div class="col-6">
-            <label class="text-grey text-caption">Teléfono Contratista:</label>
-            <div class="text-bold">{{ preventa.telefono_contratista }}</div>
-          </div>
-          <div class="col-12 row items-center">
-            <div>
-              <label class="text-grey text-caption">Ubicación:</label>
-              <div class="text-bold">{{ preventa.ubicacion }}</div>
-            </div>
-            <q-space/>
-            <div class="div">
-              <q-btn icon="my_location" color="primary" @click="openGoogleMaps" dense flat/>
-            </div>
-          </div>
-          <div class="col-12">
-            <div style="height:250px; width:100%">
-              <l-map ref="map"
-                     v-model:zoom="zoom"
-                     :use-global-leaflet="false"
-                     :center="location"
-                     :scrollWheelZoom="false"
-                     :dragging="false"
-                     :touchZoom="false"
-                     :doubleClickZoom="false"
-                     :boxZoom="false"
-                     :keyboard="false">
-                <l-tile-layer
-                  v-for="tileProvider in tileProviders"
-                  :key="tileProvider.name"
-                  :name="tileProvider.name"
-                  :visible="tileProvider.visible"
-                  :url="tileProvider.url"
-                  :attribution="tileProvider.attribution"
-                  layer-type="base"
-                />
-                <l-marker
-                  :lat-lng="location"
-                  ref="marker"
-                />
-              </l-map>
-            </div>
-          </div>
-          <div class="col-12">
-            <label class="text-grey text-caption">Dirección:</label>
-            <div class="text-bold">{{ preventa.direccion }}</div>
-          </div>
-          <div class="col-6">
-            <label class="text-grey text-caption">Zona:</label>
-            <div class="text-bold">{{ preventa.zona }}</div>
-          </div>
-          <div class="col-6">
-            <label class="text-grey text-caption">Observación:</label>
-            <div class="text-bold">{{ preventa.observacion }}</div>
-          </div>
-          <div class="col-6">
-            <label class="text-grey text-caption">Tipo Construcción:</label>
-            <div class="text-bold">{{ preventa.tipo_construccion }}</div>
-          </div>
-          <div class="col-6">
-            <label class="text-grey text-caption">Cantidad:</label>
-            <div class="text-bold">{{ preventa.volumen }}</div>
-          </div>
-          <div class="col-6">
-            <label class="text-grey text-caption">Medida:</label>
-            <div class="text-bold">{{ preventa.medida }}</div>
-          </div>
-          <div class="col-6">
-            <label class="text-grey text-caption">Marca:</label>
-            <div class="text-bold">{{ preventa.marca }}</div>
-          </div>
-        </div>
+<!--        <div class="row" v-else>-->
+<!--          <div class="col-12 row items-center">-->
+<!--            <div>-->
+<!--              <label class="text-grey text-caption">Fecha:</label>-->
+<!--              <div class="text-bold">{{ preventa.fecha }}</div>-->
+<!--            </div>-->
+<!--            <q-space/>-->
+<!--            <div class="div">-->
+<!--              <q-btn icon="delete" color="negative" @click="deletePreventa(preventa)" dense flat-->
+<!--                     v-if="$store.user.role === 'Admin' || $store.user.role === 'Administrador'"-->
+<!--              />-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-6">-->
+<!--            <label class="text-grey text-caption">Propietario:</label>-->
+<!--            <div class="text-bold">{{ preventa.propietario }}</div>-->
+<!--          </div>-->
+<!--          <div class="col-6">-->
+<!--            <label class="text-grey text-caption">Contratista:</label>-->
+<!--            <div class="text-bold">{{ preventa.contratista }}</div>-->
+<!--          </div>-->
+<!--          <div class="col-6">-->
+<!--            <label class="text-grey text-caption">Teléfono Propietario:</label>-->
+<!--            <div class="text-bold">{{ preventa.telefono_propietario }}</div>-->
+<!--          </div>-->
+<!--          <div class="col-6">-->
+<!--            <label class="text-grey text-caption">Teléfono Contratista:</label>-->
+<!--            <div class="text-bold">{{ preventa.telefono_contratista }}</div>-->
+<!--          </div>-->
+<!--          <div class="col-12 row items-center">-->
+<!--            <div>-->
+<!--              <label class="text-grey text-caption">Ubicación:</label>-->
+<!--              <div class="text-bold">{{ preventa.ubicacion }}</div>-->
+<!--            </div>-->
+<!--            <q-space/>-->
+<!--            <div class="div">-->
+<!--              <q-btn icon="my_location" color="primary" @click="openGoogleMaps" dense flat/>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-12">-->
+<!--            <div style="height:250px; width:100%">-->
+<!--              <l-map ref="map"-->
+<!--                     v-model:zoom="zoom"-->
+<!--                     :use-global-leaflet="false"-->
+<!--                     :center="location"-->
+<!--                     :scrollWheelZoom="false"-->
+<!--                     :dragging="false"-->
+<!--                     :touchZoom="false"-->
+<!--                     :doubleClickZoom="false"-->
+<!--                     :boxZoom="false"-->
+<!--                     :keyboard="false">-->
+<!--                <l-tile-layer-->
+<!--                  v-for="tileProvider in tileProviders"-->
+<!--                  :key="tileProvider.name"-->
+<!--                  :name="tileProvider.name"-->
+<!--                  :visible="tileProvider.visible"-->
+<!--                  :url="tileProvider.url"-->
+<!--                  :attribution="tileProvider.attribution"-->
+<!--                  layer-type="base"-->
+<!--                />-->
+<!--                <l-marker-->
+<!--                  :lat-lng="location"-->
+<!--                  ref="marker"-->
+<!--                />-->
+<!--              </l-map>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-12">-->
+<!--            <label class="text-grey text-caption">Dirección:</label>-->
+<!--            <div class="text-bold">{{ preventa.direccion }}</div>-->
+<!--          </div>-->
+<!--          <div class="col-6">-->
+<!--            <label class="text-grey text-caption">Zona:</label>-->
+<!--            <div class="text-bold">{{ preventa.zona }}</div>-->
+<!--          </div>-->
+<!--          <div class="col-6">-->
+<!--            <label class="text-grey text-caption">Observación:</label>-->
+<!--            <div class="text-bold">{{ preventa.observacion }}</div>-->
+<!--          </div>-->
+<!--          <div class="col-6">-->
+<!--            <label class="text-grey text-caption">Tipo Construcción:</label>-->
+<!--            <div class="text-bold">{{ preventa.tipo_construccion }}</div>-->
+<!--          </div>-->
+<!--          <div class="col-6">-->
+<!--            <label class="text-grey text-caption">Cantidad:</label>-->
+<!--            <div class="text-bold">{{ preventa.volumen }}</div>-->
+<!--          </div>-->
+<!--          <div class="col-6">-->
+<!--            <label class="text-grey text-caption">Medida:</label>-->
+<!--            <div class="text-bold">{{ preventa.medida }}</div>-->
+<!--          </div>-->
+<!--          <div class="col-6">-->
+<!--            <label class="text-grey text-caption">Marca:</label>-->
+<!--            <div class="text-bold">{{ preventa.marca }}</div>-->
+<!--          </div>-->
+<!--        </div>-->
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -354,7 +386,7 @@ export default {
           { label: "Teléfono del contratista", value: "telefono_contratista" },
           { label: "Dirección", value: "direccion" },
           { label: "Ubicación", value: "ubicacion" },
-          { label: "Zona", value: "zona" },  
+          { label: "Zona", value: "zona" },
           { label: "Tipo de construcción", value: "tipo_construccion" },
           { label: "Cantidad", value: "volumen" },
           { label: "Medida", value: "medida" },
@@ -433,6 +465,28 @@ export default {
       }
     },
     submit() {
+      if (this.preventa.id) {
+        this.updatePreventa()
+      } else {
+        this.createPreventa()
+      }
+
+    },
+    updatePreventa() {
+      this.loading = true
+      this.$axios.put(`preventas/${this.preventa.id}`, this.preventa)
+        .then(() => {
+          const index = this.preventas.findIndex(p => p.id === this.preventa.id)
+          this.preventas.splice(index, 1, this.preventa)
+          this.dialog = false
+        })
+        .catch(error => {
+          console.log(error)
+        }).finally(() => {
+        this.loading = false
+      })
+    },
+    createPreventa() {
       this.loading = true
       this.$axios.post('preventas', this.preventa)
         .then(response => {
