@@ -72,7 +72,7 @@
             <q-item-section>
               <q-item-label class="text-h6">
                 {{ pedido.fecha.substring(0,10) || 'Sin propietario' }}
-                <q-icon name="check_circle" :color="pedido.estado === 'PENDIENTE' ? 'red' : pedido.estado === 'ENTREGADO' ? 'green' : 'orange'"/>
+                <q-icon name="check_circle" :color="pedido.estado === 'PENDIENTE' ? 'red' : pedido.estado === 'ENTREGADO' ? 'green' : 'blue'" />
               </q-item-label>
               <q-item-label class="text-subtitle1 text-grey">
                 {{ pedido.direccion }}
@@ -432,7 +432,7 @@
             { label: "Observación 8", value: "observacion8" },
             {label: "Total Pagado", value: "totalPagado"},
             {label: "Pagos", value: "pagos"},
-            { label: 'Deuda Pendiente', value: 'deudaPendiente' }, 
+            { label: 'Deuda Pendiente', value: 'deudaPendiente' },
 
           ],
           content: pedidosProductos
@@ -443,7 +443,7 @@
       },
       showPago(pago) {
         const user = this.$store.user;
-        if (user.role === 'Administrador' || user.role === 'Ventas' || user.role === 'Cobranza' || user.role === 'Director' || user.role === 'Supervisor') {
+        if (user.role === 'Administrador' || user.role === 'Ventas' || user.role === 'Director' || user.role === 'Supervisor') {
           return;
         }
         this.dialogPagos = true;

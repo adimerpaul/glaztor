@@ -17,7 +17,8 @@ class PedidoController extends Controller{
             ->with('pagos.user')
             ->whereBetween('fecha', [$fechaInicio, $fechaFin])
             ->where('cliente', 'like', '%'.$search.'%')
-            ->where('estado', 'ENTREGADO')
+//            ->where('estado', 'ENTREGADO')
+                ->whereRaw('(estado = "ENTREGADO" OR estado = "REZAGO")')
             ->orderBy('id', 'desc')
             ->get();
     }
