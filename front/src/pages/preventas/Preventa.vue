@@ -161,8 +161,25 @@
                         :options="['Inicio Obra','Columnas', 'Muralla', 'Zapata', 'Sobrecimiento', 'Losa', 'Paralizada', 'Concluida']"/>
             </div>
             <div class="col-12">
-              <q-input dense v-model="preventa.volumen" outlined label="Volumen" type="number"/>
+              <q-input dense v-model="preventa.volumen" outlined label="Cantidad" type="number"/>
             </div>
+            <q-select
+              v-model="preventa.medida"
+              filled
+              standout
+              label="Medida"
+              dense
+              outlined
+              :options="[
+                { label: 'Bar', value: 'bar' },
+                { label: 'Ton', value: 'ton' },
+                { label: 'Kg', value: 'kg' }
+              ]"
+              option-value="value"
+              option-label="label"
+              emit-value
+              map-options
+            />
             <div class="col-12">
               <!-- <q-input dense v-model="preventa.marca" outlined label="Marca" /> -->
               <q-select dense v-model="preventa.marca" outlined label="Marca"
@@ -270,8 +287,12 @@
             <div class="text-bold">{{ preventa.tipo_construccion }}</div>
           </div>
           <div class="col-6">
-            <label class="text-grey text-caption">Volumen:</label>
+            <label class="text-grey text-caption">Cantidad:</label>
             <div class="text-bold">{{ preventa.volumen }}</div>
+          </div>
+          <div class="col-6">
+            <label class="text-grey text-caption">Medida:</label>
+            <div class="text-bold">{{ preventa.medida }}</div>
           </div>
           <div class="col-6">
             <label class="text-grey text-caption">Marca:</label>

@@ -123,7 +123,7 @@
                   <template v-else>
                     {{ (sale.cantidadVenta * sale.precioVenta * sale.producto.tonelada).toFixed(2) }}
                   </template>
-<!--                  {{ (sale.cantidadVenta * sale.precioVenta).toFixed(2) }}-->
+<!--                  {{ (sale.cantidadVenta * sale.precioVenta).toFixed(2) }}-->¿
                 </td>
               </tr>
               </tbody>

@@ -167,7 +167,7 @@ export default {
       this.$axios.post('users', this.user).then(res => {
         this.usersGet()
         this.userDialog = false
-        this.$alert.success('Periodo creado')
+        this.$alert.success('Usuario creado')
       }).catch(error => {
         this.$alert.error(error.response.data.message)
       }).finally(() => {
@@ -179,7 +179,7 @@ export default {
       this.$axios.put('users/' + this.user.id, this.user).then(res => {
         this.usersGet()
         this.userDialog = false
-        this.$alert.success('Periodo actualizado')
+        this.$alert.success('Usuario actualizado')
       }).catch(error => {
         this.$alert.error(error.response.data.message)
       }).finally(() => {
