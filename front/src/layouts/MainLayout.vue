@@ -15,13 +15,13 @@
         </q-toolbar-title>
         <div>
           <q-btn-group flat>
-            <q-btn
-              no-caps
-              icon="o_notifications"
-              aria-label="Notificaciones"
-              @click="openNotifications"
-              class="icon-hover"
-            />
+<!--            <q-btn-->
+<!--              no-caps-->
+<!--              icon="o_notifications"-->
+<!--              aria-label="Notificaciones"-->
+<!--              @click="openNotifications"-->
+<!--              class="icon-hover"-->
+<!--            />-->
             <q-btn no-caps icon="o_account_circle" aria-label="Perfil">
               <q-menu>
                 <q-list>

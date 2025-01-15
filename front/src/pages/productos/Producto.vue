@@ -2,7 +2,7 @@
   <q-page class="bg-grey-2">
     <q-card flat bordered>
       <q-card-section class="q-pa-xs">
-       
+
             <q-btn
                   icon="download"
                   color="green"
@@ -10,7 +10,7 @@
                   @click="exportExcel"
                   no-caps
               ></q-btn>
-        
+
         <q-markup-table dense class="styled-table">
           <thead>
           <tr>
@@ -136,12 +136,22 @@
             <div class="col-12">
               <q-input dense v-model="producto.cantidad_pro" outlined label="Cantidad en stok" type="number"
                        hint=""
-              />
+              >
+                <template v-slot:after>
+                  <q-btn
+                    round
+                    color="positive"
+                    icon="add"
+                    @click="aumentarPorTonelada"
+                  />
+                </template>
+              </q-input>
             </div>
             <div class="col-12">
               <q-input dense v-model="producto.tonelada" outlined label="Cantidad Mayor general en ventas" type="number"
                        hint=""
-              />
+              >
+              </q-input>
             </div>
 
             <div class="d-grid col-6 mx-auto mb-3">
@@ -196,6 +206,23 @@ export default {
     this.getProductos();
   },
   methods: {
+    aumentarPorTonelada() {
+      this.$q.dialog({
+        title: "Aumentar por tonelada",
+        message: "¿Estás seguro de que deseas aumentar la cantidad por tonelada?",
+        ok: {label: "Sí", color: "primary"},
+        cancel: {label: "No", color: "negative"},
+        prompt: {
+          model: "1",
+          type: "number",
+          label: "Cantidad a aumentar",
+          rules: [(val) => !!val || "Este campo es requerido"],
+        },
+      }).onOk((data) => {
+        const tonelada = parseInt(this.producto.tonelada);
+        this.producto.cantidad_pro = (parseInt(data) * tonelada) + parseInt(this.producto.cantidad_pro);
+      });
+    },
     exportExcel() {
         let data = [{
           sheet: "Productos",
@@ -301,7 +328,7 @@ export default {
   this.$axios.get('productos')
     .then(response => {
       this.productos = response.data;
-      
+
       // Verificar si algún producto tiene cantidad_pro / tonelada < 2
       const sinInventario = this.productos.some(producto => {
         return producto.tonelada > 0 && producto.cantidad_pro / producto.tonelada < 2;
