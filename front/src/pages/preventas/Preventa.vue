@@ -3,11 +3,9 @@
     <q-card flat bordered class="q-pa-md">
       <q-card-section>
         <div class="text-h5 text-primary">Lista de Preventas</div>
-        <div class="text-body2 text-grey-8">Selecciona una preventa para más detalles</div>
+        <div ><q-btn  icon="download" color="green"  label="Exportar" @click="exportExcel"   no-caps></q-btn></div>
       </q-card-section>
-
       <q-separator spaced/>
-
       <q-card-section class="q-pa-none">
         <q-list dense class="rounded-borders">
           <template v-if="preventas.length === 0">
@@ -163,23 +161,13 @@
             <div class="col-12">
               <q-input dense v-model="preventa.volumen" outlined label="Cantidad" type="number"/>
             </div>
-            <q-select
-              v-model="preventa.medida"
-              filled
-              standout
-              label="Medida"
-              dense
-              outlined
-              :options="[
-                { label: 'Bar', value: 'bar' },
-                { label: 'Ton', value: 'ton' },
-                { label: 'Kg', value: 'kg' }
-              ]"
-              option-value="value"
-              option-label="label"
-              emit-value
-              map-options
-            />
+            <div class="col-12">
+              <!-- <q-input dense v-model="preventa.tipo_construccion" outlined label="Tipo Construccion" /> -->
+              <q-select dense v-model="preventa.medida" outlined label="Medida"
+                        use-input
+                        :options="['Bar','Ton', 'Kg']"/>
+            </div>
+            
             <div class="col-12">
               <!-- <q-input dense v-model="preventa.marca" outlined label="Marca" /> -->
               <q-select dense v-model="preventa.marca" outlined label="Marca"
@@ -311,6 +299,7 @@ import {Loading} from 'quasar';
 import {Icon} from 'leaflet';
 import "leaflet/dist/leaflet.css";
 import {LMap, LTileLayer, LMarker} from "@vue-leaflet/vue-leaflet";
+import {Excel} from "src/addons/Excel";
 
 export default {
   name: 'Preventa',
@@ -353,6 +342,32 @@ export default {
     this.getProductos()
   },
   methods: {
+
+    exportExcel() {
+        let data = [{
+          sheet: "Preventas",
+          columns: [
+          { label: "Fecha", value: "fecha" },
+          { label: "Propietario", value: "propietario" },
+          { label: "Teléfono del propietario", value: "telefono_propietario" },
+          { label: "Contratista", value: "contratista" },
+          { label: "Teléfono del contratista", value: "telefono_contratista" },
+          { label: "Dirección", value: "direccion" },
+          { label: "Ubicación", value: "ubicacion" },
+          { label: "Zona", value: "zona" },  
+          { label: "Tipo de construcción", value: "tipo_construccion" },
+          { label: "Cantidad", value: "volumen" },
+          { label: "Medida", value: "medida" },
+          { label: "Marca", value: "marca" },
+          { label: "Producto", value: "producto" },
+          { label: "Observación", value: "observacion" },
+          ],
+          content: this.preventas
+        }]
+
+        const excel = Excel.export(data, "Reporte de Prospecciones");
+
+      },
     filterProducts(val) {
       console.log(val)
       if (val === null) {
