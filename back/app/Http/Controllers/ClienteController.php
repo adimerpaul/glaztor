@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
+ 
 class ClienteController extends Controller
 {
     function index(){
@@ -45,6 +45,10 @@ class ClienteController extends Controller
             Storage::put($fotoPath, base64_decode($fotoBase64));
             $request->merge(['foto' => Storage::url($fotoPath)]);
         }
+
+
+
+
         $cliente->update($request->all());
         return $cliente;
     }

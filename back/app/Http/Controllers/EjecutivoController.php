@@ -1,5 +1,5 @@
 <?php
-
+ 
 
 namespace App\Http\Controllers;
 use App\Models\Ejecutivo;
@@ -14,6 +14,8 @@ class EjecutivoController extends Controller
         return Ejecutivo::all();
     }
     function store(Request $request){
+        $user = $request->user();
+        $request->merge(['user_id' => $user->id]);
         if (isset($request->foto)) {
             $fotoData = explode(',', $request->foto);
             $fotoBase64 = $fotoData[1]; // La parte base64
@@ -30,7 +32,18 @@ class EjecutivoController extends Controller
         return Ejecutivo::find($id);
     }
     function update(Request $request, $id){
-        $ejecutivo = Ejecutivo::find($id);
+        $ejecutivo = Ejecutivo::findOrFail($id);
+        $fotoPro = $request->foto;
+        unset($request['foto']);
+        if ( $fotoPro!=null &&  strpos($fotoPro, 'fotos') === false) {
+            $fotoData = explode(',', $fotoPro);
+            $fotoBase64 = $fotoData[1]; // La parte base64
+            $fotoExtension = explode(';', explode('/', $fotoData[0])[1])[0]; // Obtener la extensión
+
+            $fotoPath = 'public/fotos/' . uniqid() . '.' . $fotoExtension;
+            Storage::put($fotoPath, base64_decode($fotoBase64));
+            $request->merge(['foto' => Storage::url($fotoPath)]);
+        }
         $ejecutivo->update($request->all());
         return $ejecutivo;
     }
