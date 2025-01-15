@@ -74,7 +74,7 @@
             <q-item-label class="text-h6">
               {{ pedido.fecha.substring(0, 10) || 'Sin propietario' }}
               <q-icon name="check_circle"
-                      :color="pedido.estado === 'PENDIENTE' ? 'red' : pedido.estado === 'ENTREGADO' ? 'green' : 'orange'"/>
+                      :color="pedido.estado === 'PENDIENTE' ? 'red' : pedido.estado === 'ENTREGADO' ? 'green': pedido.estado === 'REZAGO' ? 'blue' : 'orange'"/>
             </q-item-label>
             <q-item-label class="text-subtitle1 text-grey">
               {{ pedido.direccion }}
@@ -196,11 +196,11 @@
             outlined
             :disable="$store.user.role == 'Ventas' || $store.user.role == 'Cobranza' || $store.user.role == 'Director' || $store.user.role == 'Supervisor'"
             dense
-            :options="[ 'PENDIENTE', 'ENTREGADO', 'ANULADO']"
+            :options="[ 'PENDIENTE', 'ENTREGADO', 'ANULADO', 'REZAGO']"
           >
             <template v-slot:after>
               <q-icon name="check_circle"
-                      :color="pedido.estado === 'PENDIENTE' ? 'red' : pedido.estado === 'ENTREGADO' ? 'green' : 'orange'"/>
+                      :color="pedido.estado === 'PENDIENTE' ? 'red' : pedido.estado === 'ENTREGADO' ? 'green' : pedido.estado === 'REZAGO' ? 'blue': 'orange'"/>
             </template>
           </q-select>
           <div class="text-bold q-pa-xs">
