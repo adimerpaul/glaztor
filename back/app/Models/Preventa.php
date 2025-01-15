@@ -21,6 +21,7 @@ class Preventa extends Model
         'observacion',
         'tipo_construccion',
         'volumen',
+        'medida',
         'marca',
         'producto',
         'user_id',

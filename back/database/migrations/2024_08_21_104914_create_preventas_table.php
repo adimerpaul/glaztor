@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('observacion')->nullable();
             $table->string('tipo_construccion')->nullable();
             $table->string('volumen')->nullable();
+            $table->string('medida')->nullable();
             $table->string('marca')->nullable();
             $table->string('producto')->nullable();
             $table->string('direccion')->nullable();
