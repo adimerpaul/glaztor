@@ -17,6 +17,7 @@ class PagoController extends Controller{
         $pago->fecha_pago = $request->fecha_pago;
         $pago->hora_pago = now();
         $pago->banco = $request->banco;
+        $pago->observacion = $request->observacion;
         $pago->save();
         return Pago::with('user')->find($pago->id);
     }
@@ -28,6 +29,7 @@ class PagoController extends Controller{
         $pago->fecha_pago = $request->fecha_pago;
         $pago->hora_pago = now();
         $pago->banco = $request->banco;
+        $pago->observacion = $request->observacion;
         $pago->save();
         return Pago::with('user')->find($pago->id);
     }

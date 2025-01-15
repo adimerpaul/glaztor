@@ -23,6 +23,7 @@ return new class extends Migration
             $table->date('fecha_pago')->nullable();
             $table->time('hora_pago')->nullable();
             $table->string('banco')->nullable();
+            $table->string('observacion')->nullable();
             $table->string('estado')->nullable()->default('Activo');
             $table->softDeletes();
             $table->timestamps();

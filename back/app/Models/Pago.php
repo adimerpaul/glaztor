@@ -17,6 +17,7 @@ class Pago extends Model{
         'fecha_pago',
         'hora_pago',
         'banco',
+        'observacion',
         'estado'
     ];
     protected $hidden=[

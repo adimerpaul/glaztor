@@ -55,7 +55,7 @@
 
 
           <q-form @submit="cotizacion.id ? cotizacionPut() : cotizacionPost()">
-            <q-input v-model="cotizacion.fecha" label="Fecha" dense outlined type="date" :rules="[val => !!val || 'Campo requerido']" />
+            <q-input v-model="cotizacion.fecha" label="Fecha" dense outlined type="date" :disable="true"/>
 
               <q-select
                 v-model="cotizacion.cliente"
@@ -75,9 +75,6 @@
                 clearable
               
               />
-
-            
-
 
             <q-select v-model="cotizacion.marca" label="Marca" dense outlined
              use-input @update:modelValue="filterProducts"

@@ -237,6 +237,13 @@
             dense
             hint=""
           ></q-input>
+          <q-input
+            v-model="pago.observacion"
+            outlined
+            label="Observacion"
+            dense
+            hint=""
+          ></q-input>
           <q-btn
             type="submit"
             class="full-width"
@@ -281,6 +288,7 @@
           forma_pago: 'EFECTIVO',
           numero_recibo: '',
           banco: '',
+          observacion: '',
         }
       }
     },
@@ -295,6 +303,8 @@
         let pedidosProductos = []
         this.pedidos.forEach(pedido => {
           pedido.detalles.forEach(detalle => {
+            const deudaPendiente = pedido.total - pedido.pagos.reduce((acc, pago) => acc + parseFloat(pago.monto), 0);
+
             pedidosProductos.push({
               created_at: moment(pedido.created_at).format("YYYY-MM-DD HH:mm:ss"),
               fecha: pedido.fecha,
@@ -343,6 +353,23 @@
               fecha_pago6: pedido.pagos[5]?.fecha_pago,
               fecha_pago7: pedido.pagos[6]?.fecha_pago,
               fecha_pago8: pedido.pagos[7]?.fecha_pago,
+              banco1: pedido.pagos[0]?.banco,
+              observacion1: pedido.pagos[0]?.observacion,
+              banco2: pedido.pagos[1]?.banco,
+              observacion2: pedido.pagos[1]?.observacion,
+              banco3: pedido.pagos[2]?.banco,
+              observacion3: pedido.pagos[2]?.observacion,
+              banco4: pedido.pagos[3]?.banco,
+              observacion4: pedido.pagos[3]?.observacion,
+              banco5: pedido.pagos[4]?.banco,
+              observacion5: pedido.pagos[4]?.observacion,
+              banco6: pedido.pagos[5]?.banco,
+              observacion6: pedido.pagos[5]?.observacion,
+              banco7: pedido.pagos[6]?.banco,
+              observacion7: pedido.pagos[6]?.observacion,
+              banco8: pedido.pagos[7]?.banco,
+              observacion8: pedido.pagos[7]?.observacion,
+              deudaPendiente: deudaPendiente.toFixed(2),
             })
           })
         })
@@ -366,29 +393,47 @@
             {label: "Pago 1", value: "pago1"},
             {label: "Numero Recibo 1", value: "numero_recibo1"},
             {label: "Fecha Pago 1", value: "fecha_pago1"},
+            { label: "Banco 1", value: "banco1" },
+            { label: "Observación 1", value: "observacion1" },
             {label: "Pago 2", value: "pago2"},
             {label: "Numero Recibo 2", value: "numero_recibo2"},
             {label: "Fecha Pago 2", value: "fecha_pago2"},
+            { label: "Banco 2", value: "banco2" },
+            { label: "Observación 2", value: "observacion2" },
             {label: "Pago 3", value: "pago3"},
             {label: "Numero Recibo 3", value: "numero_recibo3"},
             {label: "Fecha Pago 3", value: "fecha_pago3"},
+            { label: "Banco 3", value: "banco3" },
+            { label: "Observación 3", value: "observacion3" },
             {label: "Pago 4", value: "pago4"},
             {label: "Numero Recibo 4", value: "numero_recibo4"},
             {label: "Fecha Pago 4", value: "fecha_pago4"},
+            { label: "Banco 4", value: "banco4" },
+            { label: "Observación 4", value: "observacion4" },
             {label: "Pago 5", value: "pago5"},
             {label: "Numero Recibo 5", value: "numero_recibo5"},
             {label: "Fecha Pago 5", value: "fecha_pago5"},
+            { label: "Banco 5", value: "banco5" },
+            { label: "Observación 5", value: "observacion5" },
             {label: "Pago 6", value: "pago6"},
             {label: "Numero Recibo 6", value: "numero_recibo6"},
             {label: "Fecha Pago 6", value: "fecha_pago6"},
+            { label: "Banco 6", value: "banco6" },
+            { label: "Observación 6", value: "observacion6" },
             {label: "Pago 7", value: "pago7"},
             {label: "Numero Recibo 7", value: "numero_recibo7"},
             {label: "Fecha Pago 7", value: "fecha_pago7"},
+            { label: "Banco 7", value: "banco7" },
+            { label: "Observación 7", value: "observacion7" },
             {label: "Pago 8", value: "pago8"},
             {label: "Numero Recibo 8", value: "numero_recibo8"},
             {label: "Fecha Pago 8", value: "fecha_pago8"},
+            { label: "Banco 8", value: "banco8" },
+            { label: "Observación 8", value: "observacion8" },
             {label: "Total Pagado", value: "totalPagado"},
             {label: "Pagos", value: "pagos"},
+            { label: 'Deuda Pendiente', value: 'deudaPendiente' }, 
+
           ],
           content: pedidosProductos
         }]
