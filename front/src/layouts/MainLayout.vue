@@ -172,7 +172,7 @@ export default {
             {title: 'Pagos', icon: 'attach_money', link: '/pagos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
             {title: 'Resumen', icon: 'description', link: '/resumen', can: ['Admin', 'Director']},
             {title: 'Metas', icon: 'trending_up', link: '/metas', can: ['Admin','Administrador', 'Director','Supervisor','Ventas','Cobranza']},
-            {title: 'Productos', icon: 'category', link: '/productos', can: ['Admin','Administrador', 'Director']},
+            {title: 'Productos', icon: 'category', link: '/productorCemento', can: ['Admin','Administrador', 'Director']},
           ]
         },
         {title: 'Clientes', icon: 'groups', link: '/clientes', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},

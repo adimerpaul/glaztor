@@ -192,7 +192,7 @@ class DatabaseSeeder extends Seeder
         newservicio::create(['nombre' => 'Telefonía', 'descripcion' => 'Pago de servicio de telefonía', 'estado' => 'Activo']);
         newservicio::create(['nombre' => 'Impuestos', 'descripcion' => 'Pago de impuestos fiscales', 'estado' => 'Activo']);
         newservicio::create(['nombre' => 'Caja Chica', 'descripcion' => 'Fondo para gastos menores', 'estado' => 'Activo']);
-        
+
         Ejecutivo::create(['nombre_eje' => 'Zenaida Torrez Escobar','ci' => '3062291 Or','cargo' => 'Director Adminstrativo','apodo' => 'ZTORREZ','estado' => 'Activo']);
         Ejecutivo::create(['nombre_eje' => 'Jiklid Gerardo Laredo Muriel','ci' => '3062291 Or','cargo' => 'Director Comercial','apodo' => 'JLAREDO','estado' => 'Activo']);
         Ejecutivo::create(['nombre_eje' => 'Maria Rosa Miranda Enrriquez','ci' => '3544080 Or','cargo' => 'Ejecutivo de venta','apodo' => 'MMIRANDA','estado' => 'Activo']);
@@ -283,5 +283,49 @@ class DatabaseSeeder extends Seeder
             ],
         ];
         DB::table('productos')->insert($productos);
+
+
+        DB::table('producto_cementos')->insert([
+            [
+                'marca' => 'SOBOCE',
+                'nombre' => 'Viacha Eco Plus',
+                'descripcion' => 'Cemento Viacha Eco Plus',
+                'precio' => 47.00,
+                'cantidad' => 0,
+                'foto' => '/storage/fotos/VIACHAECOPLUS.jpeg',
+            ],
+            [
+                'marca' => 'SOBOCE',
+                'nombre' => 'Viacha IP-40',
+                'descripcion' => 'Cemento Viacha IP-40',
+                'precio' => 50.00,
+                'cantidad' => 0,
+                'foto' => '/storage/fotos/VIACHA-40.jpeg',
+            ],
+            [
+                'marca' => 'SOBOCE',
+                'nombre' => 'Viacha IP-30',
+                'descripcion' => 'Cemento Viacha IP-30',
+                'precio' => 47.00,
+                'cantidad' => 0,
+                'foto' => '/storage/fotos/VIACHA-30.png',
+            ],
+            [
+                'marca' => 'EMISA',
+                'nombre' => 'EMISA IP-40',
+                'descripcion' => 'Cemento EMISA IP-40',
+                'precio' => 50.00,
+                'cantidad' => 0,
+                'foto' => '/storage/fotos/EMISA-40.jpeg',
+            ],
+            [
+                'marca' => 'EMISA',
+                'nombre' => 'EMISA IP-30',
+                'descripcion' => 'Cemento EMISA IP-30',
+                'precio' => 47.00,
+                'cantidad' => 0,
+                'foto' => '/storage/fotos/EMISA-30.jpeg',
+            ],
+        ]);
     }
 }

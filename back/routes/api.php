@@ -144,4 +144,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('metas/{id}', [\App\Http\Controllers\MetaController::class, 'show']);
     Route::post('metas', [\App\Http\Controllers\MetaController::class, 'store']);
     Route::put('metas/{id}', [\App\Http\Controllers\MetaController::class, 'update']);
+
+    Route::get('productosCemento', [\App\Http\Controllers\ProductoCementoController::class, 'index']);
 });
