@@ -75,8 +75,6 @@
           </q-item-section>
         </q-item>
         <q-separator class="bg-white" inset />
-        <q-item-label header class="text-white">Opciones</q-item-label>
-
         <q-item
           v-for="link in filteredLinks"
           :key="link.title"
@@ -85,6 +83,7 @@
           exact
           class="text-grey"
           active-class="menu"
+          dense
         >
           <q-item-section avatar>
             <q-icon
@@ -98,6 +97,33 @@
               {{ link.title }}
             </q-item-label>
           </q-item-section>
+          <q-menu v-if="link.subMenu" fit anchor="top end">
+            <q-list class="bg-primary text-white">
+              <q-item
+                v-for="subLink in link.subMenu"
+                :key="subLink.title"
+                clickable
+                :to="subLink.link"
+                exact
+                class="text-grey"
+                active-class="menu"
+                dense
+              >
+                <q-item-section avatar>
+                  <q-icon
+                    :name="$route.path === subLink.link ? 'o_' + subLink.icon : subLink.icon"
+                    :class="$route.path === subLink.link ? 'text-white' : 'text-grey'"
+                    class="icon-hover"
+                  />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label :class="$route.path === subLink.link ? 'text-white text-bold' : ''">
+                    {{ subLink.title }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
         </q-item>
 
         <q-item clickable class="text-red" @click="logout">
@@ -124,28 +150,44 @@ export default {
     return {
       leftDrawerOpen: false,
       linksList: [
-        {title: 'Principal', icon: 'home', link: '/', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
-        {title: 'Reportes', icon: 'bar_chart', link: '/reportes', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
-        {title: 'Prospección', icon: 'local_offer', link: '/preventas', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
-        {title: 'Cotizacion', icon: 'insert_drive_file', link: '/cotizacions', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
-        {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
-        {title: 'Pagos', icon: 'attach_money', link: '/pagos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
+        {title: 'Fierros', icon: 'fa-solid fa-atom', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor'],
+          subMenu: [
+            {title: 'Reportes', icon: 'bar_chart', link: '/reportes', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
+            {title: 'Prospección', icon: 'local_offer', link: '/preventas', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
+            {title: 'Cotizacion', icon: 'insert_drive_file', link: '/cotizacions', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
+            {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
+            {title: 'Pagos', icon: 'attach_money', link: '/pagos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
+            {title: 'Resumen', icon: 'description', link: '/resumen', can: ['Admin', 'Director']},
+            {title: 'Metas', icon: 'trending_up', link: '/metas', can: ['Admin','Administrador', 'Director','Supervisor','Ventas','Cobranza']},
+            {title: 'Productos', icon: 'category', link: '/productos', can: ['Admin','Administrador', 'Director']},
+          ]
+        },
+        // cemento
+        {title: 'Cemento', icon: 'fa-brands fa-elementor', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor'],
+          subMenu: [
+            {title: 'Reportes', icon: 'bar_chart', link: '/reportes', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
+            {title: 'Prospección', icon: 'local_offer', link: '/preventas', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
+            {title: 'Cotizacion', icon: 'insert_drive_file', link: '/cotizacions', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
+            {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
+            {title: 'Pagos', icon: 'attach_money', link: '/pagos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
+            {title: 'Resumen', icon: 'description', link: '/resumen', can: ['Admin', 'Director']},
+            {title: 'Metas', icon: 'trending_up', link: '/metas', can: ['Admin','Administrador', 'Director','Supervisor','Ventas','Cobranza']},
+            {title: 'Productos', icon: 'category', link: '/productos', can: ['Admin','Administrador', 'Director']},
+          ]
+        },
         {title: 'Clientes', icon: 'groups', link: '/clientes', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
-        {title: 'Personal', icon: 'people_alt', link: '/ejecutivos', can: ['Admin', 'Director']},
-        {title: 'Productos', icon: 'category', link: '/productos', can: ['Admin','Administrador', 'Director']},
-        {title: 'Cargos', icon: 'badge', link: '/cargos', can: ['Admin', 'Director']},
-        {title: 'Zonas', icon: 'place', link: '/zonas', can: ['Admin','Administrador', 'Director']},
-        {title: 'Region', icon: 'public', link: '/regions', can: ['Admin','Administrador', 'Director']},
-
-
-        {title: 'Nuevo Servicio', icon: 'edit', link: '/newservicios', can: ['Admin', 'Director', 'Cobranza', 'Supervisor']},
+        {title: 'Administración', icon: 'settings', can: ['Admin','Administrador', 'Director'],
+          subMenu: [
+            {title: 'Personal', icon: 'people_alt', link: '/ejecutivos', can: ['Admin', 'Director']},
+            {title: 'Cargos', icon: 'badge', link: '/cargos', can: ['Admin', 'Director']},
+            {title: 'Zonas', icon: 'place', link: '/zonas', can: ['Admin','Administrador', 'Director']},
+            {title: 'Region', icon: 'public', link: '/regions', can: ['Admin','Administrador', 'Director']},
+            {title: 'Nuevo Servicio', icon: 'edit', link: '/newservicios', can: ['Admin', 'Director', 'Cobranza', 'Supervisor']},
+            {title: 'Usuarios', icon: 'people', link: '/users', can: ['Admin','Administrador', 'Director']},
+          ]
+        },
         {title: 'Servicios', icon: 'build', link: '/servicios', can: ['Admin', 'Director', 'Cobranza', 'Supervisor']},
         {title: 'sueldos', icon: 'payments', link: '/sueldos', can: ['Admin', 'Director','Cobranza','Supervisor']},
-       
-           {title: 'Resumen', icon: 'description', link: '/resumen', can: ['Admin', 'Director']},
-       // {title: 'Caja Chica', icon: 'account_balance_wallet', link: '/Cajachicas', can: ['Administrador', 'Director']},
-        {title: 'Usuarios', icon: 'people', link: '/users', can: ['Admin','Administrador', 'Director']},
-        {title: 'Metas', icon: 'trending_up', link: '/metas', can: ['Admin','Administrador', 'Director','Supervisor','Ventas','Cobranza']},
       ]
     }
   },
