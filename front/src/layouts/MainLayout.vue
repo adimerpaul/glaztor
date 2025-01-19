@@ -140,7 +140,8 @@ export default {
 
         {title: 'Nuevo Servicio', icon: 'edit', link: '/newservicios', can: ['Admin', 'Director', 'Cobranza', 'Supervisor']},
         {title: 'Servicios', icon: 'build', link: '/servicios', can: ['Admin', 'Director', 'Cobranza', 'Supervisor']},
-
+        {title: 'sueldos', icon: 'payments', link: '/sueldos', can: ['Admin', 'Director','Cobranza','Supervisor']},
+       
            {title: 'Resumen', icon: 'description', link: '/resumen', can: ['Admin', 'Director']},
        // {title: 'Caja Chica', icon: 'account_balance_wallet', link: '/Cajachicas', can: ['Administrador', 'Director']},
         {title: 'Usuarios', icon: 'people', link: '/users', can: ['Admin','Administrador', 'Director']},
