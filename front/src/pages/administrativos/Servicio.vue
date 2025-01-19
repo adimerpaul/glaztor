@@ -71,6 +71,7 @@
                 option-label="nombre"
                 outlined
                 :rules="[val => !!val || 'Este campo es requerido']"
+                emit-value map-options
                 label="Nombre servicio"/>
             </div>
             <div class="col-12">
