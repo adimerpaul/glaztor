@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('preventas', function (Blueprint $table) {
+        Schema::create('preventacementos', function (Blueprint $table) {
             $table->id();
             $table->date('fecha');
             $table->string('propietario')->nullable();
@@ -39,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('preventas');
-    } 
+        Schema::dropIfExists('preventacementos');
+    }
 };

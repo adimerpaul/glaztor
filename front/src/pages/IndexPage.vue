@@ -8,6 +8,8 @@
       />
       <div class="text-h3 text-blue text-center" style="opacity:.9">
         DISTRIBUIDOR OFICIAL
+
+
       </div>
     </div>
   </q-page>

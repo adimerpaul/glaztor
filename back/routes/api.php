@@ -3,7 +3,9 @@
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\PreventaController;
+use App\Http\Controllers\PreventacementoController;
 use App\Http\Controllers\CotizacionController;
+use App\Http\Controllers\CotizacioncementoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EjecutivoController;
 use App\Http\Controllers\ProductoController;
@@ -144,6 +146,23 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('metas/{id}', [\App\Http\Controllers\MetaController::class, 'show']);
     Route::post('metas', [\App\Http\Controllers\MetaController::class, 'store']);
     Route::put('metas/{id}', [\App\Http\Controllers\MetaController::class, 'update']);
+
+
+
+    Route::get('preventacementos', [PreventacementoController::class, 'index']);
+    Route::post('preventacementos', [PreventacementoController::class, 'store']);
+    Route::get('preventacementos/{id}', [PreventacementoController::class, 'show']);
+    Route::put('preventacementos/{id}', [PreventacementoController::class, 'update']);
+    Route::delete('preventacementos/{id}', [PreventacementoController::class, 'destroy']);
+
+
+    Route::get('cotizacioncementos', [CotizacioncementoController::class, 'index']);
+    Route::post('cotizacioncementos', [CotizacioncementoController::class, 'store']);
+    Route::get('cotizacioncementos/{id}', [CotizacioncementoController::class, 'show']);
+    Route::put('cotizacioncementos/{id}', [CotizacioncementoController::class, 'update']);
+    Route::delete('cotizacioncementos/{id}', [CotizacioncementoController::class, 'destroy']);
+
+
 
     Route::get('productosCemento', [\App\Http\Controllers\ProductoCementoController::class, 'index']);
 });

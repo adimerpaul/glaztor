@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Preventa;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; 
 
 class PreventaController extends Controller{
     function index(){

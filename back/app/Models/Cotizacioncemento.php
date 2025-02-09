@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Cotizacion extends Model
+class Cotizacioncemento extends Model
 {
     use HasFactory, SoftDeletes; 
 
@@ -44,7 +44,4 @@ class Cotizacion extends Model
     {
         $this->attributes['observacion'] = strtoupper($value);
     }
-
 }
-
-

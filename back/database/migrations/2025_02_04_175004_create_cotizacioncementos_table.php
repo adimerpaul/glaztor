@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cotizacions', function (Blueprint $table) {
+        Schema::create('cotizacioncementos', function (Blueprint $table) {
             $table->id();
             $table->date('fecha');
             $table->string('cliente')->nullable();
@@ -25,11 +25,12 @@ return new class extends Migration
             $table->decimal('precio_venta_cf', 10, 2)->nullable();
             $table->decimal('precio_venta_sf', 10, 2)->nullable();
             $table->string('observacion')->nullable();
+           
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->softDeletes();
             $table->timestamps();
-        }); 
+        });
     }
 
     /**
@@ -37,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cotizacions');
+        Schema::dropIfExists('cotizacioncementos');
     }
 };

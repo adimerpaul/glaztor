@@ -28,6 +28,10 @@ const routes = [
       { path: 'metas', component: () => import('pages/metas/Metas.vue'), meta: { requiresAuth: true }  },
     //   productorCemento
       { path: 'productorCemento', component: () => import('pages/productosCemento/ProductosCemento.vue'), meta: { requiresAuth: true }  },
+      { path: 'preventacementos', component: () => import('pages/preventas/Preventacemento.vue'), meta: { requiresAuth: true } },
+      { path: 'cotizacioncementos', component: () => import('pages/cotizacions/Cotizacioncemento.vue'), meta: { requiresAuth: true } },
+
+    
     ]
   },
   {

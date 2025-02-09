@@ -144,33 +144,33 @@
 </template>
 
 <script>
+import { QSpinnerHourglass } from 'quasar';
+
 export default {
   name: 'MainLayout',
   data () {
     return {
       leftDrawerOpen: false,
       linksList: [
-        {title: 'Fierros', icon: 'fa-solid fa-atom', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor'],
+        {title: 'Fierro', icon: 'fa-solid fa-atom', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor'],
           subMenu: [
             {title: 'Reportes', icon: 'bar_chart', link: '/reportes', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
             {title: 'Prospección', icon: 'local_offer', link: '/preventas', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
             {title: 'Cotizacion', icon: 'insert_drive_file', link: '/cotizacions', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
             {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
-            {title: 'Pagos', icon: 'attach_money', link: '/pagos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
-            {title: 'Resumen', icon: 'description', link: '/resumen', can: ['Admin', 'Director']},
+            {title: 'Pagos', icon: 'attach_money', link: '/pagos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},     
             {title: 'Metas', icon: 'trending_up', link: '/metas', can: ['Admin','Administrador', 'Director','Supervisor','Ventas','Cobranza']},
             {title: 'Productos', icon: 'category', link: '/productos', can: ['Admin','Administrador', 'Director']},
           ]
         },
-        // cemento
+        
         {title: 'Cemento', icon: 'fa-brands fa-elementor', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor'],
           subMenu: [
             {title: 'Reportes', icon: 'bar_chart', link: '/reportes', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
-            {title: 'Prospección', icon: 'local_offer', link: '/preventas', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
-            {title: 'Cotizacion', icon: 'insert_drive_file', link: '/cotizacions', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
+            {title: 'Prospección', icon: 'local_offer', link: '/preventacementos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
+            {title: 'Cotizacion', icon: 'insert_drive_file', link: '/cotizacioncementos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
             {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
             {title: 'Pagos', icon: 'attach_money', link: '/pagos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
-            {title: 'Resumen', icon: 'description', link: '/resumen', can: ['Admin', 'Director']},
             {title: 'Metas', icon: 'trending_up', link: '/metas', can: ['Admin','Administrador', 'Director','Supervisor','Ventas','Cobranza']},
             {title: 'Productos', icon: 'category', link: '/productorCemento', can: ['Admin','Administrador', 'Director']},
           ]
@@ -188,6 +188,7 @@ export default {
         },
         {title: 'Servicios', icon: 'build', link: '/servicios', can: ['Admin', 'Director', 'Cobranza', 'Supervisor']},
         {title: 'sueldos', icon: 'payments', link: '/sueldos', can: ['Admin', 'Director','Cobranza','Supervisor']},
+        {title: 'Resumen Fierro', icon: 'description', link: '/resumen', can: ['Admin', 'Director']},
       ]
     }
   },
