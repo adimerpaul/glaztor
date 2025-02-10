@@ -66,15 +66,15 @@
     </q-card>
     <q-card-section class="q-pa-none">
       <q-list dense class="rounded-borders">
-        <template v-if="pedidos.length === 0">
+        <template v-if="pedidosLadrillo.length === 0">
           <q-item>
             <q-item-section>
-              <q-item-label class="text-h6 text-grey">No hay pedidos</q-item-label>
+              <q-item-label class="text-h6 text-grey">No hay pedidosLadrillo</q-item-label>
             </q-item-section>
           </q-item>
         </template>
         <q-item
-          v-for="pedido in pedidos"
+          v-for="pedido in pedidosLadrillo"
           :key="pedido.id"
           @click="showPreventa(pedido)"
           clickable
@@ -105,7 +105,7 @@
             <q-icon name="arrow_forward"/>
           </q-item-section>
         </q-item>
-<!--        <pre>{{pedidos}}</pre>-->
+<!--        <pre>{{pedidosLadrillo}}</pre>-->
       </q-list>
     </q-card-section>
 
@@ -287,8 +287,8 @@ export default {
       fechaInicio: moment().format('YYYY-MM-DD'),
       fechaFin: moment().format('YYYY-MM-DD'),
       zonas: [],
-      pedidos: [],
-      pedidosAll: [],
+      pedidosLadrillo: [],
+      pedidosLadrilloAll: [],
       estados: ['PENDIENTE', 'ENTREGADO', 'ANULADO', 'REZAGO','TODOS'],
       estado : 'TODOS',
       // pedido: {},
@@ -306,10 +306,10 @@ export default {
   },
   methods: {
     exportExcel() {
-      let pedidosProductos = []
-      this.pedidos.forEach(pedido => {
+      let pedidosLadrilloProductos = []
+      this.pedidosLadrillo.forEach(pedido => {
       pedido.detalles.forEach(detalle => {
-            pedidosProductos.push({
+            pedidosLadrilloProductos.push({
             created_at: moment(pedido.created_at).format("YYYY-MM-DD HH:mm:ss"),
             fecha: pedido.fecha,
             cliente: pedido.cliente,
@@ -359,7 +359,7 @@ export default {
           {label: "Fecha Pago", value: "fecha_pago"},
           {label: "User", value: "user"},
         ],
-        content: pedidosProductos
+        content: pedidosLadrilloProductos
       }]
 
       const excel = Excel.export(data, "Reporte de Pedidos");
@@ -383,7 +383,7 @@ export default {
     },
     submit() {
       this.loading = true;
-      this.$axios.put('pedidos/' + this.pedido.id, this.pedido)
+      this.$axios.put('pedidosLadrillo/' + this.pedido.id, this.pedido)
         .then(response => {
           this.dialog = false;
           this.$alert.success('Pedido actualizado correctamente');
@@ -415,26 +415,26 @@ export default {
         })
     },
     addPedido() {
-      this.$router.push({name: 'pedidosPage'})
+      this.$router.push('pedidosLadrilloPage')
     },
     getPedidosFilter() {
       console.log(this.estado)
       if (this.estado === 'TODOS') {
-        this.pedidos = this.pedidosAll
+        this.pedidosLadrillo = this.pedidosLadrilloAll
       } else {
-        this.pedidos = this.pedidosAll.filter(pedido => pedido.estado === this.estado)
+        this.pedidosLadrillo = this.pedidosLadrilloAll.filter(pedido => pedido.estado === this.estado)
       }
     },
     getPedidos() {
       this.loading = true
-      this.$axios.get('pedidos', {
+      this.$axios.get('pedidosLadrillo', {
         params: {
           fechaInicio: this.fechaInicio,
           fechaFin: this.fechaFin
         }
       }).then(response => {
-        this.pedidos = response.data
-        this.pedidosAll = response.data
+        this.pedidosLadrillo = response.data
+        this.pedidosLadrilloAll = response.data
         this.loading = false
       })
         .catch(error => {

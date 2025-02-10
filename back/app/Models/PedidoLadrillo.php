@@ -39,7 +39,7 @@ class PedidoLadrillo extends Model
         'deleted_at'
     ];
     function detalles(){
-        return $this->hasMany(Detalle::class);
+        return $this->hasMany(PedidoLadrilloDetalle::class, 'pedido_id');
     }
 
     public function user()
@@ -96,7 +96,7 @@ class PedidoLadrillo extends Model
     public function pagos(){
         return $this->hasMany(Pago::class)->with('user');
     }
-    protected $appends = ['estadoCredito', 'totalPagado','pagosRealizados'];
+//    protected $appends = ['estadoCredito', 'totalPagado','pagosRealizados'];
 
     public function getEstadoCreditoAttribute(){
         $pagos = $this->pagos;

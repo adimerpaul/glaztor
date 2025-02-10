@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('pedido_ladrillo_detalles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('pedido_id')->nullable();
-            $table->foreign('pedido_id')->references('id')->on('pedidos');
+            $table->foreign('pedido_id')->references('id')->on('pedido_ladrillos');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('producto_id')->nullable();
-            $table->foreign('producto_id')->references('id')->on('productos');
+            $table->foreign('producto_id')->references('id')->on('productoladrillos');
             $table->string('producto')->nullable();
             $table->integer('cantidad')->nullable();
             $table->decimal('precio', 8, 2)->nullable();

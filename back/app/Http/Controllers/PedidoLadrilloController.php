@@ -25,8 +25,9 @@ class PedidoLadrilloController extends Controller{
     function index(Request $request){
         $fechaInicio = $request->fechaInicio;
         $fechaFin = $request->fechaFin;
-        return PedidoLadrillo::with('detalles.producto','user')
-            ->whereBetween('fecha', [$fechaInicio, $fechaFin])
+        return PedidoLadrillo::
+//        with('detalles.producto','user')
+            whereBetween('fecha', [$fechaInicio, $fechaFin])
             ->orderBy('id', 'desc')
             ->get();
     }
@@ -46,7 +47,6 @@ class PedidoLadrilloController extends Controller{
                 }
             }
         }
-
         $cliente = Cliente::find($request->cliente_id);
         $user = $request->user();
         $pedido = new PedidoLadrillo();
@@ -83,7 +83,6 @@ class PedidoLadrilloController extends Controller{
             $detalleSave['precio'] = $detalle['precioVenta'];
             $detalleSave['precio_compra'] = $producto->precio_compra;
 
-
             if ($detalle['tipo_pro'] == 'BA'){
                 $producto->cantidad_pro -= $detalle['cantidadVenta'];
                 $tol += $detalle['cantidadVenta'] * $detalle['precioVenta'];
@@ -111,7 +110,6 @@ class PedidoLadrilloController extends Controller{
     function update(Request $request, $id){
         $pedido = PedidoLadrillo::find($id);
         $estado = $request->estado;
-        error_log($estado);
         $pedido->update($request->all());
         return $pedido;
     }

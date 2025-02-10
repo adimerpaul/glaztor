@@ -30,7 +30,7 @@
                   </template>
                 </q-input>
               </div>
-              <div class="col-4 col-md-3" v-for="producto in productos" :key="producto.id">
+              <div class="col-4 col-md-3" v-for="producto in productoladrillos" :key="producto.id">
                 <q-card flat bordered class="q-ma-xs cursor-pointer" @click="agregarProducto(producto)">
                   <q-card-section class="q-pa-none">
                     <q-img
@@ -59,7 +59,7 @@
                 </q-card>
               </div>
             </div>
-<!--            <pre>{{ productos }}</pre>-->
+<!--            <pre>{{ productoladrillos }}</pre>-->
           </q-card-section>
         </q-card>
       </div>
@@ -350,8 +350,8 @@ export default {
       filter: '',
       clientes: [],
       clientesAll: [],
-      productos: [],
-      productosAll: [],
+      productoladrillos: [],
+      productoladrillosAll: [],
       zonas: [],
       sales: [],
       pedido:{},
@@ -441,7 +441,7 @@ export default {
     },
     submit() {
       this.loading = true
-      this.$axios.post('pedidos', {
+      this.$axios.post('pedidosLadrillo', {
         ...this.pedido,
         detalles: this.sales.map(sale => ({
           id: sale.producto.id,
@@ -453,7 +453,7 @@ export default {
         this.$alert.success('Pedido guardado')
         this.dialogPedido = false
         this.sales = []
-        this.$router.push('/pedidos')
+        this.$router.push('/pedidoLadrillo')
       }).catch(error => {
         console.log(error)
         this.$alert.error(error.response.data.message)
@@ -463,7 +463,7 @@ export default {
     },
     dialogPedidoClick() {
       if (this.sales.length === 0) {
-        this.$alert.error('No hay productos en el carrito')
+        this.$alert.error('No hay productoladrillos en el carrito')
         return false
       }
 
@@ -509,15 +509,15 @@ export default {
       // }
     },
     filterProductos() {
-      this.productos = this.productosAll.filter(producto => {
+      this.productoladrillos = this.productoladrillosAll.filter(producto => {
         return producto.nombre_pro.toLowerCase().includes(this.filter.toLowerCase()) ||
           producto.marca_pro.toLowerCase().includes(this.filter.toLowerCase());
       });
     },
     getProductos() {
-      this.$axios.get('productos').then(response => {
-        this.productos = response.data
-        this.productosAll = response.data
+      this.$axios.get('productoladrillos').then(response => {
+        this.productoladrillos = response.data
+        this.productoladrillosAll = response.data
       }).catch(error => {
         console.log(error)
       })

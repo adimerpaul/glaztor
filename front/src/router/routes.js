@@ -39,7 +39,7 @@ const routes = [
 
       //  pedidoLadrillo
       { path: 'pedidoLadrillo', component: () => import('pages/pedidosLadrillo/PedidosLadrillos.vue'), meta: { requiresAuth: true } },
-
+      { path: 'pedidosLadrilloPage', component: () => import('pages/pedidosLadrillo/PedidosLadrilloPage.vue'), meta: { requiresAuth: true } },
     ]
   },
   {
