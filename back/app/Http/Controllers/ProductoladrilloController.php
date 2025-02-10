@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Productoladrillo;
+use Illuminate\Support\Facades\Storage;
 
 class ProductoladrilloController extends Controller
 {
@@ -42,8 +43,8 @@ class ProductoladrilloController extends Controller
             $fotoExtension = explode(';', explode('/', $fotoData[0])[1])[0]; // Obtener la extensión
 
             $fotoPath = 'public/fotos/' . uniqid() . '.' . $fotoExtension;
-            Productoladrillo::put($fotoPath, base64_decode($fotoBase64));
-            $productoladrillo->foto_pro = Productoladrillo::url($fotoPath);
+            Storage::put($fotoPath, base64_decode($fotoBase64));
+            $productoladrillo->foto_pro = Storage::url($fotoPath);
         }
 
         $productoladrillo->save();
@@ -66,9 +67,9 @@ class ProductoladrilloController extends Controller
             $fotoExtension = explode(';', explode('/', $fotoData[0])[1])[0]; // Obtener la extensión
 
             $fotoPath = 'public/fotos/' . uniqid() . '.' . $fotoExtension;
-            Productoladrillo::put($fotoPath, base64_decode($fotoBase64));
+            Storage::put($fotoPath, base64_decode($fotoBase64));
             error_log($fotoPath);
-            $request['foto_pro'] = Productoladrillo::url($fotoPath);
+            $request['foto_pro'] = Storage::url($fotoPath);
         }
         $productoladrillo = Productoladrillo::findOrFail($id);
         $productoladrillo->update($request->all());

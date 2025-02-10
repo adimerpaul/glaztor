@@ -5,9 +5,9 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/IndexPage.vue'), meta: { requiresAuth: true } },
       { path: 'reportes', component: () => import('src/pages/reportes/Reporte.vue'), name:'reportes', meta: { requiresAuth: true } },
-      { path: 'pedidos', component: () => import('src/pages/pedidos/Pedidos.vue'), name:'pedidos', meta: { requiresAuth: true } },
+      { path: 'pedidos', component: () => import('pages/pedidos/Pedidos.vue'), name:'pedidos', meta: { requiresAuth: true } },
       { path: 'pagos', component: () => import('src/pages/pagos/Pagos.vue'), name:'pagos', meta: { requiresAuth: true } },
-      { path: 'pedidosPage', component: () => import('src/pages/pedidos/PedidosPage.vue'), name:'pedidosPage', meta: { requiresAuth: true } },
+      { path: 'pedidosPage', component: () => import('pages/pedidos/PedidosPage.vue'), name:'pedidosPage', meta: { requiresAuth: true } },
       { path: 'pedidotrailers', component: () => import('src/pages/pedidotrailers/Pedidotrailer.vue'), meta: { requiresAuth: true } },
       { path: 'preventas', component: () => import('pages/preventas/Preventa.vue'), meta: { requiresAuth: true } },
       { path: 'cotizacions', component: () => import('pages/cotizacions/Cotizacion.vue'), meta: { requiresAuth: true } },
@@ -36,8 +36,10 @@ const routes = [
       { path: 'preventaladrillos', component: () => import('pages/preventas/Preventaladrillo.vue'), meta: { requiresAuth: true } },
       { path: 'cotizacionladrillos', component: () => import('pages/cotizacions/Cotizacionladrillo.vue'), meta: { requiresAuth: true } },
       { path: 'productoladrillos', component: () => import('pages/productos/Productoladrillo.vue'), meta: { requiresAuth: true } },
-   
-    
+
+      //  pedidoLadrillo
+      { path: 'pedidoLadrillo', component: () => import('pages/pedidosLadrillo/PedidosLadrillos.vue'), meta: { requiresAuth: true } },
+
     ]
   },
   {

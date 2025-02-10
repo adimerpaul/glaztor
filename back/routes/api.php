@@ -191,4 +191,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     Route::get('productosCemento', [\App\Http\Controllers\ProductoCementoController::class, 'index']);
+
+
+
+    Route::get('pedidosLadrillo', [\App\Http\Controllers\PedidoLadrilloController::class, 'index']);
+    Route::get('pedidosLadrilloEntregados', [\App\Http\Controllers\PedidoLadrilloController::class, 'pedidosEntregados']);
+    Route::post('pedidosLadrillo', [\App\Http\Controllers\PedidoLadrilloController::class, 'store']);
+    Route::get('pedidosLadrillo/{id}', [\App\Http\Controllers\PedidoLadrilloController::class, 'show']);
+    Route::put('pedidosLadrillo/{id}', [\App\Http\Controllers\PedidoLadrilloController::class, 'update']);
+    Route::delete('pedidosLadrillo/{id}', [\App\Http\Controllers\PedidoLadrilloController::class, 'destroy']);
+
 });

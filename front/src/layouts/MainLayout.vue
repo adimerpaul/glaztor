@@ -158,12 +158,12 @@ export default {
             {title: 'Prospección', icon: 'local_offer', link: '/preventas', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
             {title: 'Cotizacion', icon: 'insert_drive_file', link: '/cotizacions', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
             {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
-            {title: 'Pagos', icon: 'attach_money', link: '/pagos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},     
+            {title: 'Pagos', icon: 'attach_money', link: '/pagos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
             {title: 'Metas', icon: 'trending_up', link: '/metas', can: ['Admin','Administrador', 'Director','Supervisor','Ventas','Cobranza']},
             {title: 'Productos', icon: 'category', link: '/productos', can: ['Admin','Administrador', 'Director']},
           ]
         },
-        
+
         {title: 'Cemento', icon: 'fa-brands fa-elementor', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor'],
           subMenu: [
             {title: 'Reportes', icon: 'bar_chart', link: '/reportes', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
@@ -180,7 +180,7 @@ export default {
             {title: 'Reportes', icon: 'bar_chart', link: '/reportes', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
             {title: 'Prospección', icon: 'local_offer', link: '/preventaladrillos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
             {title: 'Cotizacion', icon: 'insert_drive_file', link: '/cotizacionladrillos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
-            {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
+            {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidoLadrillo', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
             {title: 'Pagos', icon: 'attach_money', link: '/pagos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
             {title: 'Metas', icon: 'trending_up', link: '/metas', can: ['Admin','Administrador', 'Director','Supervisor','Ventas','Cobranza']},
             {title: 'Productos', icon: 'category', link: '/productoladrillos', can: ['Admin','Administrador', 'Director']},
