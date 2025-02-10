@@ -12,6 +12,7 @@ use App\Http\Controllers\CotizacionladrilloController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EjecutivoController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ProductoladrilloController;
 use App\Http\Controllers\CargoController;
 use App\Http\Controllers\ZonaController;
 use App\Http\Controllers\RegionController;
@@ -179,6 +180,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('cotizacionladrillos/{id}', [CotizacionladrilloController::class, 'show']);
     Route::put('cotizacionladrillos/{id}', [CotizacionladrilloController::class, 'update']);
     Route::delete('cotizacionladrillos/{id}', [CotizacionladrilloController::class, 'destroy']);
+
+    Route::get('productoladrillos', [ProductoladrilloController::class, 'index']);
+    Route::post('productoladrillos', [ProductoladrilloController::class, 'store']);
+    Route::get('productoladrillos/{id}', [ProductoladrilloController::class, 'show']);
+    Route::put('productoladrillos/{id}', [ProductoladrilloController::class, 'update']);
+    Route::delete('productoladrillos/{id}', [ProductoladrilloController::class, 'destroy']);
 
 
 

@@ -267,7 +267,7 @@
           })
       },
       cotizacionNew() {
-        this.cotizacioncemento = {
+        this.cotizacionladrillo = {
           fecha: moment().format('YYYY-MM-DD'),
           cliente: '',
           marca: '',

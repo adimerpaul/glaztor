@@ -35,7 +35,8 @@ const routes = [
       //   productorlADRILLO
       { path: 'preventaladrillos', component: () => import('pages/preventas/Preventaladrillo.vue'), meta: { requiresAuth: true } },
       { path: 'cotizacionladrillos', component: () => import('pages/cotizacions/Cotizacionladrillo.vue'), meta: { requiresAuth: true } },
-    
+      { path: 'productoladrillos', component: () => import('pages/productos/Productoladrillo.vue'), meta: { requiresAuth: true } },
+   
     
     ]
   },
