@@ -88,7 +88,7 @@
                 <q-select
                   dense
                   v-model="productoladrillo.categoria_pro"
-                  :options="['CEMENTO', 'LADRILLO', 'FIERRO']"
+                  :options="['LADRILLO']"
                   outlined
                   :rules="[val => !!val || 'Este campo es requerido']"
                   label="Tipo"/>
@@ -262,14 +262,13 @@
             this.submit();
           });
       },
-  
-      submit() {
+      submit() { 
         this.loading = true;
   
         if (this.productoladrillo.id) {
           this.$axios.put(`productoladrillos/${this.productoladrillo.id}`, this.productoladrillo)
             .then(response => {
-              const index = this.productoladrillos.findIndex(item => item.id === this.producto.id);
+              const index = this.productoladrillos.findIndex(item => item.id === this.productoladrillo.id);
               this.productoladrillos[index] = response.data; // Actualiza el producto modificado
               this.dialog = false; // Cierra el diálogo
             })
@@ -303,7 +302,7 @@
         }).onOk(() => {
           this.$axios.delete(`productoladrillos/${productoladrillo.id}`)
             .then(response => {
-              this.productoladrillos = this.productoladrillos.filter(item => item.id !== producto.id);
+              this.productoladrillos = this.productoladrillos.filter(item => item.id !== productoladrillo.id);
             })
             .catch(error => {
               console.log(error);
@@ -313,7 +312,7 @@
   
       dialogClick() {
         this.dialog = true;
-        this.producto = {
+        this.productoladrillo = {
           categoria_pro: '',
           marca_pro: '',
           nombre_pro: '',
@@ -334,7 +333,7 @@
           return productoladrillo.tonelada > 0 && productoladrillo.cantidad_pro / productoladrillo.tonelada < 2;
         });
         const productosAgotados = this.productoladrillos.filter(
-    (producto) =>
+    (productoladrillo) =>
     productoladrillo.cantidad_pro &&
     productoladrillo.tonelada &&
     productoladrillo.cantidad_pro / productoladrillo.tonelada < 2

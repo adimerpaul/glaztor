@@ -88,7 +88,7 @@
               <q-select
                 dense
                 v-model="producto.categoria_pro"
-                :options="['CEMENTO', 'LADRILLO', 'FIERRO']"
+                :options="['FIERRO']"
                 outlined
                 :rules="[val => !!val || 'Este campo es requerido']"
                 label="Tipo"/>
