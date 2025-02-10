@@ -2,8 +2,10 @@
   <q-page class="bg-grey-2 q-pa-md">
     <q-card flat bordered class="q-pa-md">
       <q-card-section>
-        <div class="text-h5 text-primary">Lista de Preventas</div>
-        <div ><q-btn  icon="download" color="green"  label="Exportar" @click="exportExcel"   no-caps></q-btn></div>
+        <div class="text-h5 text-primary">Lista de Preventas</div> 
+        <div ><q-btn  icon="download" color="green"  label="Exportar" @click="exportExcel"   no-caps></q-btn>
+             </div>
+        
       </q-card-section>
       <q-separator spaced/>
       <q-card-section class="q-pa-none">
@@ -15,7 +17,7 @@
               </q-item-section>
             </q-item>
           </template>
-          <q-item
+          <q-item 
             v-for="preventa in preventas"
             :key="preventa.id"
             @click="showPreventa(preventa)"

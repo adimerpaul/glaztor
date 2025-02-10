@@ -11,6 +11,11 @@ class ProductoCementoController extends Controller{
         return ProductoCemento::all();
     }
     function store(Request $request){
+        $validatedData = $request->validate([
+            'foto' => 'required|string',
+            // Add other validation rules as needed
+        ]);
+
         $producto = new ProductoCemento($request->all());
 
         if (isset($validatedData['foto'])) {

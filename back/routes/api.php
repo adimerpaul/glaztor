@@ -4,8 +4,11 @@ use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\PreventaController;
 use App\Http\Controllers\PreventacementoController;
+use App\Http\Controllers\PreventaladrilloController;
 use App\Http\Controllers\CotizacionController;
 use App\Http\Controllers\CotizacioncementoController;
+use App\Http\Controllers\CotizacionladrilloController;
+
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EjecutivoController;
 use App\Http\Controllers\ProductoController;
@@ -16,6 +19,7 @@ use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\CajaChicaController;
 use App\Http\Controllers\SueldoController;
 use App\Http\Controllers\NewservicioController;
+
 
 
 use Illuminate\Http\Request;
@@ -161,6 +165,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('cotizacioncementos/{id}', [CotizacioncementoController::class, 'show']);
     Route::put('cotizacioncementos/{id}', [CotizacioncementoController::class, 'update']);
     Route::delete('cotizacioncementos/{id}', [CotizacioncementoController::class, 'destroy']);
+
+
+    Route::get('preventaladrillos', [PreventaladrilloController::class, 'index']);
+    Route::post('preventaladrillos', [PreventaladrilloController::class, 'store']);
+    Route::get('preventaladrillos/{id}', [PreventaladrilloController::class, 'show']);
+    Route::put('preventaladrillos/{id}', [PreventaladrilloController::class, 'update']);
+    Route::delete('preventaladrillos/{id}', [PreventaladrilloController::class, 'destroy']);
+
+
+    Route::get('cotizacionladrillos', [CotizacionladrilloController::class, 'index']);
+    Route::post('cotizacionladrillos', [CotizacionladrilloController::class, 'store']);
+    Route::get('cotizacionladrillos/{id}', [CotizacionladrilloController::class, 'show']);
+    Route::put('cotizacionladrillos/{id}', [CotizacionladrilloController::class, 'update']);
+    Route::delete('cotizacionladrillos/{id}', [CotizacionladrilloController::class, 'destroy']);
+
 
 
 
