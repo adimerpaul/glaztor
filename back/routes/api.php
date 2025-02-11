@@ -20,6 +20,7 @@ use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\CajaChicaController;
 use App\Http\Controllers\SueldoController;
 use App\Http\Controllers\NewservicioController;
+use App\Http\Controllers\ProductoCementoController;
 
 
 
@@ -190,7 +191,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
-    Route::get('productosCemento', [\App\Http\Controllers\ProductoCementoController::class, 'index']);
 //    productosCementoActivo
     Route::get('productosCementoActivo', [\App\Http\Controllers\ProductoCementoController::class, 'productosCementoActivo']);
 
