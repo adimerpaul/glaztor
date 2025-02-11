@@ -40,7 +40,7 @@ class PedidoCemento extends Model
         'deleted_at'
     ];
     function detalles(){
-        return $this->hasMany(PedidoLadrilloDetalle::class, 'pedido_id');
+        return $this->hasMany(PedidoCementoDetalle::class, 'pedido_id');
     }
 
     public function user()

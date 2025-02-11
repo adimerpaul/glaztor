@@ -247,7 +247,7 @@
             <tr>
               <td colspan="3" class="text-right">Total</td>
               <td class="text-bold">
-                {{ (pedido.detalles.reduce((acc, sale) => acc + sale.cantidad * sale.precio, 0)).toFixed(2) }}
+<!--                {{ (pedido.detalles.reduce((acc, sale) => acc + sale.cantidad * sale.precio, 0)).toFixed(2) }}-->
               </td>
             </tr>
             <tr v-if="$store.user.role === 'Administrador' || $store.user.role === 'Admin'">

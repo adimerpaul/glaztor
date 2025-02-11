@@ -25,9 +25,8 @@ class PedidoCementoController extends Controller{
     function index(Request $request){
         $fechaInicio = $request->fechaInicio;
         $fechaFin = $request->fechaFin;
-        return PedidoCemento::
-//        with('detalles.producto','user')
-        whereBetween('fecha', [$fechaInicio, $fechaFin])
+        return PedidoCemento::with('detalles.producto','user')
+        ->whereBetween('fecha', [$fechaInicio, $fechaFin])
             ->orderBy('id', 'desc')
             ->get();
     }
