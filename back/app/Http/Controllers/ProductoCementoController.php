@@ -11,7 +11,7 @@ class ProductoCementoController extends Controller{
         return ProductoCemento::all();
     }
     function productosCementoActivo(){
-        return ProductoCemento::where('estado', 'ACTIVO')->get();
+        return ProductoCemento::where('estado', 'Activo')->get();
     }
     function store(Request $request){
         $validatedData = $request->validate([

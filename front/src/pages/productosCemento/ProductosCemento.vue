@@ -1,150 +1,373 @@
-
 <template>
-  <q-page class="bg-grey-3 q-pa-xs">
-    <q-card>
+  <q-page class="bg-grey-2">
+    <q-card flat bordered>
       <q-card-section class="q-pa-xs">
-        <div class="row">
-          <div class="col-12 col-md-6 text-bold text-h6">
-            Productos de Cemento
-          </div>
-          <div class="col-12 col-md-6 text-right">
-            <q-btn outline color="primary" label="Nuevo Producto" @click="productoNew"  no-caps icon="add_circle_outline" />
-          </div>
-          <div class="col-12">
-            <q-markup-table dense wrap-cells>
-              <thead>
-              <tr>
-                <th>Opciones</th>
-                <th>Foto</th>
-                <th>Categoria</th>
-                <th>Marca</th>
-                <th>Nombre</th>
-                <th>Descripcion</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Estado</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr v-for="producto in productos" :key="producto.id">
-                <td>
-                  <q-btn
-                    color="primary"
-                    icon="edit"
-                    @click="producto"
-                    size="10px"
-                  />
-                  <q-btn
-                    color="negative"
-                    icon="delete"
-                    @click="producto"
-                    size="10px"
-                  />
-                </td>
-                <td>
-                  <img v-if="producto.foto"
-                       :src="producto.foto.includes('data') ? producto.foto : $url + '..' + producto.foto"
-                       alt="Imagen del producto" class="img-thumbnail" height="30">
-                  <img v-else height="100" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-256.png"
-                       class="img-thumbnail" id="fotoimg" alt="">
-                </td>
-                <td>{{ producto.categoria }}</td>
-                <td>{{ producto.marca }}</td>
-                <td>{{ producto.nombre }}</td>
-                <td>{{ producto.descripcion }}</td>
-                <td>{{ producto.precio }}</td>
-                <td>{{ producto.cantidad }}</td>
-                <td>{{ producto.estado }}</td>
-              </tr>
-              </tbody>
-            </q-markup-table>
-<!--            <pre>{{ productos }}</pre>-->
-            <!--        [-->
-            <!--        {-->
-            <!--        "id": 1,-->
-            <!--        "categoria": "Cemento",-->
-            <!--        "marca": "SOBOCE",-->
-            <!--        "nombre": "Viacha Eco Plus",-->
-            <!--        "descripcion": "Cemento Viacha Eco Plus",-->
-            <!--        "precio": "47.00",-->
-            <!--        "cantidad": 0,-->
-            <!--        "foto": "/storage/fotos/VIACHAECOPLUS.jpeg",-->
-            <!--        "numeroPedido": null,-->
-            <!--        "numeroFactura": null,-->
-            <!--        "estado": "ACTIVO"-->
-            <!--        },-->
-          </div>
-        </div>
+
+            <q-btn
+                  icon="download"
+                  color="green"
+                  label="Exportar"
+                  @click="exportExcel"
+                  no-caps
+              ></q-btn>
+
+        <q-markup-table dense class="styled-table">
+          <thead>
+          <tr>
+            <th>Acciones</th>
+            <th>Nombre</th>
+            <th>Precio venta</th>
+            <th>Precio compra</th>
+            <th>Cantidad</th>
+            <th>Descripcion</th>
+            <th>Cant por Mayor</th>
+            <th>foto</th>
+            <th>estado</th>
+            <th>id</th>
+            <th>categoria</th>
+            <th>marca</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="(productocemento, index) in productocementos" :key="index">
+            <td>
+              <q-btn-dropdown
+                size="10px"
+                color="primary"
+                no-caps
+                label="Opciones"
+                dense
+                class="q-mr-sm">
+                <q-item clickable v-ripple @click="showProducto(productocemento)" v-close-popup>
+                  <q-item-section>Editar</q-item-section>
+                </q-item>
+              </q-btn-dropdown>
+            </td>
+
+            <td>{{ productocemento.nombre_pro }}</td>
+            <td>{{ productocemento.precio_pro }}</td>
+            <td>{{ productocemento.precio_compra }}</td>
+            <td>{{ productocemento.cantidad_pro }}</td>
+            <td>{{ productocemento.descripcion_pro }}</td>
+            <td>{{ productocemento.tonelada }}</td>
+            <td>
+              <a v-if="productocemento.foto" :href="$url+'..'+productocemento.foto" target="_blank">
+                <!--                                  ver foto-->
+                <q-img :src="$url+'..'+productocemento.foto" alt="Imagen del producto" class="img-thumbnail" height="10"/>
+              </a>
+            </td>
+
+            <td>{{ productocemento.estado_pro }}</td>
+            <td>{{ productocemento.id }}</td>
+            <td>{{ productocemento.categoria_pro }}</td>
+            <td>{{ productocemento.marca_pro }}</td>
+          </tr>
+          </tbody>
+        </q-markup-table>
+<!--        <pre>{{productos}}</pre>-->
       </q-card-section>
     </q-card>
   </q-page>
+
+  <q-page-sticky position="bottom-right" class="text-bold" :offset="[18, 18]">
+    <q-btn fab icon="add" color="primary" @click="dialogClick"/>
+  </q-page-sticky>
+
   <q-dialog v-model="dialog" :position="esMovil ? undefined : 'right'" :maximized="true" transition-show="slide-left"
             transition-hide="slide-right">
     <q-card style="width: 450px; max-width: 100vw;">
       <q-card-section class="row items-center q-px-md bg-primary text-white q-px-none">
         <q-btn flat round dense icon="fa-solid fa-arrow-left" v-close-popup/>
         <q-space/>
-        <div class="text-h6">{{ producto.id ? 'Editar' : 'Nuevo' }} Producto</div>
+        <div class="text-h6">{{ productocemento.id ? 'Editar' : 'Nuevo' }} Producto cemento</div>
       </q-card-section>
       <q-card-section>
-        <q-input outlined dense v-model="producto.marca" label="Marca" />
-        <q-input outlined dense v-model="producto.nombre" label="Nombre" />
-        <q-input outlined dense v-model="producto.descripcion" label="Descripcion" />
-        <q-input outlined dense v-model="producto.precio" label="Precio" />
-        <q-input outlined dense v-model="producto.cantidad" label="Cantidad" />
-        <q-input outlined dense v-model="producto.foto" label="Foto" />
-        <q-input outlined dense v-model="producto.numeroPedido" label="Numero Pedido" />
-        <q-input outlined dense v-model="producto.numeroFactura" label="Numero Factura" />
-        <q-input outlined dense v-model="producto.estado" label="Estado" />
+        <q-form @submit.prevent="confirmarGuardar">
+          <div class="row">
+            <div class="col-12">
+              <q-select
+                dense
+                v-model="productocemento.categoria_pro"
+                :options="['CEMENTO']"
+                outlined
+                :rules="[val => !!val || 'Este campo es requerido']"
+                label="Tipo"/>
+            </div>
+            <div class="col-12">
+              <q-input
+                dense
+                v-model="productocemento.marca_pro"
+                outlined
+                label="Marca"
+                :rules="[val => !!val || 'Este campo es requerido']"
+                @input="productoladrillo.marca_pro = productocemento.marca_pro.toUpperCase()"
+                style="text-transform: uppercase;"/>
+            </div>
+            <div class="col-12">
+              <q-input
+                dense
+                v-model="productocemento.nombre_pro"
+                outlined
+                label="Nombre Producto"
+                :rules="[val => !!val || 'Este campo es requerido']"
+                @input="productocemento.nombre_pro = productocemento.nombre_pro.toUpperCase()"
+                style="text-transform: uppercase;"/>
+            </div>
+            <div class="col-12">
+              <q-input
+                dense
+                v-model="productocemento.descripcion_pro"
+                outlined
+                label="Descripcion Producto"
+                @input="productocemento.descripcion_pro = productocemento.descripcion_pro.toUpperCase()"
+                hint=""
+                style="text-transform: uppercase;"/>
+            </div>
+            <div class="col-6">
+              <q-input dense v-model="productocemento.precio_pro" outlined label="Precio Venta" type="number"
+                       hint=""
+              />
+            </div>
+            <div class="col-6">
+              <q-input dense v-model="productocemento.precio_compra" outlined label="Precio Compra" type="number"
+                       hint=""
+              />
+            </div>
+            <div class="col-12">
+              <q-input dense v-model="productocemento.cantidad_pro" outlined label="Cantidad en stok" type="number"
+                       hint=""
+              >
+                <template v-slot:after>
+                  <q-btn
+                    round
+                    color="positive"
+                    icon="add"
+                    @click="aumentarPorTonelada"
+                  />
+                </template>
+              </q-input>
+            </div>
+            <div class="col-12">
+              <q-input dense v-model="productocemento.tonelada" outlined label="Cantidad Mayor general en ventas" type="number"
+                       hint=""
+              >
+              </q-input>
+            </div>
+
+            <div class="d-grid col-6 mx-auto mb-3">
+              <img v-if="productocemento.foto"
+                   :src="productocemento.foto.includes('data') ? productocemento.foto : $url + '..' + productocemento.foto"
+                   alt="Imagen del producto" class="img-thumbnail" height="100">
+              <img v-else height="100" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-256.png"
+                   class="img-thumbnail" id="fotoimg" alt="">
+            </div>
+
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="fa-solid fa-gift"></i></span>
+              <input v-on:change="previsualizarFoto" type="file" accept="image/png, image/jpg, image/gif"
+                     class="form-control">
+            </div>
+
+            <div class="col-12">
+              <q-select
+                dense
+                v-model="productoladrillo.estado"
+                :options="['Activo', 'Inactivo']"
+                outlined
+                :rules="[val => !!val || 'Este campo es requerido']"
+                label="Estado"/>
+            </div>
+
+            <q-card-actions align="right">
+              <q-btn label="Cancelar" color="negative" @click="dialog = false" :loading="loading"/>
+              <q-btn label="Guardar" color="primary" type="submit" :loading="loading"/>
+            </q-card-actions>
+          </div>
+        </q-form>
       </q-card-section>
-      <q-card-actions align="right">
-        <q-btn label="Cancelar" color="negative" @click="dialog = false" />
-        <q-btn label="Guardar" color="primary" @click="dialog = false" />
-      </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
+
 <script>
+import {Excel} from "src/addons/Excel";
 export default {
-  name: 'ProductosCemento',
-  data () {
+  name: 'productocementos',
+
+  data() {
     return {
-      loading: false,
-      productos: [],
-      producto: {},
-      dialog: false
+      productocementos: [],
+      productocemento: {},
+      dialog: false,
+      loading: false
     }
   },
   mounted() {
-    this.getProductos()
+    this.getProductos();
   },
   methods: {
-    productoNew() {
-      this.dialog = true
-      this.producto = {
-        categoria: 'Cemento',
-        marca: '',
-        nombre: '',
-        descripcion: '',
-        precio: 0,
-        cantidad: 0,
-        foto: '',
-        numeroPedido: '',
-        numeroFactura: '',
-        estado: 'ACTIVO'
+    aumentarPorTonelada() {
+      this.$q.dialog({
+        title: "Aumentar ",
+        message: "¿Estás seguro de que deseas aumentar la cantidad ?",
+        ok: {label: "Sí", color: "primary"},
+        cancel: {label: "No", color: "negative"},
+        prompt: {
+          model: "1",
+          type: "number",
+          label: "Cantidad a aumentar",
+          rules: [(val) => !!val || "Este campo es requerido"],
+        },
+      }).onOk((data) => {
+        const tonelada = parseInt(this.productocemento.tonelada);
+        this.productocemento.cantidad_pro = (parseInt(data) * tonelada) + parseInt(this.productocemento.cantidad_pro);
+      });
+    },
+    exportExcel() {
+        let data = [{
+          sheet: "productocementos",
+          columns: [
+            {label: "Categoria Producto", value: "categoria_pro"},
+            {label: "Marca Producto", value: "marca_pro"},
+            {label: "Nombre Producto", value: "nombre_pro"},
+            {label: "Descripcion Producto", value: "descripcion_pro"},
+            {label: "Precio Producto", value: "precio_pro"},
+            {label: "Precio compra", value: "precio_compra"},
+            {label: "Cantidad en Stok", value: "cantidad_pro"},
+           //solo sale en text direccion  {label: "Foto Producto", value: "foto_pro"},
+            {label: "Tonelada por Producto", value: "tonelada"},
+            {label: "Estado Producto", value: "estado_pro"},
+          ],
+          content: this.productocementos
+        }]
+
+        const excel = Excel.export(data, "Reporte de Productos ladrillo");
+
+      },
+
+    showProducto(productocemento) {
+      this.productocemento = {...productocemento}; // Esto es importante para asegurarse de que los datos del producto se copien correctamente
+      this.dialog = true; // Muestra el diálogo de edición
+    },
+
+    confirmarGuardar() {
+      this.$q
+        .dialog({
+          title: "Confirmar Guardado",
+          message: "¿Estás seguro de que quieres guardar los cambios?",
+          ok: {label: "Sí", color: "primary"},
+          cancel: {label: "No", color: "negative"},
+        })
+        .onOk(() => {
+          this.submit();
+        });
+    },
+    submit() { 
+      this.loading = true;
+
+      if (this.productocemento.id) {
+        this.$axios.put(`productocementos/${this.productocemento.id}`, this.productocemento)
+          .then(response => {
+            const index = this.productocementos.findIndex(item => item.id === this.productocemento.id);
+            this.productocementos[index] = response.data; // Actualiza el producto modificado
+            this.dialog = false; // Cierra el diálogo
+          })
+          .catch(error => {
+            console.log(error);
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      } else {
+        this.$axios.post('productocementos', this.productocemento)
+          .then(response => {
+            this.productocementos.push(response.data);
+            this.dialog = false;
+          })
+          .catch(error => {
+            console.log(error);
+          })
+          .finally(() => {
+            this.loading = false;
+          });
       }
     },
+
+    eliminar(productocemento) {
+      this.$q.dialog({
+        title: 'Confirmar Eliminación',
+        message: '¿Estás seguro de que deseas eliminar este producto?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.$axios.delete(`productocementos/${productocemento.id}`)
+          .then(response => {
+            this.productocementos = this.productocementos.filter(item => item.id !== productocemento.id);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      });
+    },
+
+    dialogClick() {
+      this.dialog = true;
+      this.productocemento = {
+        categoria_pro: '',
+        marca_pro: '',
+        nombre_pro: '',
+        descripcion_pro: '',
+        precio_pro: '',
+        foto: '',
+        estado_pro: 'Activo',
+      };
+    },
+
     getProductos() {
-      this.loading = true
-      this.$axios.get('productosCemento')
-        .then(response => {
-          this.productos = response.data
-          this.loading = false
-        })
-        .catch(error => {
-          console.log(error)
-          this.loading = false
-        })
+  this.$axios.get('productocementos')
+    .then(response => {
+      this.productocementos = response.data;
+
+      // Verificar si algún producto tiene cantidad_pro / tonelada < 2
+      const sinInventario = this.productocementos.some(productocemento => {
+        return productocemento.tonelada > 0 && productocemento.cantidad_pro / productocemento.tonelada < 2;
+      });
+      const productosAgotados = this.productocementos.filter(
+  (productocemento) =>
+  productocemento.cantidad_pro &&
+  productocemento.tonelada &&
+  productocemento.cantidad_pro / productocemento.tonelada < 2
+);
+    if (productosAgotados.length > 0) {
+      const nombres = productosAgotados.map((productocemento) => productocemento.nombre_pro).join(", ");
+      this.$q.dialog({
+        title: "Inventario bajo",
+        message: `Los siguientes productos están agotados: ${nombres}`,
+        ok: "Entendido",
+      });
+    }
+      if (sinInventario) {
+        this.$q.notify({
+          color: 'negative',
+          icon: 'warning',
+          message: 'Ya no hay inventario para algunos productos',
+          position: 'top',
+          timeout: 5000,
+        });
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    });
+    },
+
+    previsualizarFoto(event) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = () => {
+        this.foto = reader.result;
+        this.productoladrillo.foto_pro = this.foto; // Guardar la cadena base64 en producto.foto_pro
+      };
     }
   },
   computed: {
@@ -153,5 +376,51 @@ export default {
     }
   }
 }
-
 </script>
+
+<style scoped>
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 16px;
+  text-align: left;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+  background-color: #6a1b9a;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:hover {
+  background-color: #e9e9e9;
+  cursor: pointer;
+}
+
+.img-thumbnail {
+  max-width: 100px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.image-preview {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+</style>
