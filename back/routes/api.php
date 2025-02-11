@@ -191,6 +191,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     Route::get('productosCemento', [\App\Http\Controllers\ProductoCementoController::class, 'index']);
+//    productosCementoActivo
+    Route::get('productosCementoActivo', [\App\Http\Controllers\ProductoCementoController::class, 'productosCementoActivo']);
 
 
 
@@ -200,5 +202,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('pedidosLadrillo/{id}', [\App\Http\Controllers\PedidoLadrilloController::class, 'show']);
     Route::put('pedidosLadrillo/{id}', [\App\Http\Controllers\PedidoLadrilloController::class, 'update']);
     Route::delete('pedidosLadrillo/{id}', [\App\Http\Controllers\PedidoLadrilloController::class, 'destroy']);
+
+
+
+    Route::get('pedidosCemento', [\App\Http\Controllers\PedidoCementoController::class, 'index']);
+    Route::get('pedidosCementoEntregados', [\App\Http\Controllers\PedidoCementoController::class, 'pedidosEntregados']);
+    Route::post('pedidosCemento', [\App\Http\Controllers\PedidoCementoController::class, 'store']);
+    Route::get('pedidosCemento/{id}', [\App\Http\Controllers\PedidoCementoController::class, 'show']);
+    Route::put('pedidosCemento/{id}', [\App\Http\Controllers\PedidoCementoController::class, 'update']);
+    Route::delete('pedidosCemento/{id}', [\App\Http\Controllers\PedidoCementoController::class, 'destroy']);
 
 });

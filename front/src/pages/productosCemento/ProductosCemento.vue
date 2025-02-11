@@ -58,7 +58,7 @@
               </tr>
               </tbody>
             </q-markup-table>
-            <pre>{{ productos }}</pre>
+<!--            <pre>{{ productos }}</pre>-->
             <!--        [-->
             <!--        {-->
             <!--        "id": 1,-->

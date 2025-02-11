@@ -10,6 +10,9 @@ class ProductoCementoController extends Controller{
     function index(){
         return ProductoCemento::all();
     }
+    function productosCementoActivo(){
+        return ProductoCemento::where('estado', 'ACTIVO')->get();
+    }
     function store(Request $request){
         $validatedData = $request->validate([
             'foto' => 'required|string',
