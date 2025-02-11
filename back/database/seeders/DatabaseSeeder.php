@@ -291,7 +291,7 @@ class DatabaseSeeder extends Seeder
                 'nombre' => 'Viacha Eco Plus',
                 'descripcion' => 'Cemento Viacha Eco Plus',
                 'precio' => 47.00,
-                'cantidad' => 0,
+                'cantidad' => 1000,
                 'foto' => '/storage/fotos/VIACHAECOPLUS.jpeg',
             ],
             [
@@ -299,7 +299,7 @@ class DatabaseSeeder extends Seeder
                 'nombre' => 'Viacha IP-40',
                 'descripcion' => 'Cemento Viacha IP-40',
                 'precio' => 50.00,
-                'cantidad' => 0,
+                'cantidad' => 1000,
                 'foto' => '/storage/fotos/VIACHA-40.jpeg',
             ],
             [
@@ -307,7 +307,7 @@ class DatabaseSeeder extends Seeder
                 'nombre' => 'Viacha IP-30',
                 'descripcion' => 'Cemento Viacha IP-30',
                 'precio' => 47.00,
-                'cantidad' => 0,
+                'cantidad' => 1000,
                 'foto' => '/storage/fotos/VIACHA-30.png',
             ],
             [
@@ -315,7 +315,7 @@ class DatabaseSeeder extends Seeder
                 'nombre' => 'EMISA IP-40',
                 'descripcion' => 'Cemento EMISA IP-40',
                 'precio' => 50.00,
-                'cantidad' => 0,
+                'cantidad' => 1000,
                 'foto' => '/storage/fotos/EMISA-40.jpeg',
             ],
             [

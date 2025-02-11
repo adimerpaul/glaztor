@@ -68,6 +68,7 @@ class PedidoCementoController extends Controller{
         $pedido->user_id = $user->id;
         $pedido->cliente_id = $request->cliente_id;
         $pedido->zona = $request->zona_id;
+        $pedido->trailer = $request->trailer;
         $pedido->save();
         $tol = 0;
         $textProducto = '';
@@ -94,7 +95,7 @@ class PedidoCementoController extends Controller{
                 $detalleSave['cantidad'] = $cantidad;
             }
             $detalleSave->save();
-            $producto->save();
+//            $producto->save();
             $textProducto .= $detalle['cantidadVenta'].' '.$producto->nombre_pro.' '.$producto->unidad.' ,';
         }
         $textProducto = substr($textProducto, 0, -1);
@@ -109,6 +110,7 @@ class PedidoCementoController extends Controller{
     function update(Request $request, $id){
         $pedido = PedidoCemento::find($id);
         $estado = $request->estado;
+
         $pedido->update($request->all());
         return $pedido;
     }

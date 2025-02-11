@@ -69,6 +69,9 @@
           <q-card-section class="q-pa-xs">
             <div class="row items-center">
               Carrito de compras
+
+<!--              select de traler-->
+              <q-select v-model="trailer" outlined dense :options="['LOCAL', 'TRAILER', 'OTRO']" />
               <q-space />
               <q-btn
                 dense
@@ -84,7 +87,7 @@
               <thead>
               <tr>
                 <th>Producto</th>
-                <th>Tipo</th>
+<!--                <th>Tipo</th>-->
                 <th>Cant.</th>
                 <th>Cant. Real</th>
                 <th>Precio</th>
@@ -98,9 +101,9 @@
                   {{ sale.producto.nombre }}
                   {{ sale.producto.marca_pro }}
                 </td>
-                <td>
-                  <q-select v-model="sale.tipo_pro" filled dense :options="['BA', 'TN']" />
-                </td>
+<!--                <td>-->
+<!--                  <q-select v-model="sale.tipo_pro" filled dense :options="['BA', 'TN']" />-->
+<!--                </td>-->
                 <td>
                   <input v-model="sale.cantidadVenta" type="number" style="width: 50px" filled />
                 </td>
@@ -357,6 +360,7 @@ export default {
       sales: [],
       pedido:{},
       dialogPedido: false,
+      trailer: 'LOCAL'
     }
   },
   mounted() {
@@ -442,6 +446,7 @@ export default {
     },
     submit() {
       this.loading = true
+      this.pedido.trailer = this.trailer
       this.$axios.post('pedidosCemento', {
         ...this.pedido,
         detalles: this.sales.map(sale => ({

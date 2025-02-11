@@ -31,7 +31,9 @@ class PedidoCemento extends Model
         'user_id',
         'estado',
         'cliente_id',
-        'zona'
+        'zona',
+        'trailer',
+        ''
     ];
 
     protected $hidden = [

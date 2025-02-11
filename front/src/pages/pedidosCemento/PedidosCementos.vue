@@ -86,6 +86,9 @@
               {{ pedido.fecha.substring(0, 10) || 'Sin propietario' }}
               <q-icon name="check_circle"
                       :color="pedido.estado === 'PENDIENTE' ? 'red' : pedido.estado === 'ENTREGADO' ? 'green': pedido.estado === 'REZAGO' ? 'blue' : 'orange'"/>
+              <span class="text-subtitle2 text-grey">
+                {{ pedido.trailer }}
+              </span>
             </q-item-label>
             <q-item-label class="text-subtitle1 text-grey">
               {{ pedido.direccion }}
@@ -231,8 +234,8 @@
             <tr v-for="sale in pedido.detalles" :key="sale.id">
               <td>
                 <q-icon name="delete" @click="sales.splice(sales.indexOf(sale), 1)" class="cursor-pointer" color="red"/>
-                {{ sale.producto?.nombre_pro }}
-                {{ sale.producto?.marca_pro }}
+                {{ sale.producto?.nombre }}
+<!--                {{ // sale.producto?.marca_pro }}-->
               </td>
               <td>
                 <input v-model="sale.cantidad" type="number" style="width: 50px" step="0.01"/>

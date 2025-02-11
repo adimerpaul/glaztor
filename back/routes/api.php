@@ -212,7 +212,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('pedidosCemento/{id}', [\App\Http\Controllers\PedidoCementoController::class, 'update']);
     Route::delete('pedidosCemento/{id}', [\App\Http\Controllers\PedidoCementoController::class, 'destroy']);
 
-    Route::get('productosCemento', [\App\Http\Controllers\ProductoCementoController::class, 'index']);
+    Route::get('productocementos', [\App\Http\Controllers\ProductoCementoController::class, 'index']);
     Route::get('productosCementoEntregados', [\App\Http\Controllers\ProductoCementoController::class, 'pedidosEntregados']);
     Route::post('productosCemento', [\App\Http\Controllers\ProductoCementoController::class, 'store']);
     Route::get('productosCemento/{id}', [\App\Http\Controllers\ProductoCementoController::class, 'show']);

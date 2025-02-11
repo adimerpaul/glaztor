@@ -31,6 +31,8 @@ return new class extends Migration
             $table->string('zona')->nullable();
             $table->decimal('total', 8, 2)->nullable();
             $table->string('estado')->nullable()->default('PENDIENTE');
+            $table->string('trailer')->nullable();
+            $table->string('entregado')->nullable()->default('NO');
             $table->date('fecha_pago')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
