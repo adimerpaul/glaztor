@@ -44,11 +44,11 @@
               </q-btn-dropdown>
             </td>
 
-            <td>{{ productocemento.nombre_pro }}</td>
-            <td>{{ productocemento.precio_pro }}</td>
+            <td>{{ productocemento.nombre }}</td>
+            <td>{{ productocemento.precio }}</td>
             <td>{{ productocemento.precio_compra }}</td>
-            <td>{{ productocemento.cantidad_pro }}</td>
-            <td>{{ productocemento.descripcion_pro }}</td>
+            <td>{{ productocemento.cantidad }}</td>
+            <td>{{ productocemento.descripcion }}</td>
             <td>{{ productocemento.tonelada }}</td>
             <td>
               <a v-if="productocemento.foto" :href="$url+'..'+productocemento.foto" target="_blank">
@@ -57,14 +57,14 @@
               </a>
             </td>
 
-            <td>{{ productocemento.estado_pro }}</td>
+            <td>{{ productocemento.estado }}</td>
             <td>{{ productocemento.id }}</td>
-            <td>{{ productocemento.categoria_pro }}</td>
-            <td>{{ productocemento.marca_pro }}</td>
+            <td>{{ productocemento.categoria }}</td>
+            <td>{{ productocemento.marca }}</td>
           </tr>
           </tbody>
         </q-markup-table>
-<!--        <pre>{{productos}}</pre>-->
+<!--        <pre>{{productocementos}}</pre>-->
       </q-card-section>
     </q-card>
   </q-page>
@@ -87,7 +87,7 @@
             <div class="col-12">
               <q-select
                 dense
-                v-model="productocemento.categoria_pro"
+                v-model="productocemento.categoria"
                 :options="['CEMENTO']"
                 outlined
                 :rules="[val => !!val || 'Este campo es requerido']"
@@ -96,35 +96,35 @@
             <div class="col-12">
               <q-input
                 dense
-                v-model="productocemento.marca_pro"
+                v-model="productocemento.marca"
                 outlined
                 label="Marca"
                 :rules="[val => !!val || 'Este campo es requerido']"
-                @input="productoladrillo.marca_pro = productocemento.marca_pro.toUpperCase()"
+                @input="productoladrillo.marca = productocemento.marca.toUpperCase()"
                 style="text-transform: uppercase;"/>
             </div>
             <div class="col-12">
               <q-input
                 dense
-                v-model="productocemento.nombre_pro"
+                v-model="productocemento.nombre"
                 outlined
                 label="Nombre Producto"
                 :rules="[val => !!val || 'Este campo es requerido']"
-                @input="productocemento.nombre_pro = productocemento.nombre_pro.toUpperCase()"
+                @input="productocemento.nombre = productocemento.nombre.toUpperCase()"
                 style="text-transform: uppercase;"/>
             </div>
             <div class="col-12">
               <q-input
                 dense
-                v-model="productocemento.descripcion_pro"
+                v-model="productocemento.descripcion"
                 outlined
                 label="Descripcion Producto"
-                @input="productocemento.descripcion_pro = productocemento.descripcion_pro.toUpperCase()"
+                @input="productocemento.descripcion = productocemento.descripcion.toUpperCase()"
                 hint=""
                 style="text-transform: uppercase;"/>
             </div>
             <div class="col-6">
-              <q-input dense v-model="productocemento.precio_pro" outlined label="Precio Venta" type="number"
+              <q-input dense v-model="productocemento.precio" outlined label="Precio Venta" type="number"
                        hint=""
               />
             </div>
@@ -134,7 +134,7 @@
               />
             </div>
             <div class="col-12">
-              <q-input dense v-model="productocemento.cantidad_pro" outlined label="Cantidad en stok" type="number"
+              <q-input dense v-model="productocemento.cantidad" outlined label="Cantidad en stok" type="number"
                        hint=""
               >
                 <template v-slot:after>
@@ -171,7 +171,7 @@
             <div class="col-12">
               <q-select
                 dense
-                v-model="productoladrillo.estado"
+                v-model="productocemento.estado"
                 :options="['Activo', 'Inactivo']"
                 outlined
                 :rules="[val => !!val || 'Este campo es requerido']"
@@ -220,23 +220,23 @@ export default {
         },
       }).onOk((data) => {
         const tonelada = parseInt(this.productocemento.tonelada);
-        this.productocemento.cantidad_pro = (parseInt(data) * tonelada) + parseInt(this.productocemento.cantidad_pro);
+        this.productocemento.cantidad = (parseInt(data) * tonelada) + parseInt(this.productocemento.cantidad);
       });
     },
     exportExcel() {
         let data = [{
           sheet: "productocementos",
           columns: [
-            {label: "Categoria Producto", value: "categoria_pro"},
-            {label: "Marca Producto", value: "marca_pro"},
-            {label: "Nombre Producto", value: "nombre_pro"},
-            {label: "Descripcion Producto", value: "descripcion_pro"},
-            {label: "Precio Producto", value: "precio_pro"},
+            {label: "Categoria Producto", value: "categoria"},
+            {label: "Marca Producto", value: "marca"},
+            {label: "Nombre Producto", value: "nombre"},
+            {label: "Descripcion Producto", value: "descripcion"},
+            {label: "Precio Producto", value: "precio"},
             {label: "Precio compra", value: "precio_compra"},
-            {label: "Cantidad en Stok", value: "cantidad_pro"},
-           //solo sale en text direccion  {label: "Foto Producto", value: "foto_pro"},
+            {label: "Cantidad en Stok", value: "cantidad"},
+           //solo sale en text direccion  {label: "Foto Producto", value: "foto"},
             {label: "Tonelada por Producto", value: "tonelada"},
-            {label: "Estado Producto", value: "estado_pro"},
+            {label: "Estado Producto", value: "estado"},
           ],
           content: this.productocementos
         }]
@@ -262,7 +262,7 @@ export default {
           this.submit();
         });
     },
-    submit() { 
+    submit() {
       this.loading = true;
 
       if (this.productocemento.id) {
@@ -313,13 +313,13 @@ export default {
     dialogClick() {
       this.dialog = true;
       this.productocemento = {
-        categoria_pro: '',
-        marca_pro: '',
-        nombre_pro: '',
-        descripcion_pro: '',
-        precio_pro: '',
+        categoria: '',
+        marca: '',
+        nombre: '',
+        descripcion: '',
+        precio: '',
         foto: '',
-        estado_pro: 'Activo',
+        estado: 'Activo',
       };
     },
 
@@ -328,18 +328,18 @@ export default {
     .then(response => {
       this.productocementos = response.data;
 
-      // Verificar si algún producto tiene cantidad_pro / tonelada < 2
+      // Verificar si algún producto tiene cantidad / tonelada < 2
       const sinInventario = this.productocementos.some(productocemento => {
-        return productocemento.tonelada > 0 && productocemento.cantidad_pro / productocemento.tonelada < 2;
+        return productocemento.tonelada > 0 && productocemento.cantidad / productocemento.tonelada < 2;
       });
       const productosAgotados = this.productocementos.filter(
   (productocemento) =>
-  productocemento.cantidad_pro &&
+  productocemento.cantidad &&
   productocemento.tonelada &&
-  productocemento.cantidad_pro / productocemento.tonelada < 2
+  productocemento.cantidad / productocemento.tonelada < 2
 );
     if (productosAgotados.length > 0) {
-      const nombres = productosAgotados.map((productocemento) => productocemento.nombre_pro).join(", ");
+      const nombres = productosAgotados.map((productocemento) => productocemento.nombre).join(", ");
       this.$q.dialog({
         title: "Inventario bajo",
         message: `Los siguientes productos están agotados: ${nombres}`,
@@ -366,7 +366,7 @@ export default {
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = () => {
         this.foto = reader.result;
-        this.productoladrillo.foto_pro = this.foto; // Guardar la cadena base64 en producto.foto_pro
+        this.productoladrillo.foto = this.foto; // Guardar la cadena base64 en producto.foto
       };
     }
   },
