@@ -171,7 +171,7 @@ export default {
             {title: 'Cotizacion', icon: 'insert_drive_file', link: '/cotizacioncementos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
             // {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
             {title: 'Pedidos', icon: 'shopping_cart', link: '/pedidoCemento', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
-            {title: 'Pagos', icon: 'attach_money', link: '/pagos', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
+            {title: 'Pagos', icon: 'attach_money', link: '/pagoscemento', can: ['Admin','Administrador', 'Director', 'Ventas','Cobranza','Supervisor']},
             {title: 'Metas', icon: 'trending_up', link: '/metas', can: ['Admin','Administrador', 'Director','Supervisor','Ventas','Cobranza']},
             {title: 'Productos', icon: 'category', link: '/productorCemento', can: ['Admin','Administrador', 'Director']},
           ]

@@ -218,4 +218,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('productosCemento/{id}', [\App\Http\Controllers\ProductoCementoController::class, 'show']);
     Route::put('productosCemento/{id}', [\App\Http\Controllers\ProductoCementoController::class, 'update']);
     Route::delete('productosCemento/{id}', [\App\Http\Controllers\ProductoCementoController::class, 'destroy']);
+    Route::get('pedidosCementoEntregados', [\App\Http\Controllers\PedidoCementoController::class, 'pedidosEntregados']);
+    Route::post('pagosCemento', [\App\Http\Controllers\PedidoCementoController::class, 'pagosCemento']);
+    Route::put('pagosCemento/{id}', [\App\Http\Controllers\PedidoCementoController::class, 'updatePagoCemento']);
 });

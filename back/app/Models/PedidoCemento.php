@@ -97,7 +97,7 @@ class PedidoCemento extends Model
         $this->attributes['chofer'] = strtoupper($value);
     }
     public function pagos(){
-        return $this->hasMany(Pago::class)->with('user');
+        return $this->hasMany(PagoCemento::class, 'pedido_id')->with('user');
     }
 //    protected $appends = ['estadoCredito', 'totalPagado','pagosRealizados'];
 

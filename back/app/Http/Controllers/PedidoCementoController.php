@@ -3,12 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\PagoCemento;
 use App\Models\PedidoCemento;
 use App\Models\PedidoCementoDetalle;
 use App\Models\ProductoCemento;
 use Illuminate\Http\Request;
 
 class PedidoCementoController extends Controller{
+    function updatePagoCemento(Request $request, $id){
+        $pago = PagoCemento::find($id);
+        $pago->monto = $request->monto;
+        $pago->forma_pago = $request->forma_pago;
+        $pago->numero_recibo = $request->numero_recibo;
+        $pago->fecha_pago = $request->fecha_pago;
+        $pago->hora_pago = now();
+        $pago->banco = $request->banco;
+        $pago->observacion = $request->observacion;
+        $pago->save();
+        return PagoCemento::with('user')->find($pago->id);
+    }
+    function pagosCemento(Request $request){
+        $user = $request->user();
+        $pago = new PagoCemento();
+        $pago->pedido_id = $request->pedido_id;
+        $pago->user_id = $user->id;
+        $pago->monto = $request->monto;
+        $pago->forma_pago = $request->forma_pago;
+        $pago->numero_recibo = $request->numero_recibo;
+        $pago->fecha_pago = $request->fecha_pago;
+        $pago->hora_pago = now();
+        $pago->banco = $request->banco;
+        $pago->observacion = $request->observacion;
+        $pago->save();
+        return PagoCemento::with('user')->find($pago->id);
+    }
     function pedidosEntregados(Request $request){
         $fechaInicio = $request->fechaInicio;
         $fechaFin = $request->fechaFin;
@@ -17,7 +45,6 @@ class PedidoCementoController extends Controller{
             ->with('pagos.user')
             ->whereBetween('fecha', [$fechaInicio, $fechaFin])
             ->where('cliente', 'like', '%'.$search.'%')
-//            ->where('estado', 'ENTREGADO')
             ->whereRaw('(estado = "ENTREGADO" OR estado = "REZAGO")')
             ->orderBy('id', 'desc')
             ->get();

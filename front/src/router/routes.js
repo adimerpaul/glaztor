@@ -44,6 +44,8 @@ const routes = [
       // pedidoCemento
       { path: 'pedidoCemento', component: () => import('pages/pedidosCemento/PedidosCementos.vue'), meta: { requiresAuth: true } },
       { path: 'pedidosCementoPage', component: () => import('pages/pedidosCemento/PedidosCementoPage.vue'), meta: { requiresAuth: true } },
+    //   pagoscemento
+      { path: 'pagoscemento', component: () => import('pages/pedidosCemento/PagosCemento.vue'), meta: { requiresAuth: true } },
     ]
   },
   {
