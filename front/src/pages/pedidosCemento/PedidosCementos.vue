@@ -3,6 +3,9 @@
     <q-card>
       <q-card-section class="q-pa-xs">
         <div class="row">
+          <div class="col-12 bg-black text-white q-pa-xs text-bold text-center">
+            Pedidos Cemento
+          </div>
           <div class="col-6 col-md-2">
             <q-input
               outlined

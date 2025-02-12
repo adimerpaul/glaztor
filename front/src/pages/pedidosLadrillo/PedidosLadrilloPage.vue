@@ -25,7 +25,7 @@
                       round
                       dense
                       icon="arrow_back"
-                      @click="this.$router.push('/pedidos')"
+                      @click="this.$router.go(-1)"
                     />
                   </template>
                 </q-input>

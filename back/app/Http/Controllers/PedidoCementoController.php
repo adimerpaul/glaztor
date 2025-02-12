@@ -36,13 +36,13 @@ class PedidoCementoController extends Controller{
             $producto = ProductoCemento::find($detalle['id']);
             if ($detalle['tipo_pro'] == 'BA'){
                 if($producto->cantidad < $detalle['cantidadVenta']){
-                    return response()->json(['message' => 'No hay suficiente cantidad de '.$producto->nombre_pro], 400);
+                    return response()->json(['message' => 'No hay suficiente cantidad de '.$producto->nombre], 400);
                 }
             }
             if ($detalle['tipo_pro'] == 'TN'){
                 $cantidad = $detalle['cantidadVenta'] * $producto->tonelada;
                 if($producto->cantidad < $cantidad){
-                    return response()->json(['message' => 'No hay suficiente cantidad de '.$producto->nombre_pro], 400);
+                    return response()->json(['message' => 'No hay suficiente cantidad de '.$producto->nombre], 400);
                 }
             }
         }
@@ -95,7 +95,10 @@ class PedidoCementoController extends Controller{
                 $detalleSave['cantidad'] = $cantidad;
             }
             $detalleSave->save();
-//            $producto->save();
+            $trailer = $request->trailer;
+            if ($trailer == 'LOCAL' || $trailer == 'OTRO'){
+                $producto->save();
+            }
             $textProducto .= $detalle['cantidadVenta'].' '.$producto->nombre_pro.' '.$producto->unidad.' ,';
         }
         $textProducto = substr($textProducto, 0, -1);
@@ -110,6 +113,14 @@ class PedidoCementoController extends Controller{
     function update(Request $request, $id){
         $pedido = PedidoCemento::find($id);
         $estado = $request->estado;
+        if ($estado == 'ENTREGADO' || $estado == 'REZAGO'){
+            $detalles = PedidoCementoDetalle::where('pedido_id', $pedido->id)->get();
+            foreach ($detalles as $detalle){
+                $producto = ProductoCemento::find($detalle->producto_id);
+                $producto->cantidad = $producto->cantidad - $detalle->cantidad;
+                $producto->save();
+            }
+        }
 
         $pedido->update($request->all());
         return $pedido;
