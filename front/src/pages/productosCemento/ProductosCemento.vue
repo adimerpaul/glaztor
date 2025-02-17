@@ -22,6 +22,8 @@
             <th>Descripcion</th>
             <th>Cant por Mayor</th>
             <th>foto</th>
+            <th>Numero Pedido</th>
+            <th>Numero Factura</th>
             <th>estado</th>
             <th>id</th>
             <th>categoria</th>
@@ -56,6 +58,8 @@
                 <q-img :src="$url+'..'+productocemento.foto" alt="Imagen del producto" class="img-thumbnail" height="10"/>
               </a>
             </td>
+            <td>{{ productocemento.numeroPedido }}</td>
+            <td>{{ productocemento.numeroFactura }}</td>
 
             <td>{{ productocemento.estado }}</td>
             <td>{{ productocemento.id }}</td>
@@ -147,12 +151,15 @@
                 </template>
               </q-input>
             </div>
-            <div class="col-12">
-              <q-input dense v-model="productocemento.tonelada" outlined label="Cantidad Mayor general en ventas" type="number"
-                       hint=""
-              >
+            <div class="col-6">
+              <q-input dense v-model="productocemento.numeroPedido" outlined label="Numero de Pedido" hint=""             >
               </q-input>
             </div>
+            <div class="col-6">
+              <q-input dense v-model="productocemento.numeroFactura" outlined label="Numero de Factura"  hint=""
+              />
+            </div>
+            
 
             <div class="d-grid col-6 mx-auto mb-3">
               <img v-if="productocemento.foto"
@@ -262,36 +269,36 @@ export default {
           this.submit();
         });
     },
-    submit() {
-      this.loading = true;
-
-      if (this.productocemento.id) {
-        this.$axios.put(`productocementos/${this.productocemento.id}`, this.productocemento)
-          .then(response => {
-            const index = this.productocementos.findIndex(item => item.id === this.productocemento.id);
-            this.productocementos[index] = response.data; // Actualiza el producto modificado
-            this.dialog = false; // Cierra el diálogo
-          })
-          .catch(error => {
-            console.log(error);
-          })
-          .finally(() => {
-            this.loading = false;
-          });
-      } else {
-        this.$axios.post('productocementos', this.productocemento)
-          .then(response => {
-            this.productocementos.push(response.data);
-            this.dialog = false;
-          })
-          .catch(error => {
-            console.log(error);
-          })
-          .finally(() => {
-            this.loading = false;
-          });
-      }
-    },
+    submit() { 
+        this.loading = true;
+  
+        if (this.productoladrillo.id) {
+          this.$axios.put(`productoscemento/${this.productocemento.id}`, this.productocemento)
+            .then(response => {
+              const index = this.productocementos.findIndex(item => item.id === this.productocemento.id);
+              this.productocementos[index] = response.data; // Actualiza el producto modificado
+              this.dialog = false; // Cierra el diálogo
+            })
+            .catch(error => {
+              console.log(error);
+            })
+            .finally(() => {
+              this.loading = false;
+            });
+        } else {
+          this.$axios.post('productoscemento', this.productocemento)
+            .then(response => {
+              this.productocemento.push(response.data);
+              this.dialog = false;
+            })
+            .catch(error => {
+              console.log(error);
+            })
+            .finally(() => {
+              this.loading = false;
+            });
+        }
+      },
 
     eliminar(productocemento) {
       this.$q.dialog({
@@ -318,6 +325,8 @@ export default {
         nombre: '',
         descripcion: '',
         precio: '',
+        numeroPedido: '',
+        numeroFactura: '',
         foto: '',
         estado: 'Activo',
       };
