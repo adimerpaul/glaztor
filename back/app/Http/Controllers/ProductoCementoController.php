@@ -50,10 +50,11 @@ class ProductoCementoController extends Controller{
 
             $fotoPath = 'public/fotos/' . uniqid() . '.' . $fotoExtension;
             Storage::put($fotoPath, base64_decode($fotoBase64));
-            $producto->foto_pro = Storage::url($fotoPath);
+            $producto->foto = Storage::url($fotoPath);
         }
 
         $producto->save();
+        return $producto;
     }
     function destroy($id)
     {

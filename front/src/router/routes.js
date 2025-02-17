@@ -26,6 +26,7 @@ const routes = [
       { path: 'sueldos', component: () => import('pages/administrativos/Sueldo.vue'), meta: { requiresAuth: true }  },
       { path: 'resumen', component: () => import('pages/resumen/Resumen.vue'), meta: { requiresAuth: true }  },
       { path: 'metas', component: () => import('pages/metas/Metas.vue'), meta: { requiresAuth: true }  },
+      { path: 'metasCemento', component: () => import('pages/metas/MetasCemento.vue'), meta: { requiresAuth: true }  },
     //   productorCemento
       { path: 'productorCemento', component: () => import('pages/productosCemento/ProductosCemento.vue'), meta: { requiresAuth: true }  },
       { path: 'preventacementos', component: () => import('pages/preventas/Preventacemento.vue'), meta: { requiresAuth: true } },

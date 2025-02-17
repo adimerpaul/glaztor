@@ -153,6 +153,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('metas', [\App\Http\Controllers\MetaController::class, 'store']);
     Route::put('metas/{id}', [\App\Http\Controllers\MetaController::class, 'update']);
 
+    Route::get('metasCemento', [\App\Http\Controllers\MetasCementoController::class, 'index']);
+    Route::get('metasCemento/{id}', [\App\Http\Controllers\MetasCementoController::class, 'show']);
+    Route::post('metasCemento', [\App\Http\Controllers\MetasCementoController::class, 'store']);
+    Route::put('metasCemento/{id}', [\App\Http\Controllers\MetasCementoController::class, 'update']);
+
 
 
     Route::get('preventacementos', [PreventacementoController::class, 'index']);
@@ -214,7 +219,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('productocementos', [\App\Http\Controllers\ProductoCementoController::class, 'index']);
     Route::get('productosCementoEntregados', [\App\Http\Controllers\ProductoCementoController::class, 'pedidosEntregados']);
-    Route::post('productosCemento', [\App\Http\Controllers\ProductoCementoController::class, 'store']);
+    Route::post('productoscemento', [\App\Http\Controllers\ProductoCementoController::class, 'store']);
     Route::get('productosCemento/{id}', [\App\Http\Controllers\ProductoCementoController::class, 'show']);
     Route::put('productosCemento/{id}', [\App\Http\Controllers\ProductoCementoController::class, 'update']);
     Route::delete('productosCemento/{id}', [\App\Http\Controllers\ProductoCementoController::class, 'destroy']);

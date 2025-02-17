@@ -104,7 +104,7 @@
                 outlined
                 label="Marca"
                 :rules="[val => !!val || 'Este campo es requerido']"
-                @input="productoladrillo.marca = productocemento.marca.toUpperCase()"
+                @input="productocemento.marca = productocemento.marca.toUpperCase()"
                 style="text-transform: uppercase;"/>
             </div>
             <div class="col-12">
@@ -159,7 +159,7 @@
               <q-input dense v-model="productocemento.numeroFactura" outlined label="Numero de Factura"  hint=""
               />
             </div>
-            
+
 
             <div class="d-grid col-6 mx-auto mb-3">
               <img v-if="productocemento.foto"
@@ -269,10 +269,10 @@ export default {
           this.submit();
         });
     },
-    submit() { 
+    submit() {
         this.loading = true;
-  
-        if (this.productoladrillo.id) {
+
+        if (this.productocemento.id) {
           this.$axios.put(`productoscemento/${this.productocemento.id}`, this.productocemento)
             .then(response => {
               const index = this.productocementos.findIndex(item => item.id === this.productocemento.id);
@@ -375,7 +375,7 @@ export default {
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = () => {
         this.foto = reader.result;
-        this.productoladrillo.foto = this.foto; // Guardar la cadena base64 en producto.foto
+        this.productocemento.foto = this.foto; // Guardar la cadena base64 en producto.foto
       };
     }
   },
