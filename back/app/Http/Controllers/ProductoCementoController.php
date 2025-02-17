@@ -55,4 +55,10 @@ class ProductoCementoController extends Controller{
 
         $producto->save();
     }
+    function destroy($id)
+    {
+        $producto = ProductoCemento::findOrFail($id);
+        $producto->delete();
+        return $producto;
+    }
 }

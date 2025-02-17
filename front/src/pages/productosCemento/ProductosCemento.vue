@@ -179,7 +179,7 @@
               <q-select
                 dense
                 v-model="productocemento.estado"
-                :options="['Activo', 'Inactivo']"
+                :options="['ACTIVO', 'INACTIVO']"
                 outlined
                 :rules="[val => !!val || 'Este campo es requerido']"
                 label="Estado"/>
@@ -328,7 +328,7 @@ export default {
         numeroPedido: '',
         numeroFactura: '',
         foto: '',
-        estado: 'Activo',
+        estado: '',
       };
     },
 
