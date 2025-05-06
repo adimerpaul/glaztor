@@ -273,7 +273,7 @@ export default {
         this.loading = true;
 
         if (this.productocemento.id) {
-          this.$axios.put(`productoscemento/${this.productocemento.id}`, this.productocemento)
+          this.$axios.put(`productosCemento/${this.productocemento.id}`, this.productocemento)
             .then(response => {
               const index = this.productocementos.findIndex(item => item.id === this.productocemento.id);
               this.productocementos[index] = response.data; // Actualiza el producto modificado
@@ -288,11 +288,12 @@ export default {
         } else {
           this.$axios.post('productoscemento', this.productocemento)
             .then(response => {
-              this.productocemento.push(response.data);
+              // this.productocemento.push(response.data);
               this.dialog = false;
+              this.productocementos.push(response.data);
             })
             .catch(error => {
-              console.log(error);
+              this.$alert.error(error.response.data.message);
             })
             .finally(() => {
               this.loading = false;

@@ -17,6 +17,7 @@ export default boot(({ app , router }) => {
   app.use(VueApexCharts);
   app.config.globalProperties.$axios = axios.create({ baseURL: import.meta.env.VITE_API_BACK })
   app.config.globalProperties.$alert = Alert
+  app.config.globalProperties.$version = import.meta.env.VITE_APP_VERSION
   app.config.globalProperties.$store = useCounterStore()
   app.config.globalProperties.$url = import.meta.env.VITE_API_BACK
   const token = localStorage.getItem('tokenGlaztor')

@@ -10,6 +10,9 @@
           aria-label="Abrir menú"
           @click="toggleLeftDrawer"
         />
+        <span class="text-bold">
+          {{$version}}
+        </span>
         <q-toolbar-title>
           <!-- {{ rutaActual }} -->
         </q-toolbar-title>
@@ -23,6 +26,19 @@
 <!--              class="icon-hover"-->
 <!--            />-->
             <q-btn no-caps icon="o_account_circle" aria-label="Perfil">
+              <q-item dense>
+<!--                <q-item-section avatar>-->
+<!--                  <q-icon name="account_circle" />-->
+<!--                </q-item-section>-->
+                <q-item-section>
+                  <q-item-label>
+                    {{ $store.user.name }}
+                  </q-item-label>
+                  <q-item-label caption>
+                    {{ $store.user.role }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
               <q-menu>
                 <q-list>
                   <q-item clickable>
