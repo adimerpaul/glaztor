@@ -43,7 +43,7 @@
         </template>
       </q-table>
       <q-dialog v-model="cotizacionDialog" persistent>
-        <q-card>
+        <q-card style="min-width: 350px; max-width: 800px">
           <q-card-section class="q-pb-none row items-center">
             <div>
               {{ actionPeriodo }} Cotizacion
@@ -52,15 +52,15 @@
             <q-btn icon="close" flat round dense @click="cotizacionDialog = false" />
           </q-card-section>
           <q-card-section class="q-pt-none">
-  
-  
+
+
             <q-form @submit="cotizacioncemento.id ? cotizacionPut() : cotizacionPost()">
               <q-input v-model="cotizacioncemento.fecha" label="Fecha" dense outlined type="date" :disable="true"/>
-  
+<!--              @update:modelValue="changeDirecionTelefono"-->
                 <q-select
                   v-model="cotizacioncemento.cliente"
                   @filter="filterClientes"
-                  @update:modelValue="changeDirecionTelefono"
+
                   :rules="[val => !!val || 'Seleccione un cliente']"
                   filled
                   emit-value
@@ -73,23 +73,24 @@
                   option-label="nombre_cliente"
                   dense
                   clearable
-                
+
                 />
-  
+
               <q-select v-model="cotizacioncemento.marca" label="Marca" dense outlined
                use-input @update:modelValue="filterProducts"
                :options="marcas"/>
-  
-  
+
+
               <q-select v-model="cotizacioncemento.producto" label="Producto" dense outlined use-input
-                          option-label="nombre_pro"
-                          option-value="nombre_pro"
+                          option-label="nombre"
+                          option-value="nombre"
                           emit-value
                           map-options
                           :options="products"/>
-  
+<!--              <pre>{{products}}</pre>-->
+
               <q-input v-model="cotizacioncemento.cantidad" label="Cantidad" type="number" dense outlined :rules="[val => !!val || 'Campo requerido']" />
-                
+
                 <q-select
                 v-model="cotizacioncemento.medida"
                 filled
@@ -107,7 +108,7 @@
                 emit-value
                 map-options
               />
-                 
+
                 <q-select
                 v-model="cotizacioncemento.zona"
                 filled
@@ -120,12 +121,12 @@
                 option-label="nombre_zona"
                 emit-value
                 map-options
-  
+
               />
-  
-             
-  
-  
+
+
+
+
               <q-input v-model="cotizacioncemento.precio_compra_cf" label="Precio Compra CF" type="number" dense outlined />
               <q-input v-model="cotizacioncemento.precio_compra_sf" label="Precio Compra SF" type="number" dense outlined />
               <q-input v-model="cotizacioncemento.precio_venta_cf" label="Precio Venta CF" type="number" dense outlined />
@@ -144,17 +145,17 @@
   <script>
   import moment from 'moment'
   import {Excel} from "src/addons/Excel";
-  
+
   export default {
     name: 'CotizacionsPage',
     data() {
       return {
         cotizacioncementos: [],
         cotizacioncemento: {},
-  
+
         cotizacionDialog: false,
         loading: false,
-        filter: '',
+        // filter: '',
         productosAll: [],
         products: [],
         clientes: [],
@@ -185,10 +186,10 @@
       this.getProductos()
       this.getClientes()
       this.getZonas()
-  
+
     },
     methods: {
-  
+
       exportExcel() {
           let data = [{
             sheet: "cotizacioncementos",
@@ -199,7 +200,7 @@
               {label: "Producto", value: "producto"},
               {label: "Cantidad", value: "cantidad"},
               {label: "medida", value: "medida"},
-              
+
               {label: "Zona", value: "zona"},
               {label: "Precio_compra_cf", value: "precio_compra_cf"},
               {label: "Precio_compra_sf", value: "precio_compra_sf"},
@@ -209,12 +210,12 @@
             ],
             content: this.cotizacioncementos
           }]
-  
+
           const excel = Excel.export(data, "Reporte de Cotizaciones");
-  
+
         },
-  
-  
+
+
       getZonas() {
         this.$axios.get('zonas').then(response => {
           this.zonas = response.data
@@ -242,23 +243,23 @@
           console.log(error)
         })
       },
-  
-  
+
+
       filterProducts(val) {
         console.log(val)
         if (val === null) {
           return
         }
-        this.products = this.productosAll.filter(product => product?.marca_pro === val)
+        this.products = this.productosAll.filter(product => product?.marca === val)
       },
       getProductos() {
-        this.$axios.get('productos')
+        this.$axios.get('productocementos')
           .then(response => {
             this.productosAll = response.data
             this.products = this.productosAll
             this.products.forEach(product => {
-              if (!this.marcas.includes(product.marca_pro)) {
-                this.marcas.push(product.marca_pro)
+              if (!this.marcas.includes(product.marca)) {
+                this.marcas.push(product.marca)
               }
             })
           })
@@ -340,4 +341,3 @@
     }
   }
   </script>
-  
