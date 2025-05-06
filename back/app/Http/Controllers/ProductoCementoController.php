@@ -12,8 +12,8 @@ class ProductoCementoController extends Controller{
     }
     function update(Request $request, $id)
     {
-        $fotoPro = $request->foto_pro;
-        unset($request['foto_pro']);
+        $fotoPro = $request->foto;
+        unset($request['foto']);
         if (strpos($fotoPro, 'fotos') === false) {
             error_log('No es fotos');
             $fotoData = explode(',', $fotoPro);
@@ -23,12 +23,12 @@ class ProductoCementoController extends Controller{
             $fotoPath = 'public/fotos/' . uniqid() . '.' . $fotoExtension;
             Storage::put($fotoPath, base64_decode($fotoBase64));
             error_log($fotoPath);
-            $request['foto_pro'] = Storage::url($fotoPath);
+            $request['foto'] = Storage::url($fotoPath);
         }
         $producto = ProductoCemento::findOrFail($id);
         $producto->update($request->all());
-        if ($producto->foto_pro === null) {
-            $producto->foto_pro = '/storage/fotos/default.png';
+        if ($producto->foto === null) {
+            $producto->foto = '/storage/fotos/default.png';
         }
         return $producto;
     }
