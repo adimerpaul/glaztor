@@ -328,15 +328,29 @@
             </tr>
             </tfoot>
           </q-markup-table>
-          <q-btn
-            :loading="loading"
-            no-caps
-            class="full-width"
-            icon="save"
-            color="positive"
-            label="Guardar pedido"
-            type="submit"
-          />
+          <div class="row">
+            <div class="col-6">
+              <q-btn
+                :loading="loading"
+                no-caps
+                class="q-mt-sm full-width"
+                icon="save"
+                color="positive"
+                label="Guardar pedido"
+                type="submit"
+              />
+            </div>
+            <div class="col-6">
+              <q-btn
+                no-caps
+                class="q-mt-sm full-width"
+                icon="picture_as_pdf"
+                color="primary"
+                label="Descargar Cotización"
+                @click="generarPDFCotizacion"
+              />
+            </div>
+          </div>
         </q-form>
       </q-card-section>
     </q-card>
@@ -345,7 +359,8 @@
 <script>
 
 import moment from "moment";
-
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
 export default {
   name: 'Pedidos',
   data() {
@@ -369,6 +384,42 @@ export default {
     this.getZonas()
   },
   methods: {
+    generarPDFCotizacion() {
+      const doc = new jsPDF()
+      const fecha = new Date().toLocaleDateString()
+
+      doc.setFontSize(16)
+      doc.text('COTIZACIÓN', 14, 20)
+
+      doc.setFontSize(10)
+      doc.text(`Fecha: ${fecha}`, 14, 28)
+
+      const cliente = this.pedido
+      doc.text(`Cliente: ${cliente.contacto || ''}`, 14, 34)
+      doc.text(`Teléfono: ${cliente.telefono || ''}`, 14, 40)
+      doc.text(`Dirección: ${cliente.direccion || ''}`, 14, 46)
+      doc.text(`Zona: ${cliente.zona_id || ''}`, 14, 52)
+
+      // Tabla de productos
+      const rows = this.sales.map(sale => [
+        `${sale.producto.nombre} ${sale.producto.marca_pro}`,
+        sale.cantidadVenta,
+        `${sale.precioVenta} Bs`,
+        `${(sale.cantidadVenta * sale.precioVenta).toFixed(2)} Bs`
+      ])
+
+      autoTable(doc, {
+        startY: 60,
+        head: [['Producto', 'Cantidad', 'Precio', 'Subtotal']],
+        body: rows
+      })
+
+      // Total
+      doc.setFontSize(12)
+      doc.text(`Total: ${this.totalVenta} Bs`, 14, doc.lastAutoTable.finalY + 10)
+
+      doc.save(`cotizacion-${fecha}.pdf`)
+    },
     openCalculate(sale) {
       console.log(sale)
     //   < template
