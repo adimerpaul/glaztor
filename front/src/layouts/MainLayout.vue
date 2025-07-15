@@ -162,7 +162,8 @@
       <q-list>
         <q-item>
           <q-item-section avatar>
-            <q-icon name="account_circle" />
+<!--            <q-icon name="account_circle" />-->
+            <q-img src="logo.png" class="q-mb-xs" style="width: 30px; height: 30px;" />
           </q-item-section>
           <q-item-section>
             <q-item-label>

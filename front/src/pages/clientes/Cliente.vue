@@ -54,7 +54,10 @@
             </q-td>
           </template>
         </q-table>
-       
+        <pre>
+          {{clientes}}
+        </pre>
+
 
       </q-card-section>
     </q-card>
@@ -459,11 +462,21 @@ export default {
     },
 
     showCliente(cliente) {
-      this.cliente = cliente
-      this.dialog = true
-      const lngLat = cliente.ubicacion.split(',').map(Number)
-      console.log(lngLat)
-      this.location = lngLat
+      this.cliente = { ...cliente };
+      this.dialog = true;
+
+      // Si ya tiene lat y lng, úsalo
+      if (cliente.lat && cliente.lng) {
+        this.location = [parseFloat(cliente.lat), parseFloat(cliente.lng)];
+        this.cliente.ubicacion = `${parseFloat(cliente.lat).toFixed(7)}, ${parseFloat(cliente.lng).toFixed(7)}`;
+      }
+      // Sino, intenta obtenerlo desde ubicacion string
+      else if (cliente.ubicacion) {
+        const [lat, lng] = cliente.ubicacion.split(',').map(coord => parseFloat(coord.trim()));
+        this.location = [lat, lng];
+        this.cliente.lat = lat;
+        this.cliente.lng = lng;
+      }
     },
     onMarkerMoveEnd(event) {
       const marker = event.target;
@@ -481,39 +494,29 @@ export default {
     },
     submit() {
       this.loading = true;
+      this.cliente.lat = this.location[0];
+      this.cliente.lng = this.location[1];
+      this.cliente.ubicacion = `${this.location[0].toFixed(7)}, ${this.location[1].toFixed(7)}`;
 
-      // Verifica si el cliente tiene un ID (si existe, significa que es una actualización)
       if (this.cliente.id) {
-        this.$axios.put(`clientes/${this.cliente.id}`, this.cliente) // Actualización con PUT
+        this.$axios.put(`clientes/${this.cliente.id}`, this.cliente)
           .then(response => {
-            // Encuentra el cliente en la lista y lo actualiza
             const index = this.clientes.findIndex(cliente => cliente.id === this.cliente.id);
             if (index !== -1) {
               this.clientes[index] = response.data;
             }
-            this.dialog = false; // Cierra el diálogo
+            this.dialog = false;
           })
-          .catch(error => {
-            console.log(error);
-          })
-          .finally(() => {
-            this.loading = false;
-          });
+          .catch(console.error)
+          .finally(() => this.loading = false);
       } else {
-        // Si no tiene ID, es un nuevo cliente y hacemos un POST
-        this.cliente.lat = this.location[0];
-        this.cliente.lng = this.location[1];
         this.$axios.post('clientes', this.cliente)
           .then(response => {
-            this.clientes.unshift(response.data); // Agrega el nuevo cliente al inicio
-            this.dialog = false; // Cierra el diálogo
+            this.clientes.unshift(response.data);
+            this.dialog = false;
           })
-          .catch(error => {
-            console.log(error);
-          })
-          .finally(() => {
-            this.loading = false;
-          });
+          .catch(console.error)
+          .finally(() => this.loading = false);
       }
     },
     dialogClick() {
