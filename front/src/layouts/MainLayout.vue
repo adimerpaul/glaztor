@@ -71,6 +71,87 @@
       </q-toolbar>
     </q-header>
 
+<!--    <q-drawer-->
+<!--      v-model="leftDrawerOpen"-->
+<!--      show-if-above-->
+<!--      :width="200"-->
+<!--      :breakpoint="500"-->
+<!--      class="bg-primary text-white"-->
+<!--    >-->
+<!--      <q-list>-->
+<!--        <q-item>-->
+<!--          <q-item-section avatar>-->
+<!--            <q-icon name="account_circle" />-->
+<!--          </q-item-section>-->
+<!--          <q-item-section>-->
+<!--            <q-item-label>-->
+<!--              {{ $store.user.name }}-->
+<!--              <span class="text-bold">{{ $store.user.role }}</span>-->
+<!--            </q-item-label>-->
+<!--          </q-item-section>-->
+<!--        </q-item>-->
+<!--        <q-separator class="bg-white" inset />-->
+<!--        <q-item-->
+<!--          v-for="link in filteredLinks"-->
+<!--          :key="link.title"-->
+<!--          clickable-->
+<!--          :to="link.link"-->
+<!--          exact-->
+<!--          class="text-grey"-->
+<!--          active-class="menu"-->
+<!--          dense-->
+<!--        >-->
+<!--          <q-item-section avatar>-->
+<!--            <q-icon-->
+<!--              :name="$route.path === link.link ? 'o_' + link.icon : link.icon"-->
+<!--              :class="$route.path === link.link ? 'text-white' : 'text-grey'"-->
+<!--              class="icon-hover"-->
+<!--            />-->
+<!--          </q-item-section>-->
+<!--          <q-item-section>-->
+<!--            <q-item-label :class="$route.path === link.link ? 'text-white text-bold' : ''">-->
+<!--              {{ link.title }}-->
+<!--            </q-item-label>-->
+<!--          </q-item-section>-->
+<!--          <q-menu v-if="link.subMenu" fit anchor="top end">-->
+<!--            <q-list class="bg-primary text-white">-->
+<!--              <q-item-->
+<!--                v-for="subLink in link.subMenu"-->
+<!--                :key="subLink.title"-->
+<!--                clickable-->
+<!--                :to="subLink.link"-->
+<!--                exact-->
+<!--                class="text-grey"-->
+<!--                active-class="menu"-->
+<!--                dense-->
+<!--              >-->
+<!--                <q-item-section avatar>-->
+<!--                  <q-icon-->
+<!--                    :name="$route.path === subLink.link ? 'o_' + subLink.icon : subLink.icon"-->
+<!--                    :class="$route.path === subLink.link ? 'text-white' : 'text-grey'"-->
+<!--                    class="icon-hover"-->
+<!--                  />-->
+<!--                </q-item-section>-->
+<!--                <q-item-section>-->
+<!--                  <q-item-label :class="$route.path === subLink.link ? 'text-white text-bold' : ''">-->
+<!--                    {{ subLink.title }}-->
+<!--                  </q-item-label>-->
+<!--                </q-item-section>-->
+<!--              </q-item>-->
+<!--            </q-list>-->
+<!--          </q-menu>-->
+<!--        </q-item>-->
+
+<!--        <q-item clickable class="text-red" @click="logout">-->
+<!--          <q-item-section avatar>-->
+<!--            <q-icon name="exit_to_app" />-->
+<!--          </q-item-section>-->
+<!--          <q-item-section>-->
+<!--            <q-item-label>Salir</q-item-label>-->
+<!--          </q-item-section>-->
+<!--        </q-item>-->
+<!--      </q-list>-->
+<!--    </q-drawer>-->
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
@@ -90,57 +171,70 @@
             </q-item-label>
           </q-item-section>
         </q-item>
+
         <q-separator class="bg-white" inset />
-        <q-item
-          v-for="link in filteredLinks"
-          :key="link.title"
-          clickable
-          :to="link.link"
-          exact
-          class="text-grey"
-          active-class="menu"
-          dense
-        >
-          <q-item-section avatar>
-            <q-icon
-              :name="$route.path === link.link ? 'o_' + link.icon : link.icon"
-              :class="$route.path === link.link ? 'text-white' : 'text-grey'"
-              class="icon-hover"
-            />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label :class="$route.path === link.link ? 'text-white text-bold' : ''">
-              {{ link.title }}
-            </q-item-label>
-          </q-item-section>
-          <q-menu v-if="link.subMenu" fit anchor="top end">
-            <q-list class="bg-primary text-white">
-              <q-item
-                v-for="subLink in link.subMenu"
-                :key="subLink.title"
-                clickable
-                :to="subLink.link"
-                exact
-                class="text-grey"
-                active-class="menu"
-                dense
-              >
-                <q-item-section avatar>
-                  <q-icon
-                    :name="$route.path === subLink.link ? 'o_' + subLink.icon : subLink.icon"
-                    :class="$route.path === subLink.link ? 'text-white' : 'text-grey'"
-                    class="icon-hover"
-                  />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label :class="$route.path === subLink.link ? 'text-white text-bold' : ''">
-                    {{ subLink.title }}
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-menu>
-        </q-item>
+
+        <template v-for="link in filteredLinks" :key="link.title">
+          <!-- Si tiene submenú -->
+          <q-expansion-item
+            v-if="link.subMenu"
+            dense
+            dense-toggle
+            expand-separator
+            :icon="link.icon"
+            :label="link.title"
+            :header-class="rutaActual.startsWith(link.subMenu[0]?.link) ? 'bg-primary text-white text-bold' : 'text-grey'"
+            class="text-grey q-mb-xs"
+          >
+            <q-item
+              v-for="subLink in link.subMenu"
+              :key="subLink.title"
+              clickable
+              :to="subLink.link"
+              exact
+              active-class="menu"
+              dense
+              class="q-ml-lg"
+            >
+              <q-item-section avatar>
+                <q-icon
+                  :name="$route.path === subLink.link ? 'o_' + subLink.icon : subLink.icon"
+                  :class="$route.path === subLink.link ? 'text-white' : 'text-grey'"
+                  class="icon-hover"
+                />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label :class="$route.path === subLink.link ? 'text-white text-bold' : ''">
+                  {{ subLink.title }}
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-expansion-item>
+
+          <!-- Si no tiene submenú -->
+          <q-item
+            v-else
+            clickable
+            :to="link.link"
+            exact
+            class="text-grey q-mb-xs"
+            active-class="menu"
+            dense
+          >
+            <q-item-section avatar>
+              <q-icon
+                :name="$route.path === link.link ? 'o_' + link.icon : link.icon"
+                :class="$route.path === link.link ? 'text-white' : 'text-grey'"
+                class="icon-hover"
+              />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label :class="$route.path === link.link ? 'text-white text-bold' : ''">
+                {{ link.title }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </template>
 
         <q-item clickable class="text-red" @click="logout">
           <q-item-section avatar>
