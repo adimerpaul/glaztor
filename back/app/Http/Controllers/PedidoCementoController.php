@@ -8,6 +8,7 @@ use App\Models\PedidoCemento;
 use App\Models\PedidoCementoDetalle;
 use App\Models\ProductoCemento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PedidoCementoController extends Controller{
     function updatePagoCemento(Request $request, $id){
@@ -137,7 +138,7 @@ class PedidoCementoController extends Controller{
     function show($id){
         return PedidoCemento::find($id);
     }
-    function update(Request $request, $id){
+    function updateOld(Request $request, $id){
         $pedido = PedidoCemento::find($id);
         $estado = $request->estado;
         if ($estado == 'ENTREGADO' || $estado == 'REZAGO'){
@@ -151,6 +152,54 @@ class PedidoCementoController extends Controller{
 
         $pedido->update($request->all());
         return $pedido;
+    }
+    function update(Request $request, $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $pedido = PedidoCemento::findOrFail($id);
+            $estadoAnterior = $pedido->estado;
+            $nuevoEstado = $request->estado;
+
+            $pedido->update($request->only([
+                'cliente', 'direccion', 'estado', 'fecha', 'total', // y los campos que correspondan
+            ]));
+
+            // ⚠️ Solo si el estado cambia a ENTREGADO o REZAGO y no estaba antes así
+            if (in_array($nuevoEstado, ['ENTREGADO', 'REZAGO']) && $estadoAnterior !== $nuevoEstado) {
+                $detalles = PedidoCementoDetalle::where('pedido_id', $pedido->id)->get();
+                foreach ($detalles as $detalle) {
+                    $producto = ProductoCemento::find($detalle->producto_id);
+                    if ($producto) {
+                        $producto->cantidad -= $detalle->cantidad;
+                        $producto->save();
+                    }
+                }
+            }
+
+            // Si deseas permitir actualizar los detalles (opcional):
+            if ($request->has('detalles')) {
+                PedidoCementoDetalle::where('pedido_id', $pedido->id)->delete();
+
+                foreach ($request->detalles as $detalle) {
+                    PedidoCementoDetalle::create([
+                        'pedido_id' => $pedido->id,
+                        'producto_id' => $detalle['producto_id'],
+                        'cantidad' => $detalle['cantidad'],
+                        'precio' => $detalle['precio'],
+                        // otros campos si tienes
+                    ]);
+                }
+            }
+
+            DB::commit();
+            return response()->json($pedido->load('detalles'));
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Error al actualizar el pedido', 'message' => $e->getMessage()], 500);
+        }
     }
     function destroy($id){
         $pedido = PedidoCemento::findOrFail($id);
