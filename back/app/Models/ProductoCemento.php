@@ -18,7 +18,8 @@ class ProductoCemento extends Model{
         'foto',
         'numeroPedido',
         'numeroFactura',
-        'estado'
+        'estado',
+        'empresa'
     ];
     protected $hidden = [
         'created_at',
