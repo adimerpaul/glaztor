@@ -19,6 +19,7 @@ return new class extends Migration
 //          administrador  gerente encargados de venta
             $table->string('cargo')->nullable()->default('Empleado');
             $table->string('email')->nullable();
+            $table->string('empresa')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
