@@ -32,8 +32,13 @@ class ProductoCementoController extends Controller{
         }
         return $producto;
     }
-    function productosCementoActivo(){
-        return ProductoCemento::where('estado', 'Activo')->get();
+    function productosCementoActivo(Request $request){
+        $user = $request->user();
+        if ($user->empresa == 'Ambas') {
+            return ProductoCemento::whereIn('empresa', ['Activo', 'Glaztor', 'Valmar'])->get();
+        } else {
+            return ProductoCemento::where('empresa', $user->empresa)->get();
+        }
     }
     function store(Request $request){
         $validatedData = $request->validate([

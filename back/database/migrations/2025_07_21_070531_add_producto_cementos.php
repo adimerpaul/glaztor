@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('producto_cementos', function (Blueprint $table) {
-            $table->string('empresa')->nullable()->default('empresa');
+            $table->string('empresa')->nullable()->default('Glaztor');
         });
     }
 
