@@ -46,7 +46,7 @@
         <q-td :props="props">
           <q-chip :label="props.row.role"
                   :color="colorGet(props.row.role)"
-                  text-color="white" dense  size="14px"/>
+                  text-color="white" dense  size="10px"/>
         </q-td>
       </template>
     </q-table>
@@ -66,6 +66,7 @@
             <q-input v-model="user.email" label="Email" dense outlined hint="" />
             <q-input v-model="user.password" label="Contraseña" type="password" dense outlined :rules="[val => !!val || 'Campo requerido']" v-if="!user.id" />
             <q-select v-model="user.role" label="Rol" dense outlined :options="roles" :rules="[val => !!val || 'Campo requerido']" />
+            <q-select v-model="user.empresa" label="Empresa" dense outlined :options="['Glaztor','Valmar','Ambas']" :rules="[val => !!val || 'Campo requerido']" />
 <!--            <q-select v-model="user.area_id" label="Area" dense outlined :options="areas" :rules="[val => !!val || 'Campo requerido']" emit-value map-options :option-label="area => area.nombre" :option-value="area => area.id" />-->
             <div class="text-right" >
               <q-btn color="negative" label="Cancelar" @click="userDialog = false" no-caps :loading="loading" />
@@ -96,6 +97,7 @@ export default {
         { name: 'username', label: 'Usuario', align: 'left', field: 'username' },
         { name: 'role', label: 'Rol', align: 'left', field: 'role' },
         { name: 'email', label: 'Email', align: 'left', field: 'email' },
+        { name: 'empresa', label: 'Empresa', align: 'left', field: 'empresa' },
         // { name: 'area', label: 'Area', align: 'left', field: row => row.area?.nombre },
       ],
       roles: ['Administrador', 'Director', 'Ventas','Cobranza','Supervisor'],
@@ -138,6 +140,7 @@ export default {
         username: '',
         cargo: '',
         role: 'Ventas',
+        empresa: 'Glaztor'
       }
       this.actionPeriodo = 'Nuevo'
       this.userDialog = true
