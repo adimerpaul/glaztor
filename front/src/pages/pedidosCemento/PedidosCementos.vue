@@ -207,6 +207,34 @@
             option-label="nombre_zona"
             option-value="nombre_zona"
           ></q-select>
+<!--          'numero_entrega',-->
+<!--          'numero_pedido',-->
+<!--          'foto'-->
+          <q-input
+            v-model="pedido.numero_entrega"
+            label="Numero Entrega"
+            outlined
+            :disable="$store.user.role == 'Ventas' || $store.user.role == 'Cobranza' || $store.user.role == 'Director' || $store.user.role == 'Supervisor'"
+            dense
+          ></q-input>
+          <q-input
+            v-model="pedido.numero_pedido"
+            label="Numero Pedido"
+            outlined
+            :disable="$store.user.role == 'Ventas' || $store.user.role == 'Cobranza' || $store.user.role == 'Director' || $store.user.role == 'Supervisor'"
+            dense
+          ></q-input>
+<!--          <q-file-->
+<!--            v-model="pedido.foto"-->
+<!--            label="Foto"-->
+<!--            outlined-->
+<!--            :disable="$store.user.role == 'Ventas' || $store.user.role == 'Cobranza' || $store.user.role == 'Director' || $store.user.role == 'Supervisor'"-->
+<!--            dense-->
+<!--            accept="image/*"-->
+<!--            @added="pedido.foto = $event[0]"-->
+<!--            @removed="pedido.foto = null"-->
+<!--          ></q-file>-->
+<!--          ver href a-->
           <q-select
             v-model="pedido.estado"
             label="Estado"

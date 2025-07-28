@@ -124,9 +124,9 @@ class PedidoCementoController extends Controller{
             }
             $detalleSave->save();
             $trailer = $request->trailer;
-            if ($trailer == 'LOCAL' || $trailer == 'OTRO'){
-                $producto->save();
-            }
+//            if ($trailer == 'LOCAL' || $trailer == 'OTRO'){
+//                $producto->save();
+//            }
             $textProducto .= $detalle['cantidadVenta'].' '.$producto->nombre_pro.' '.$producto->unidad.' ,';
         }
         $textProducto = substr($textProducto, 0, -1);
@@ -163,7 +163,7 @@ class PedidoCementoController extends Controller{
             $nuevoEstado = $request->estado;
 
             $pedido->update($request->only([
-                'cliente', 'direccion', 'estado', 'fecha', 'total', // y los campos que correspondan
+                'cliente', 'direccion', 'estado', 'fecha', 'total', 'numero_entrega','numero_pedido'
             ]));
 
             // ⚠️ Solo si el estado cambia a ENTREGADO o REZAGO y no estaba antes así

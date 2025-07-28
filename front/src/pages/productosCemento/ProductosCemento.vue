@@ -61,9 +61,9 @@
             <td>{{ productocemento.nombre }}</td>
             <td>{{ productocemento.precio }}</td>
 <!--            <td>{{ productocemento.precio_compra }}</td>-->
-<!--            <td>{{ productocemento.cantidad }}</td>-->
+            <td>{{ productocemento.cantidad }}</td>
             <td>{{ productocemento.descripcion }}</td>
-            <td>{{ productocemento.tonelada }}</td>
+<!--            <td>{{ productocemento.tonelada }}</td>-->
             <td>
               <a v-if="productocemento.foto" :href="$url+'..'+productocemento.foto" target="_blank">
                 <!--                                  ver foto-->
